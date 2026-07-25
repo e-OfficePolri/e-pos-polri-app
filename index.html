@@ -63,7 +63,6 @@
                 <div class="input-group">
                     <input type="password" id="password_login" class="form-control" placeholder="Masukkan password..." onkeydown="cekTombolEnter(event)" autocomplete="new-password" required>
                     <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password_login', 'icon_login')">
-                        <!-- Ikon Mata Tertutup Default (Slash) -->
                         <svg id="icon_login" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
                             <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588M5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
                             <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
@@ -1201,7 +1200,16 @@
 
             if (error) {
                 pesanEl.className = "mt-3 text-center small fw-bold text-danger";
-                pesanEl.innerText = "Gagal mengubah password: " + error.message;
+                
+                // Menerjemahkan pesan error dari Supabase ke Bahasa Indonesia
+                let pesanErrorID = error.message;
+                if (error.message.includes("New password should be different from the old password")) {
+                    pesanErrorID = "Gagal mengubah password: Password baru harus berbeda dengan password yang lama.";
+                } else if (error.message.includes("Auth session missing")) {
+                    pesanErrorID = "Gagal mengubah password: Sesi pemulihan telah kedaluwarsa. Silakan minta tautan baru.";
+                }
+                
+                pesanEl.innerText = pesanErrorID;
             } else {
                 pesanEl.className = "mt-3 text-center small fw-bold text-success";
                 pesanEl.innerText = "Berhasil mengubah password! Mengalihkan ke halaman masuk...";
@@ -1306,21 +1314,18 @@
             window.location.reload();
         }
 
-        // --- FUNGSI TOGGLE LIHAT/SEMBUNYIKAN PASSWORD (DENGAN IKON SVG STANDAR YANG BERSIH) ---
         function togglePassword(idInput, idIcon) {
             const inputEl = document.getElementById(idInput);
             const iconEl = document.getElementById(idIcon);
             
             if (inputEl.type === "password") {
                 inputEl.type = "text";
-                // Ikon Mata Terbuka (Bootstrap eye-fill)
                 iconEl.innerHTML = `
                     <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                     <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                 `;
             } else {
                 inputEl.type = "password";
-                // Ikon Mata Tertutup (Bootstrap eye-slash-fill)
                 iconEl.innerHTML = `
                     <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588M5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
                     <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
