@@ -156,10 +156,10 @@
                 <div class="d-flex align-items-center">
                     <ul class="nav nav-pills me-3">
                         <li class="nav-item">
-                            <button class="nav-link text-white fw-bold" id="btn_menu_beranda" onclick="gantiMenu('beranda')">Beranda</button>
+                            <button class="nav-link text-white active fw-bold" id="btn_menu_beranda" onclick="gantiMenu('beranda')">Beranda</button>
                         </li>
                         <li class="nav-item ms-2">
-                            <button class="nav-link text-white active fw-bold" id="btn_menu_masuk" onclick="gantiMenu('masuk')">Surat Masuk</button>
+                            <button class="nav-link text-white fw-bold" id="btn_menu_masuk" onclick="gantiMenu('masuk')">Surat Masuk</button>
                         </li>
                         <li class="nav-item ms-2">
                             <button class="nav-link text-white fw-bold" id="btn_menu_keluar" onclick="gantiMenu('keluar')">Surat Keluar</button>
@@ -186,7 +186,7 @@
         <div class="container mb-5">
             
             <!-- ================= SECTION: BERANDA (GRAFIK) ================= -->
-            <div id="section_beranda" class="d-none">
+            <div id="section_beranda">
                 <div class="row">
                     <!-- Grafik Surat Masuk -->
                     <div class="col-md-6 mb-4">
@@ -215,7 +215,7 @@
             </div>
 
             <!-- ================= SECTION: SURAT MASUK ================= -->
-            <div id="section_surat_masuk">
+            <div id="section_surat_masuk" class="d-none">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-white py-3">
                         <h5 class="mb-0 text-primary fw-bold">Formulir Penerimaan Surat Masuk</h5>
@@ -1337,6 +1337,7 @@
             } else {
                 pesanEl.className = "mt-3 text-center small fw-bold text-success";
                 pesanEl.innerText = "Berhasil masuk! Memuat aplikasi...";
+                localStorage.setItem('menuAktif', 'beranda');
                 setTimeout(() => {
                     cekSesiPengguna();
                 }, 1500);
