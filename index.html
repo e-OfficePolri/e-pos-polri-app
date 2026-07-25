@@ -162,9 +162,6 @@
                         <li class="nav-item ms-2">
                             <button class="nav-link text-white fw-bold" id="btn_menu_keluar" onclick="gantiMenu('keluar')">Surat Keluar</button>
                         </li>
-                        <li class="nav-item ms-2 d-none" id="li_menu_user">
-                            <button class="nav-link text-white fw-bold" id="btn_menu_user" onclick="gantiMenu('user')">Manajemen User</button>
-                        </li>
                     </ul>
 
                     <div class="dropdown">
@@ -175,7 +172,6 @@
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('beranda')">Beranda</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('masuk')">Surat Masuk</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
-                            <li class="d-lg-none d-none" id="li_menu_user_mobile"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('user')">Manajemen User</a></li>
                             <li class="d-lg-none"><hr class="dropdown-divider"></li>
                             
                             <!-- Dropdown Manajemen User di bawah foto/profil -->
@@ -1290,12 +1286,8 @@
                 document.getElementById('avatar_inisial_nav').innerText = sumberTeks.charAt(0).toUpperCase();
 
                 if (['super_admin', 'admin', 'kasubbag'].includes(rolePenggunaAktif)) {
-                    document.getElementById('li_menu_user').classList.remove('d-none');
-                    document.getElementById('li_menu_user_mobile').classList.remove('d-none');
                     document.getElementById('dropdown_sub_user_container').classList.remove('d-none');
                 } else {
-                    document.getElementById('li_menu_user').classList.add('d-none');
-                    document.getElementById('li_menu_user_mobile').classList.add('d-none');
                     document.getElementById('dropdown_sub_user_container').classList.add('d-none');
                 }
 
@@ -1478,7 +1470,6 @@
             }
         }
 
-        // Fungsi memuat dropdown Biro/Dir secara otomatis berdasarkan Satker terpilih
         async function muatBiroDirBerdasarkanSatker() {
             const satkerPilihan = document.getElementById('satker_baru').value;
             const tsBiro = tomSelectInstances['biro_dir_baru'];
@@ -1515,7 +1506,7 @@
             const email = document.getElementById('email_baru').value.toLowerCase();
             const role = document.getElementById('role_baru').value.toLowerCase();
             const satker = document.getElementById('satker_baru').value;
-            const biroDir = document.getElementById('biro_dir_baru').value; // Mengambil nilai Biro/Dir
+            const biroDir = document.getElementById('biro_dir_baru').value;
             const subbag = document.getElementById('subbag_baru').value;
             const pesanEl = document.getElementById('pesan_user');
 
@@ -1525,7 +1516,7 @@
                 nrp_nip: nrpNip, 
                 role, 
                 satker, 
-                biro_dir: biroDir, // Menyimpan ke database profiles
+                biro_dir: biroDir, 
                 subbag 
             };
 
@@ -1737,7 +1728,7 @@
             });
 
             ['beranda', 'masuk', 'keluar', 'user'].forEach(m => {
-                let btnId = m === 'masuk' ? 'btn_menu_masuk' : (m === 'keluar' ? 'btn_menu_keluar' : (m === 'user' ? 'btn_menu_user' : 'btn_menu_beranda'));
+                let btnId = m === 'masuk' ? 'btn_menu_masuk' : (m === 'keluar' ? 'btn_menu_keluar' : 'btn_menu_beranda');
                 let btn = document.getElementById(btnId);
                 if(btn) btn.classList.remove('active');
             });
@@ -1757,7 +1748,6 @@
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'keluar');
             } else if (menu === 'user') {
                 document.getElementById('section_manajemen_user').classList.remove('d-none');
-                if(document.getElementById('btn_menu_user')) document.getElementById('btn_menu_user').classList.add('active');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'user');
                 tampilkanDaftarUser();
             }
