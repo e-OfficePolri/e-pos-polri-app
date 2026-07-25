@@ -678,15 +678,15 @@
                                     <option value="Kapolda Sumatera Selatan">KAPOLDA SUMATERA SELATAN</option>
                                     <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN BANGKA BELITUNG</option>
                                     <option value="Kapolda Lampung">KAPOLDA LAMPUNG</option>
-                                    <option value="Kapolda Metro Jaya">KAPOLDA METRO JAYA</option>
-                                    <option value="Kapolda Banten">KAPOLDA BANTEN</option>
-                                    <option value="Kapolda Jawa Barat">KAPOLDA JAWA BARAT</option>
-                                    <option value="Kapolda Jawa Tengah">KAPOLDA JAWA TENGAH</option>
-                                    <option value="Kapolda Daerah Istimewa Yogyakarta">KAPOLDA DAERAH ISTIMEWA YOGYAKARTA</option>
-                                    <option value="Kapolda Jawa Timur">KAPOLDA JAWA TIMUR</option>
-                                    <option value="Kapolda Bali">KAPOLDA BALI</option>
-                                    <option value="Kapolda Nusa Tenggara Barat">KAPOLDA NUSA TENGGARA BARAT</option>
-                                    <option value="Kapolda Nusa Tenggara Timur">KAPOLDA NUSA TENGGARA TIMUR</option>
+                                    <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
+                                    <option value="Polda Banten">POLDA BANTEN</option>
+                                    <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
+                                    <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
+                                    <option value="Polda Daerah Istimewa Yogyakarta">POLDA DAERAH ISTIMEWA YOGYAKARTA</option>
+                                    <option value="Polda Jawa Timur">POLDA JAWA TIMUR</option>
+                                    <option value="Polda Bali">POLDA BALI</option>
+                                    <option value="Polda Nusa Tenggara Barat">POLDA NUSA TENGGARA BARAT</option>
+                                    <option value="Polda Nusa Tenggara Timur">POLDA NUSA TENGGARA TIMUR</option>
                                     <option value="Polda Kalimantan Barat">POLDA KALIMANTAN BARAT</option>
                                     <option value="Polda Kalimantan Tengah">POLDA KALIMANTAN TENGAH</option>
                                     <option value="Polda Kalimantan Selatan">POLDA KALIMANTAN SELATAN</option>
@@ -1201,11 +1201,13 @@
             if (error) {
                 pesanEl.className = "mt-3 text-center small fw-bold text-danger";
                 
-                // Menerjemahkan pesan error dari Supabase ke Bahasa Indonesia
+                // Terjemahan fleksibel untuk error Supabase ke Bahasa Indonesia
                 let pesanErrorID = error.message;
-                if (error.message.includes("New password should be different from the old password")) {
+                const errLower = error.message.toLowerCase();
+                
+                if (errLower.includes("different from the old password")) {
                     pesanErrorID = "Gagal mengubah password: Password baru harus berbeda dengan password yang lama.";
-                } else if (error.message.includes("Auth session missing")) {
+                } else if (errLower.includes("auth session missing")) {
                     pesanErrorID = "Gagal mengubah password: Sesi pemulihan telah kedaluwarsa. Silakan minta tautan baru.";
                 }
                 
