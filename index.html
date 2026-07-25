@@ -174,12 +174,14 @@
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
                             <li class="d-lg-none"><hr class="dropdown-divider"></li>
                             
-                            <!-- Dropdown Manajemen User di bawah foto/profil -->
+                            <!-- Menu Utama Manajemen User yang jika diklik baru menampilkan sub-menu -->
                             <li id="dropdown_sub_user_container" class="d-none">
-                                <h6 class="dropdown-header text-dark fw-bold px-3 py-1">Manajemen User</h6>
-                                <ul class="list-unstyled mb-0">
-                                    <li><a class="dropdown-item small py-1" href="#" onclick="gantiTabUser('user')">Tambah User Baru</a></li>
-                                    <li><a class="dropdown-item small py-1" href="#" onclick="gantiTabUser('biro')">Tambah Data Biro/Dir</a></li>
+                                <a class="dropdown-item fw-bold text-dark" href="#" onclick="toggleSubMenuManajemenUser(event)">
+                                    Manajemen User ▾
+                                </a>
+                                <ul id="list_sub_menu_user" class="list-unstyled ps-3 bg-light py-1 d-none">
+                                    <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('user')">• Tambah User Baru</a></li>
+                                    <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('biro')">• Tambah Data Biro/Dir</a></li>
                                 </ul>
                                 <li><hr class="dropdown-divider"></li>
                             </li>
@@ -1303,6 +1305,13 @@
                 document.getElementById('section_ubah_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.add('d-none');
             }
+        }
+
+        function toggleSubMenuManajemenUser(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const subMenu = document.getElementById('list_sub_menu_user');
+            subMenu.classList.toggle('d-none');
         }
 
         async function prosesSimpanPasswordBaru() {
