@@ -873,7 +873,7 @@
                         
                             <div class="col-md-6 mb-3">
                                 <label for="satker_baru" class="form-label fw-bold">Satuan Kerja:</label>
-                                <select id="satker_baru" class="form-select searchable-select" required>
+                                <select id="satker_baru" class="form-select searchable-select" onchange="muatBiroDirBerdasarkanSatker()" required>
                                     <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
                                     <option value="Itwasum Polri">ITWASUM POLRI</option>
                                     <option value="Bareskrim Polri">BARESKRIM POLRI</option>
@@ -939,6 +939,13 @@
                                     <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
                                     <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
                                     <option value="Polda Papua Selatan">POLDA PAPUA SELATAN</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="biro_dir_baru" class="form-label fw-bold">Biro / Direktorat:</label>
+                                <select id="biro_dir_baru" class="form-select searchable-select" required>
+                                    <option value="" disabled selected>-- Pilih Biro / Direktorat --</option>
                                 </select>
                             </div>
 
@@ -1103,7 +1110,7 @@
                                         <th>NRP/NIP</th>
                                         <th>Email</th>
                                         <th>Role / Peran</th>
-                                        <th>Satuan Kerja & Subbag</th>
+                                        <th>Satuan Kerja, Biro/Dir & Subbag</th>
                                         <th id="kolom_aksi_user" class="d-none" style="width: 20%;">Aksi</th>
                                     </tr>
                                 </thead>
@@ -1469,6 +1476,35 @@
             }
         }
 
+        // Fungsi memuat dropdown Biro/Dir secara otomatis berdasarkan Satker terpilih
+        async function muatBiroDirBerdasarkanSatker() {
+            const satkerPilihan = document.getElementById('satker_baru').value;
+            const tsBiro = tomSelectInstances['biro_dir_baru'];
+
+            if (tsBiro) {
+                tsBiro.clear();
+                tsBiro.clearOptions();
+            }
+
+            if (!satkerPilihan) return;
+
+            const { data, error } = await supabaseClient
+                .from('biro_dir')
+                .select('*')
+                .eq('satker', satkerPilihan);
+
+            if (error) {
+                console.error("Gagal memuat data biro/dir:", error.message);
+                return;
+            }
+
+            if (data && data.length > 0 && tsBiro) {
+                data.forEach(item => {
+                    tsBiro.addOption({value: item.nama_biro, text: item.nama_biro});
+                });
+            }
+        }
+
         async function simpanUser() {
             const editId = document.getElementById('edit_user_id').value;
             const nama = document.getElementById('nama_baru').value; 
@@ -1477,15 +1513,25 @@
             const email = document.getElementById('email_baru').value.toLowerCase();
             const role = document.getElementById('role_baru').value.toLowerCase();
             const satker = document.getElementById('satker_baru').value;
+            const biroDir = document.getElementById('biro_dir_baru').value; // Mengambil nilai Biro/Dir
             const subbag = document.getElementById('subbag_baru').value;
             const pesanEl = document.getElementById('pesan_user');
+
+            let dataSimpan = { 
+                nama, 
+                pangkat, 
+                nrp_nip: nrpNip, 
+                role, 
+                satker, 
+                biro_dir: biroDir, // Menyimpan ke database profiles
+                subbag 
+            };
 
             if (editId) {
                 pesanEl.className = "mt-3 fw-bold text-primary";
                 pesanEl.innerText = "Memperbarui data user...";
-                const { error } = await supabaseClient.from('profiles').update({ 
-                    nama, pangkat, nrp_nip: nrpNip, role, satker, subbag 
-                }).eq('id', editId);
+                
+                const { error } = await supabaseClient.from('profiles').update(dataSimpan).eq('id', editId);
                 
                 if (error) {
                     pesanEl.className = "mt-3 fw-bold text-danger";
@@ -1499,7 +1545,7 @@
             } else {
                 const password = document.getElementById('password_baru').value;
                 if (!nama || !pangkat || !nrpNip || !email || !password || !role || !satker) {
-                    alert("Semua kolom wajib diisi untuk membuat akun baru!");
+                    alert("Sebagian besar kolom wajib diisi untuk membuat akun baru!");
                     return;
                 }
                 pesanEl.className = "mt-3 fw-bold text-primary";
@@ -1510,9 +1556,11 @@
                     pesanEl.className = "mt-3 fw-bold text-danger";
                     pesanEl.innerText = "Gagal membuat user: " + error.message;
                 } else if (data && data.user) {
-                    const { error: profileError } = await supabaseClient.from('profiles').insert([{ 
-                        id: data.user.id, nama, pangkat, nrp_nip: nrpNip, email, role, satker, subbag 
-                    }]);
+                    // Sertakan ID dan email saat menyisipkan user baru ke profile
+                    dataSimpan.id = data.user.id;
+                    dataSimpan.email = email;
+                    
+                    const { error: profileError } = await supabaseClient.from('profiles').insert([dataSimpan]);
                     if (profileError) {
                         pesanEl.className = "mt-3 fw-bold text-danger";
                         pesanEl.innerText = "Gagal menyimpan profil: " + profileError.message;
@@ -1569,7 +1617,7 @@
             document.getElementById('pesan_biro').innerText = "";
         }
 
-        function editUser(id, nama, pangkat, nrpNip, email, role, satker, subbag) {
+        async function editUser(id, nama, pangkat, nrpNip, email, role, satker, biroDir, subbag) {
             document.getElementById('edit_user_id').value = id;
             document.getElementById('nama_baru').value = nama; 
             if(tomSelectInstances['pangkat_baru']) tomSelectInstances['pangkat_baru'].setValue(pangkat || '');
@@ -1577,8 +1625,24 @@
             document.getElementById('email_baru').value = email;
             document.getElementById('email_baru').disabled = true;
             document.getElementById('wrapper_password_baru').classList.add('d-none');
+            
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].setValue(role ? role.toLowerCase() : '');
             if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].setValue(satker || '');
+            
+            // Proses sinkronisasi opsi Biro/Dir untuk form edit secara asinkron
+            const tsBiro = tomSelectInstances['biro_dir_baru'];
+            if (tsBiro) {
+                tsBiro.clear();
+                tsBiro.clearOptions();
+                if (satker) {
+                    const { data } = await supabaseClient.from('biro_dir').select('*').eq('satker', satker);
+                    if (data && data.length > 0) {
+                        data.forEach(item => tsBiro.addOption({value: item.nama_biro, text: item.nama_biro}));
+                    }
+                }
+                tsBiro.setValue(biroDir || '');
+            }
+
             if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].setValue(subbag || '');
             
             document.getElementById('judul_form_user').innerText = "Edit Data User";
@@ -1596,8 +1660,13 @@
             document.getElementById('email_baru').disabled = false;
             document.getElementById('password_baru').value = '';
             document.getElementById('wrapper_password_baru').classList.remove('d-none');
+            
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].clear();
             if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].clear();
+            if(tomSelectInstances['biro_dir_baru']) {
+                tomSelectInstances['biro_dir_baru'].clear();
+                tomSelectInstances['biro_dir_baru'].clearOptions();
+            }
             if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].clear();
             
             document.getElementById('judul_form_user').innerText = "Formulir Tambah User Baru";
@@ -1633,14 +1702,21 @@
             data.forEach((usr, idx) => {
                 let aksiHTML = '';
                 if (rolePenggunaAktif === 'super_admin') {
+                    // Update fungsi edit user agar memuat biro_dir juga
                     aksiHTML = `
                         <td class="text-center">
-                            <button class="btn btn-warning btn-sm me-1" onclick="editUser('${usr.id}', '${usr.nama || ''}', '${usr.pangkat || ''}', '${usr.nrp_nip || ''}', '${usr.email}', '${usr.role}', '${usr.satker || ''}', '${usr.subbag || ''}')">Edit</button>
+                            <button class="btn btn-warning btn-sm me-1" onclick="editUser('${usr.id}', '${usr.nama || ''}', '${usr.pangkat || ''}', '${usr.nrp_nip || ''}', '${usr.email}', '${usr.role}', '${usr.satker || ''}', '${usr.biro_dir || ''}', '${usr.subbag || ''}')">Edit</button>
                             <button class="btn btn-danger btn-sm" onclick="konfirmasiHapusUser('${usr.id}')">Hapus</button>
                         </td>
                     `;
                 }
                 const pangkatNama = (usr.pangkat ? usr.pangkat + ' ' : '') + (usr.nama || '-');
+                
+                // Menyusun teks gabungan Satker, Biro/Dir, dan Subbag
+                let rincianPosisi = usr.satker || '-';
+                if(usr.biro_dir) rincianPosisi += ` / ${usr.biro_dir}`;
+                if(usr.subbag) rincianPosisi += ` / ${usr.subbag}`;
+
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${idx + 1}</td>
@@ -1648,7 +1724,7 @@
                         <td class="text-center">${usr.nrp_nip || '-'}</td>
                         <td class="text-lowercase">${usr.email}</td>
                         <td class="text-center"><span class="badge bg-secondary text-lowercase">${usr.role || '-'}</span></td>
-                        <td class="text-center text-uppercase">${usr.satker || '-'}${usr.subbag ? ' / ' + usr.subbag : ''}</td>
+                        <td class="text-center text-uppercase">${rincianPosisi}</td>
                         ${aksiHTML}
                     </tr>
                 `;
