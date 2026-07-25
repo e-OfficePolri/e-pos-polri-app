@@ -54,6 +54,27 @@
         select option {
             text-transform: uppercase;
         }
+
+        /* Penyesuaian khusus tampilan HP / Mobile */
+        @media (max-width: 991.98px) {
+            .navbar .container {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .navbar .nav-pills {
+                margin-top: 10px;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            .navbar .nav-pills .nav-item {
+                margin-bottom: 5px;
+            }
+            .dropdown {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+        }
     </style>
 </head>
 <body class="bg-light">
