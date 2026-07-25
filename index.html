@@ -401,7 +401,7 @@
                                     <option value="Kapolda Sumatera Selatan">KAPOLDA SUMATERA SELATAN</option>
                                     <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN BANGKA BELITUNG</option>
                                     <option value="Kapolda Lampung">KAPOLDA LAMPUNG</option>
-                                    <option value="Kapolda Metro Jaya">POLDA METRO JAYA</option>
+                                    <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
                                     <option value="Polda Banten">POLDA BANTEN</option>
                                     <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
                                     <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
@@ -795,7 +795,15 @@
 
             <!-- ================= SECTION: MANAJEMEN USER ================= -->
             <div id="section_manajemen_user" class="d-none">
-                <div class="card shadow-sm mb-4">
+                
+                <!-- Tombol Navigasi Sub-Menu Manajemen User -->
+                <div class="d-flex gap-2 mb-3">
+                    <button id="btn_tab_user" class="btn btn-dark fw-bold" onclick="gantiTabUser('user')">Tambah User Baru</button>
+                    <button id="btn_tab_biro" class="btn btn-outline-dark fw-bold" onclick="gantiTabUser('biro')">Tambah Data Biro/Dir</button>
+                </div>
+
+                <!-- FORM 1: TAMBAH USER BARU -->
+                <div id="form_sub_user" class="card shadow-sm mb-4">
                     <div class="card-header bg-white py-3">
                         <h5 class="mb-0 text-dark fw-bold" id="judul_form_user">Formulir Tambah User Baru</h5>
                     </div>
@@ -934,7 +942,6 @@
                                 </select>
                             </div>
 
-                            <!-- Input Subbag kini selalu tampil tanpa kelas d-none -->
                             <div class="col-md-6 mb-3" id="wrapper_subbag_baru">
                                 <label for="subbag_baru" class="form-label fw-bold">Subbag:</label>
                                 <select id="subbag_baru" class="form-select searchable-select">
@@ -985,6 +992,100 @@
                             <button id="btn_batal_user" class="btn btn-secondary fw-bold d-none" onclick="batalEditUser()">Batal Edit</button>
                         </div>
                         <div id="pesan_user" class="mt-3 fw-bold"></div>
+                    </div>
+                </div>
+
+                <!-- FORM 2: TAMBAH DATA BIRO/DIR -->
+                <div id="form_sub_biro" class="card shadow-sm mb-4 d-none">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-dark fw-bold" id="judul_form_biro">Formulir Tambah Data Biro/Dir</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="edit_biro_id"> 
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="satker_biro" class="form-label fw-bold">Satuan Kerja:</label>
+                                <select id="satker_biro" class="form-select searchable-select" required>
+                                    <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
+                                    <option value="Itwasum Polri">ITWASUM POLRI</option>
+                                    <option value="Bareskrim Polri">BARESKRIM POLRI</option>
+                                    <option value="Baharkam Polri">BAHARKAM POLRI</option>
+                                    <option value="Korbrimob Polri">KORBRIMOB POLRI</option>
+                                    <option value="Baintelkam Polri">BAINTELKAM POLRI</option>
+                                    <option value="Lemdiklat Polri">LEMDIKLAT POLRI</option>
+                                    <option value="Stamaops Polri">STAMAOPS POLRI</option>
+                                    <option value="Stamarena Polri">STAMARENA POLRI</option>
+                                    <option value="Korlantas Polri">KORLANTAS POLRI</option>
+                                    <option value="Kortastipidkor Polri">KORTASTIPIDKOR POLRI</option>
+                                    <option value="Densus 88 AT Polri">DENSUS 88 AT POLRI</option>
+                                    <option value="SDM Polri">SDM POLRI</option>
+                                    <option value="Slog Polri">SLOG POLRI</option>
+                                    <option value="Divpropam Polri">DIVPROPAM POLRI</option>
+                                    <option value="Divkum Polri">DIVKUM POLRI</option>
+                                    <option value="Divhumas Polri">DIVHUMAS POLRI</option>
+                                    <option value="Div TIK Polri">DIV TIK POLRI</option>
+                                    <option value="Divhubinter Polri">DIVHUBINTER POLRI</option>
+                                    <option value="Pusdokkes Polri">PUSDOKKES POLRI</option>
+                                    <option value="Sahli Kapolri">SAHLI KAPOLRI</option>
+                                    <option value="Puslitbang Polri">PUSLITBANG POLRI</option>
+                                    <option value="Puskeu Polri">PUSKEU POLRI</option>
+                                    <option value="Pusjarah Polri">PUSJARAH POLRI</option>
+                                    <option value="Spripim Polri">SPRIPIM POLRI</option>
+                                    <option value="Yanma Polri">YANMA POLRI</option>
+                                    <option value="Setum Polri">SETUM POLRI</option>
+                                    <option value="Polda Aceh">POLDA ACEH</option>
+                                    <option value="Polda Sumatera Utara">POLDA SUMATERA UTARA</option>
+                                    <option value="Polda Sumatera Barat">POLDA SUMATERA BARAT</option>
+                                    <option value="Polda Riau">POLDA RIAU</option>
+                                    <option value="Polda Kepulauan Riau">POLDA KEPULAUAN RIAU</option>
+                                    <option value="Polda Jambi">POLDA JAMBI</option>
+                                    <option value="Polda Bengkulu">POLDA BENGKULU</option>
+                                    <option value="Polda Sumatera Selatan">POLDA SUMATERA SELATAN</option>
+                                    <option value="Polda Kepulauan Bangka Belitung">POLDA KEPULAUAN BANGKA BELITUNG</option>
+                                    <option value="Polda Lampung">POLDA LAMPUNG</option>
+                                    <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
+                                    <option value="Polda Banten">POLDA BANTEN</option>
+                                    <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
+                                    <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
+                                    <option value="Polda Daerah Istimewa Yogyakarta">POLDA DAERAH ISTIMEWA YOGYAKARTA</option>
+                                    <option value="Polda Jawa Timur">POLDA JAWA TIMUR</option>
+                                    <option value="Polda Bali">POLDA BALI</option>
+                                    <option value="Polda Nusa Tenggara Barat">POLDA NUSA TENGGARA BARAT</option>
+                                    <option value="Polda Nusa Tenggara Timur">POLDA NUSA TENGGARA TIMUR</option>
+                                    <option value="Polda Kalimantan Barat">POLDA KALIMANTAN BARAT</option>
+                                    <option value="Polda Kalimantan Tengah">POLDA KALIMANTAN TENGAH</option>
+                                    <option value="Polda Kalimantan Selatan">POLDA KALIMANTAN SELATAN</option>
+                                    <option value="Polda Kalimantan Timur">POLDA KALIMANTAN TIMUR</option>
+                                    <option value="Polda Kalimantan Utara">POLDA KALIMANTAN UTARA</option>
+                                    <option value="Polda Sulawesi Utara">POLDA SULAWESI UTARA</option>
+                                    <option value="Polda Gorontalo">POLDA GORONTALO</option>
+                                    <option value="Polda Sulawesi Tengah">POLDA SULAWESI TENGAH</option>
+                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI SELATAN</option>
+                                    <option value="Polda Sulawesi Selatan">POLDA SULAWESI SELATAN</option>
+                                    <option value="Polda Sulawesi Tenggara">POLDA SULAWESI TENGGARA</option>
+                                    <option value="Polda Maluku">POLDA MALUKU</option>
+                                    <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
+                                    <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua">POLDA PAPUA</option>
+                                    <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
+                                    <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
+                                    <option value="Polda Papua Selatan">POLDA PAPUA SELATAN</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="nama_biro_dir" class="form-label fw-bold">Biro / Direktorat:</label>
+                                <input type="text" id="nama_biro_dir" class="form-control" placeholder="Masukkan nama Biro atau Direktorat..." required>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button id="btn_simpan_biro" class="btn btn-dark fw-bold" onclick="simpanBiroDir()">Simpan Data Biro/Dir</button>
+                            <button id="btn_batal_biro" class="btn btn-secondary fw-bold d-none" onclick="batalEditBiro()">Batal Edit</button>
+                        </div>
+                        <div id="pesan_biro" class="mt-3 fw-bold"></div>
                     </div>
                 </div>
 
@@ -1349,6 +1450,25 @@
             }
         }
 
+        function gantiTabUser(jenis) {
+            const btnUser = document.getElementById('btn_tab_user');
+            const btnBiro = document.getElementById('btn_tab_biro');
+            const formUser = document.getElementById('form_sub_user');
+            const formBiro = document.getElementById('form_sub_biro');
+
+            if (jenis === 'user') {
+                btnUser.className = "btn btn-dark fw-bold";
+                btnBiro.className = "btn btn-outline-dark fw-bold";
+                formUser.classList.remove('d-none');
+                formBiro.classList.add('d-none');
+            } else {
+                btnUser.className = "btn btn-outline-dark fw-bold";
+                btnBiro.className = "btn btn-dark fw-bold";
+                formUser.classList.add('d-none');
+                formBiro.classList.remove('d-none');
+            }
+        }
+
         async function simpanUser() {
             const editId = document.getElementById('edit_user_id').value;
             const nama = document.getElementById('nama_baru').value; 
@@ -1404,6 +1524,49 @@
                     }
                 }
             }
+        }
+
+        async function simpanBiroDir() {
+            const editId = document.getElementById('edit_biro_id').value;
+            const satker = document.getElementById('satker_biro').value;
+            const namaBiro = document.getElementById('nama_biro_dir').value;
+            const pesanEl = document.getElementById('pesan_biro');
+
+            if (!satker || !namaBiro) {
+                alert("Semua kolom wajib diisi!");
+                return;
+            }
+
+            pesanEl.className = "mt-3 fw-bold text-primary";
+            pesanEl.innerText = "Menyimpan data Biro/Dir...";
+
+            let dbError = null;
+            if (editId) {
+                const res = await supabaseClient.from('biro_dir').update({ satker, nama_biro: namaBiro }).eq('id', editId);
+                dbError = res.error;
+            } else {
+                const res = await supabaseClient.from('biro_dir').insert([{ satker, nama_biro: namaBiro }]);
+                dbError = res.error;
+            }
+
+            if (dbError) {
+                pesanEl.className = "mt-3 fw-bold text-danger";
+                pesanEl.innerText = "Gagal menyimpan data Biro/Dir: " + dbError.message;
+            } else {
+                pesanEl.className = "mt-3 fw-bold text-success";
+                pesanEl.innerText = "Data Biro/Dir berhasil disimpan!";
+                batalEditBiro();
+            }
+        }
+
+        function batalEditBiro() {
+            document.getElementById('edit_biro_id').value = '';
+            if(tomSelectInstances['satker_biro']) tomSelectInstances['satker_biro'].clear();
+            document.getElementById('nama_biro_dir').value = '';
+            document.getElementById('judul_form_biro').innerText = "Formulir Tambah Data Biro/Dir";
+            document.getElementById('btn_simpan_biro').innerText = "Simpan Data Biro/Dir";
+            document.getElementById('btn_batal_biro').classList.add('d-none');
+            document.getElementById('pesan_biro').innerText = "";
         }
 
         function editUser(id, nama, pangkat, nrpNip, email, role, satker, subbag) {
