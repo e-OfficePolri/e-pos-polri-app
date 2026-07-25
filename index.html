@@ -401,15 +401,15 @@
                                     <option value="Kapolda Sumatera Selatan">KAPOLDA SUMATERA SELATAN</option>
                                     <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN BANGKA BELITUNG</option>
                                     <option value="Kapolda Lampung">KAPOLDA LAMPUNG</option>
-                                    <option value="Kapolda Metro Jaya">KAPOLDA METRO JAYA</option>
-                                    <option value="Kapolda Banten">KAPOLDA BANTEN</option>
-                                    <option value="Kapolda Jawa Barat">KAPOLDA JAWA BARAT</option>
-                                    <option value="Kapolda Jawa Tengah">KAPOLDA JAWA TENGAH</option>
-                                    <option value="Kapolda Daerah Istimewa Yogyakarta">KAPOLDA DAERAH ISTIMEWA YOGYAKARTA</option>
-                                    <option value="Kapolda Jawa Timur">KAPOLDA JAWA TIMUR</option>
-                                    <option value="Kapolda Bali">KAPOLDA BALI</option>
-                                    <option value="Kapolda Nusa Tenggara Barat">KAPOLDA NUSA TENGGARA BARAT</option>
-                                    <option value="Kapolda Nusa Tenggara Timur">KAPOLDA NUSA TENGGARA TIMUR</option>
+                                    <option value="Kapolda Metro Jaya">POLDA METRO JAYA</option>
+                                    <option value="Polda Banten">POLDA BANTEN</option>
+                                    <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
+                                    <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
+                                    <option value="Polda Daerah Istimewa Yogyakarta">POLDA DAERAH ISTIMEWA YOGYAKARTA</option>
+                                    <option value="Polda Jawa Timur">POLDA JAWA TIMUR</option>
+                                    <option value="Polda Bali">POLDA BALI</option>
+                                    <option value="Polda Nusa Tenggara Barat">POLDA NUSA TENGGARA BARAT</option>
+                                    <option value="Polda Nusa Tenggara Timur">POLDA NUSA TENGGARA TIMUR</option>
                                     <option value="Polda Kalimantan Barat">POLDA KALIMANTAN BARAT</option>
                                     <option value="Polda Kalimantan Tengah">POLDA KALIMANTAN TENGAH</option>
                                     <option value="Polda Kalimantan Selatan">POLDA KALIMANTAN SELATAN</option>
@@ -418,7 +418,7 @@
                                     <option value="Polda Sulawesi Utara">POLDA SULAWESI UTARA</option>
                                     <option value="Polda Gorontalo">POLDA GORONTALO</option>
                                     <option value="Polda Sulawesi Tengah">POLDA SULAWESI TENGAH</option>
-                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI BARAT</option>
+                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI SELATAN</option>
                                     <option value="Polda Sulawesi Selatan">POLDA SULAWESI SELATAN</option>
                                     <option value="Polda Sulawesi Tenggara">POLDA SULAWESI TENGGARA</option>
                                     <option value="Polda Maluku">POLDA MALUKU</option>
@@ -637,7 +637,7 @@
                                     <option value="Polda Maluku">POLDA MALUKU</option>
                                     <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
                                     <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
-                                    <option value="Polda Papua Barat Daya">POLDA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA PAPUA BARAT DAYA</option>
                                     <option value="Polda Papua">POLDA PAPUA</option>
                                     <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
                                     <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
@@ -865,7 +865,7 @@
                         
                             <div class="col-md-6 mb-3">
                                 <label for="satker_baru" class="form-label fw-bold">Satuan Kerja:</label>
-                                <select id="satker_baru" class="form-select searchable-select" onchange="cekPilihanSatker()" required>
+                                <select id="satker_baru" class="form-select searchable-select" required>
                                     <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
                                     <option value="Itwasum Polri">ITWASUM POLRI</option>
                                     <option value="Bareskrim Polri">BARESKRIM POLRI</option>
@@ -934,7 +934,8 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6 mb-3 d-none" id="wrapper_subbag_baru">
+                            <!-- Input Subbag kini selalu tampil tanpa kelas d-none -->
+                            <div class="col-md-6 mb-3" id="wrapper_subbag_baru">
                                 <label for="subbag_baru" class="form-label fw-bold">Subbag:</label>
                                 <select id="subbag_baru" class="form-select searchable-select">
                                     <option value="" disabled selected>-- Pilih Subbag --</option>
@@ -1348,19 +1349,6 @@
             }
         }
 
-        function cekPilihanSatker() {
-            const satkerEl = document.getElementById('satker_baru');
-            const wrapperSubbag = document.getElementById('wrapper_subbag_baru');
-            const nilaiSatker = tomSelectInstances['satker_baru'] ? tomSelectInstances['satker_baru'].getValue() : satkerEl.value;
-
-            if (nilaiSatker === "Setum Polri") {
-                wrapperSubbag.classList.remove('d-none');
-            } else {
-                wrapperSubbag.classList.add('d-none');
-                if (tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].clear();
-            }
-        }
-
         async function simpanUser() {
             const editId = document.getElementById('edit_user_id').value;
             const nama = document.getElementById('nama_baru').value; 
@@ -1376,7 +1364,7 @@
                 pesanEl.className = "mt-3 fw-bold text-primary";
                 pesanEl.innerText = "Memperbarui data user...";
                 const { error } = await supabaseClient.from('profiles').update({ 
-                    nama, pangkat, nrp_nip: nrpNip, role, satker, subbag: satker === "Setum Polri" ? subbag : null 
+                    nama, pangkat, nrp_nip: nrpNip, role, satker, subbag 
                 }).eq('id', editId);
                 
                 if (error) {
@@ -1403,7 +1391,7 @@
                     pesanEl.innerText = "Gagal membuat user: " + error.message;
                 } else if (data && data.user) {
                     const { error: profileError } = await supabaseClient.from('profiles').insert([{ 
-                        id: data.user.id, nama, pangkat, nrp_nip: nrpNip, email, role, satker, subbag: satker === "Setum Polri" ? subbag : null 
+                        id: data.user.id, nama, pangkat, nrp_nip: nrpNip, email, role, satker, subbag 
                     }]);
                     if (profileError) {
                         pesanEl.className = "mt-3 fw-bold text-danger";
@@ -1428,10 +1416,8 @@
             document.getElementById('wrapper_password_baru').classList.add('d-none');
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].setValue(role ? role.toLowerCase() : '');
             if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].setValue(satker || '');
-            cekPilihanSatker();
-            if (satker === "Setum Polri" && tomSelectInstances['subbag_baru']) {
-                tomSelectInstances['subbag_baru'].setValue(subbag || '');
-            }
+            if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].setValue(subbag || '');
+            
             document.getElementById('judul_form_user').innerText = "Edit Data User";
             document.getElementById('btn_simpan_user').innerText = "Perbarui Data";
             document.getElementById('btn_batal_user').classList.remove('d-none');
@@ -1449,8 +1435,8 @@
             document.getElementById('wrapper_password_baru').classList.remove('d-none');
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].clear();
             if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].clear();
-            document.getElementById('wrapper_subbag_baru').classList.add('d-none');
             if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].clear();
+            
             document.getElementById('judul_form_user').innerText = "Formulir Tambah User Baru";
             document.getElementById('btn_simpan_user').innerText = "Buat Akun User Baru";
             document.getElementById('btn_batal_user').classList.add('d-none');
