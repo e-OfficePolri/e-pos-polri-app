@@ -19,6 +19,9 @@
     <!-- JS Tom Select -->
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
+    <!-- JS Chart.js untuk Grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- CSS Tambahan untuk Efek Blur, Menu Aktif, dan Avatar Inisial Otomatis -->
     <style>
         .modal-backdrop.show {
@@ -148,6 +151,9 @@
                 <div class="d-flex align-items-center">
                     <ul class="nav nav-pills me-3">
                         <li class="nav-item">
+                            <button class="nav-link text-white fw-bold" id="btn_menu_beranda" onclick="gantiMenu('beranda')">Beranda</button>
+                        </li>
+                        <li class="nav-item ms-2">
                             <button class="nav-link text-white active fw-bold" id="btn_menu_masuk" onclick="gantiMenu('masuk')">Surat Masuk</button>
                         </li>
                         <li class="nav-item ms-2">
@@ -174,6 +180,35 @@
 
         <div class="container mb-5">
             
+            <!-- ================= SECTION: BERANDA (GRAFIK) ================= -->
+            <div id="section_beranda" class="d-none">
+                <div class="row">
+                    <!-- Grafik Surat Masuk -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="mb-0 text-primary fw-bold">Statistik Surat Masuk</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="kanvasGrafikMasuk"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grafik Surat Keluar -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="mb-0 text-success fw-bold">Statistik Surat Keluar</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="kanvasGrafikKeluar"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ================= SECTION: SURAT MASUK ================= -->
             <div id="section_surat_masuk">
                 <div class="card shadow-sm mb-4">
@@ -1176,6 +1211,8 @@
                 const menuTersimpan = localStorage.getItem('menuAktif');
                 if (menuTersimpan) {
                     gantiMenu(menuTersimpan, false); 
+                } else {
+                    gantiMenu('beranda', false);
                 }
             } else {
                 document.getElementById('section_login').classList.remove('d-none');
@@ -1275,7 +1312,7 @@
                 pesanEl.innerText = "Berhasil masuk! Memuat aplikasi...";
                 setTimeout(() => {
                     cekSesiPengguna();
-                }, 2000); // Diubah dari 1000 menjadi 2000
+                }, 2000);
             }
         }
 
@@ -1556,23 +1593,35 @@
 
         // --- NAVIGASI MENU ---
         function gantiMenu(menu, simpanKeStorage = true) {
+            const sectionBeranda = document.getElementById('section_beranda');
             const sectionMasuk = document.getElementById('section_surat_masuk');
             const sectionKeluar = document.getElementById('section_surat_keluar');
             const sectionUser = document.getElementById('section_manajemen_user');
 
+            const btnBeranda = document.getElementById('btn_menu_beranda');
             const btnMasuk = document.getElementById('btn_menu_masuk');
             const btnKeluar = document.getElementById('btn_menu_keluar');
             const btnUser = document.getElementById('btn_menu_user');
 
+            // Sembunyikan semua halaman terlebih dahulu
+            sectionBeranda.classList.add('d-none');
             sectionMasuk.classList.add('d-none');
             sectionKeluar.classList.add('d-none');
             sectionUser.classList.add('d-none');
 
+            // Hapus status aktif dari semua tombol
+            btnBeranda.classList.remove('active');
             btnMasuk.classList.remove('active');
             btnKeluar.classList.remove('active');
             if(btnUser) btnUser.classList.remove('active');
 
-            if (menu === 'masuk') {
+            // Tampilkan halaman yang dipilih
+            if (menu === 'beranda') {
+                sectionBeranda.classList.remove('d-none');
+                btnBeranda.classList.add('active');
+                if (simpanKeStorage) localStorage.setItem('menuAktif', 'beranda');
+                muatDataGrafik(); 
+            } else if (menu === 'masuk') {
                 sectionMasuk.classList.remove('d-none');
                 btnMasuk.classList.add('active'); 
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'masuk');
@@ -2058,6 +2107,82 @@
             });
             
             doc.save(`Laporan_Surat_${tipe === 'masuk' ? 'Masuk' : 'Keluar'}.pdf`);
+        }
+
+        // --- SISTEM GRAFIK BERANDA ---
+        let grafikMasuk = null;
+        let grafikKeluar = null;
+
+        async function muatDataGrafik() {
+            // Ambil data surat dari Supabase (hanya mengambil kolom jenis_surat untuk mempercepat loading)
+            const { data: dataMasuk, error: errMasuk } = await supabaseClient.from('surat_masuk').select('jenis_surat');
+            const { data: dataKeluar, error: errKeluar } = await supabaseClient.from('surat_keluar').select('jenis_surat');
+
+            if (errMasuk || errKeluar) {
+                console.error("Gagal memuat data grafik");
+                return;
+            }
+
+            // Hitung jumlah masing-masing jenis surat
+            const hitungMasuk = prosesPerhitungan(dataMasuk);
+            const hitungKeluar = prosesPerhitungan(dataKeluar);
+
+            // Gambar ke kanvas
+            gambarGrafik('kanvasGrafikMasuk', hitungMasuk, 'rgba(13, 110, 253, 0.6)', grafikMasuk, (instanceBaru) => grafikMasuk = instanceBaru);
+            gambarGrafik('kanvasGrafikKeluar', hitungKeluar, 'rgba(25, 135, 84, 0.6)', grafikKeluar, (instanceBaru) => grafikKeluar = instanceBaru);
+        }
+
+        // Fungsi bantuan untuk menghitung jumlah per jenis surat
+        function prosesPerhitungan(dataSurat) {
+            const hasilHitung = {};
+            dataSurat.forEach(surat => {
+                const jenis = surat.jenis_surat || 'Tidak Diketahui';
+                if (hasilHitung[jenis]) {
+                    hasilHitung[jenis] += 1;
+                } else {
+                    hasilHitung[jenis] = 1;
+                }
+            });
+            return hasilHitung;
+        }
+
+        // Fungsi utama untuk menggambar menggunakan Chart.js
+        function gambarGrafik(idKanvas, dataHitung, warna, grafikLama, simpanGrafikBaru) {
+            const ctx = document.getElementById(idKanvas).getContext('2d');
+            
+            // Hapus grafik lama jika ada (mencegah grafik saling menumpuk/berkedip saat di-refresh)
+            if (grafikLama) {
+                grafikLama.destroy();
+            }
+
+            // Pisahkan nama jenis surat (label) dan jumlahnya (nilai)
+            const labelGrafik = Object.keys(dataHitung);
+            const nilaiGrafik = Object.values(dataHitung);
+
+            const chartBaru = new Chart(ctx, {
+                type: 'bar', // Anda bisa ganti 'bar' menjadi 'pie' atau 'line' jika mau
+                data: {
+                    labels: labelGrafik,
+                    datasets: [{
+                        label: 'Jumlah Surat',
+                        data: nilaiGrafik,
+                        backgroundColor: warna,
+                        borderColor: warna.replace('0.6', '1'), // Bikin garis tepi sedikit lebih gelap
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 } // Pastikan angka di samping adalah bilangan bulat (1, 2, 3...)
+                        }
+                    }
+                }
+            });
+            
+            simpanGrafikBaru(chartBaru);
         }
     </script>
 </body>
