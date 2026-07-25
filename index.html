@@ -50,7 +50,11 @@
     <div id="section_login" class="container d-flex justify-content-center align-items-center vh-100 d-none">
         <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
             <div class="text-center mb-4">
-                <img src="Setum_Polri.png" alt="Logo" style="height: 60px; width: auto;" class="mb-2">
+                <!-- Dua Logo Berdampingan (Tribrata di Kiri, Setum Polri di Kanan) -->
+                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                    <img src="Tribrata.png" alt="Logo Tribrata" style="height: 60px; width: auto;" onerror="this.style.display='none'">
+                    <img src="Setum_Polri.png" alt="Logo Setum Polri" style="height: 60px; width: auto;">
+                </div>
                 <h4 class="text-primary fw-bold">e-Pos Setum Polri</h4>
                 <p class="text-muted small">Silakan masuk menggunakan akun yang terdaftar</p>
             </div>
@@ -82,7 +86,10 @@
     <div id="section_lupa_password" class="container d-flex justify-content-center align-items-center vh-100 d-none">
         <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
             <div class="text-center mb-4">
-                <img src="Setum_Polri.png" alt="Logo" style="height: 60px; width: auto;" class="mb-2">
+                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                    <img src="Tribrata.png" alt="Logo Tribrata" style="height: 60px; width: auto;" onerror="this.style.display='none'">
+                    <img src="Setum_Polri.png" alt="Logo" style="height: 60px; width: auto;">
+                </div>
                 <h4 class="text-primary fw-bold">Pemulihan Password</h4>
                 <p class="text-muted small">Masukkan email Anda untuk menerima tautan reset password</p>
             </div>
@@ -102,7 +109,10 @@
     <div id="section_ubah_password" class="container d-flex justify-content-center align-items-center vh-100 d-none">
         <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
             <div class="text-center mb-4">
-                <img src="Setum_Polri.png" alt="Logo" style="height: 60px; width: auto;" class="mb-2">
+                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                    <img src="Tribrata.png" alt="Logo Tribrata" style="height: 60px; width: auto;" onerror="this.style.display='none'">
+                    <img src="Setum_Polri.png" alt="Logo" style="height: 60px; width: auto;">
+                </div>
                 <h4 class="text-primary fw-bold">Buat Password Baru</h4>
                 <p class="text-muted small">Silakan atur kata sandi baru untuk akun Anda.</p>
             </div>
@@ -912,7 +922,7 @@
                                     <option value="Polda Maluku">POLDA MALUKU</option>
                                     <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
                                     <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
-                                    <option value="Polda Papua Barat Daya">POLDA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA PAPUA BARAT DAYA</option>
                                     <option value="Polda Papua">POLDA PAPUA</option>
                                     <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
                                     <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
@@ -1201,7 +1211,6 @@
             if (error) {
                 pesanEl.className = "mt-3 text-center small fw-bold text-danger";
                 
-                // Terjemahan fleksibel untuk error Supabase ke Bahasa Indonesia
                 let pesanErrorID = error.message;
                 const errLower = error.message.toLowerCase();
                 
