@@ -50,7 +50,6 @@
     <div id="section_login" class="container d-flex justify-content-center align-items-center vh-100 d-none">
         <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
             <div class="text-center mb-4">
-                <!-- Dua Logo Berdampingan (Tribrata di Kiri, Setum Polri di Kanan) -->
                 <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
                     <img src="Tribrata.png" alt="Logo Tribrata" style="height: 60px; width: auto;" onerror="this.style.display='none'">
                     <img src="Setum_Polri.png" alt="Logo Setum Polri" style="height: 60px; width: auto;">
@@ -140,11 +139,17 @@
     <div id="app_utama" class="d-none">
         <nav class="navbar navbar-dark bg-primary shadow-sm mb-4">
             <div class="container d-flex justify-content-between align-items-center">
-                <span class="navbar-brand mb-0 h1 d-flex align-items-center text-truncate" style="max-width: 70%;">
-                    <img src="Setum_Polri.png" alt="Logo" style="height: 32px; width: auto;" class="me-2">
-                    <span class="d-none d-sm-inline">Sistem Pengelolaan Surat - Setum Polri</span>
-                    <span class="d-inline d-sm-none">e-Pos Setum Polri</span>
-                </span>
+                <!-- Bagian Kiri Navbar (Logo & Judul + Teks Selamat Datang Responsif) -->
+                <div class="d-flex align-items-center text-truncate" style="max-width: 65%;">
+                    <img src="Setum_Polri.png" alt="Logo" style="height: 38px; width: auto;" class="me-2 flex-shrink-0">
+                    <div class="text-truncate">
+                        <span class="navbar-brand mb-0 h1 d-block text-truncate fs-6 fs-md-5 fw-bold">
+                            <span class="d-none d-sm-inline">Sistem Pengelolaan Surat - Setum Polri</span>
+                            <span class="d-inline d-sm-none">e-Pos Setum Polri</span>
+                        </span>
+                        <span id="teks_selamat_datang" class="text-white-50 small d-block text-truncate">Hi, Selamat datang!</span>
+                    </div>
+                </div>
                 
                 <div class="d-flex align-items-center">
                     <ul class="nav nav-pills me-3 d-none d-lg-flex">
@@ -164,7 +169,6 @@
 
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUserNav" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="me-2 small fw-bold d-none d-md-inline" id="teks_selamat_datang">Hi, Selamat datang!</span>
                             <div id="avatar_inisial_nav" class="nav-profile-avatar">U</div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUserNav">
@@ -336,7 +340,7 @@
                                     <option value="Polda Sulawesi Utara">POLDA SULAWESI UTARA</option>
                                     <option value="Polda Gorontalo">POLDA GORONTALO</option>
                                     <option value="Polda Sulawesi Tengah">POLDA SULAWESI TENGAH</option>
-                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI BARAT</option>
+                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI SELATAN</option>
                                     <option value="Polda Sulawesi Selatan">POLDA SULAWESI SELATAN</option>
                                     <option value="Polda Sulawesi Tenggara">POLDA SULAWESI TENGGARA</option>
                                     <option value="Polda Maluku">POLDA MALUKU</option>
@@ -711,7 +715,7 @@
                                     <option value="Polda Maluku">POLDA MALUKU</option>
                                     <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
                                     <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
-                                    <option value="Polda Papua Barat Daya">POLDA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA PAPUA BARAT DAYA</option>
                                     <option value="Polda Papua">POLDA PAPUA</option>
                                     <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
                                     <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
