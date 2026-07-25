@@ -177,6 +177,17 @@
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
                             <li class="d-lg-none d-none" id="li_menu_user_mobile"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('user')">Manajemen User</a></li>
                             <li class="d-lg-none"><hr class="dropdown-divider"></li>
+                            
+                            <!-- Dropdown Manajemen User di bawah foto/profil -->
+                            <li id="dropdown_sub_user_container" class="d-none">
+                                <h6 class="dropdown-header text-dark fw-bold px-3 py-1">Manajemen User</h6>
+                                <ul>
+                                    <li><a class="dropdown-item small" href="#" onclick="gantiTabUser('user')">Tambah User Baru</a></li>
+                                    <li><a class="dropdown-item small" href="#" onclick="gantiTabUser('biro')">Tambah Data Biro/Dir</a></li>
+                                </ul>
+                                <li><hr class="dropdown-divider"></li>
+                            </li>
+
                             <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="konfirmasiLogout()">Keluar</a></li>
                         </ul>
                     </div>
@@ -795,12 +806,6 @@
 
             <!-- ================= SECTION: MANAJEMEN USER ================= -->
             <div id="section_manajemen_user" class="d-none">
-                
-                <!-- Tombol Navigasi Sub-Menu Manajemen User -->
-                <div class="d-flex gap-2 mb-3">
-                    <button id="btn_tab_user" class="btn btn-dark fw-bold" onclick="gantiTabUser('user')">Tambah User Baru</button>
-                    <button id="btn_tab_biro" class="btn btn-outline-dark fw-bold" onclick="gantiTabUser('biro')">Tambah Data Biro/Dir</button>
-                </div>
 
                 <!-- FORM 1: TAMBAH USER BARU -->
                 <div id="form_sub_user" class="card shadow-sm mb-4">
@@ -1287,9 +1292,11 @@
                 if (['super_admin', 'admin', 'kasubbag'].includes(rolePenggunaAktif)) {
                     document.getElementById('li_menu_user').classList.remove('d-none');
                     document.getElementById('li_menu_user_mobile').classList.remove('d-none');
+                    document.getElementById('dropdown_sub_user_container').classList.remove('d-none');
                 } else {
                     document.getElementById('li_menu_user').classList.add('d-none');
                     document.getElementById('li_menu_user_mobile').classList.add('d-none');
+                    document.getElementById('dropdown_sub_user_container').classList.add('d-none');
                 }
 
                 aturTanggalSekarang();
@@ -1458,19 +1465,14 @@
         }
 
         function gantiTabUser(jenis) {
-            const btnUser = document.getElementById('btn_tab_user');
-            const btnBiro = document.getElementById('btn_tab_biro');
+            gantiMenu('user', false);
             const formUser = document.getElementById('form_sub_user');
             const formBiro = document.getElementById('form_sub_biro');
 
             if (jenis === 'user') {
-                btnUser.className = "btn btn-dark fw-bold";
-                btnBiro.className = "btn btn-outline-dark fw-bold";
                 formUser.classList.remove('d-none');
                 formBiro.classList.add('d-none');
             } else {
-                btnUser.className = "btn btn-outline-dark fw-bold";
-                btnBiro.className = "btn btn-dark fw-bold";
                 formUser.classList.add('d-none');
                 formBiro.classList.remove('d-none');
             }
@@ -1556,7 +1558,6 @@
                     pesanEl.className = "mt-3 fw-bold text-danger";
                     pesanEl.innerText = "Gagal membuat user: " + error.message;
                 } else if (data && data.user) {
-                    // Sertakan ID dan email saat menyisipkan user baru ke profile
                     dataSimpan.id = data.user.id;
                     dataSimpan.email = email;
                     
@@ -1618,6 +1619,7 @@
         }
 
         async function editUser(id, nama, pangkat, nrpNip, email, role, satker, biroDir, subbag) {
+            gantiTabUser('user');
             document.getElementById('edit_user_id').value = id;
             document.getElementById('nama_baru').value = nama; 
             if(tomSelectInstances['pangkat_baru']) tomSelectInstances['pangkat_baru'].setValue(pangkat || '');
@@ -1629,7 +1631,6 @@
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].setValue(role ? role.toLowerCase() : '');
             if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].setValue(satker || '');
             
-            // Proses sinkronisasi opsi Biro/Dir untuk form edit secara asinkron
             const tsBiro = tomSelectInstances['biro_dir_baru'];
             if (tsBiro) {
                 tsBiro.clear();
@@ -1702,7 +1703,6 @@
             data.forEach((usr, idx) => {
                 let aksiHTML = '';
                 if (rolePenggunaAktif === 'super_admin') {
-                    // Update fungsi edit user agar memuat biro_dir juga
                     aksiHTML = `
                         <td class="text-center">
                             <button class="btn btn-warning btn-sm me-1" onclick="editUser('${usr.id}', '${usr.nama || ''}', '${usr.pangkat || ''}', '${usr.nrp_nip || ''}', '${usr.email}', '${usr.role}', '${usr.satker || ''}', '${usr.biro_dir || ''}', '${usr.subbag || ''}')">Edit</button>
@@ -1712,7 +1712,6 @@
                 }
                 const pangkatNama = (usr.pangkat ? usr.pangkat + ' ' : '') + (usr.nama || '-');
                 
-                // Menyusun teks gabungan Satker, Biro/Dir, dan Subbag
                 let rincianPosisi = usr.satker || '-';
                 if(usr.biro_dir) rincianPosisi += ` / ${usr.biro_dir}`;
                 if(usr.subbag) rincianPosisi += ` / ${usr.subbag}`;
@@ -1758,7 +1757,7 @@
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'keluar');
             } else if (menu === 'user') {
                 document.getElementById('section_manajemen_user').classList.remove('d-none');
-                document.getElementById('btn_menu_user').classList.add('active');
+                if(document.getElementById('btn_menu_user')) document.getElementById('btn_menu_user').classList.add('active');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'user');
                 tampilkanDaftarUser();
             }
