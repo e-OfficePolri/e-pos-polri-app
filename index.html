@@ -49,6 +49,11 @@
             border: 2px solid #fff;
             text-transform: uppercase;
         }
+
+        /* Membuat teks opsi dropdown satuan kerja menjadi huruf besar semua */
+        select option {
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -878,70 +883,70 @@
                                 <label for="satker_baru" class="form-label fw-bold">Satuan Kerja:</label>
                                 <select id="satker_baru" class="form-select searchable-select" onchange="cekPilihanSatker()" required>
                                     <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
-                                    <option value="Itwasum Polri">Itwasum Polri</option>
-                                    <option value="Bareskrim Polri">Bareskrim Polri</option>
-                                    <option value="Baharkam Polri">Baharkam Polri</option>
-                                    <option value="Korbrimob Polri">Korbrimob Polri</option>
-                                    <option value="Baintelkam Polri">Baintelkam Polri</option>
-                                    <option value="Lemdiklat Polri">Lemdiklat Polri</option>
-                                    <option value="Stamaops Polri">Stamaops Polri</option>
-                                    <option value="Stamarena Polri">Stamarena Polri</option>
-                                    <option value="Korlantas Polri">Korlantas Polri</option>
-                                    <option value="Kortastipidkor Polri">Kortastipidkor Polri</option>
-                                    <option value="Densus 88 AT Polri">Densus 88 AT Polri</option>
-                                    <option value="SDM Polri">SDM Polri</option>
-                                    <option value="Slog Polri">Slog Polri</option>
-                                    <option value="Divpropam Polri">Divpropam Polri</option>
-                                    <option value="Divkum Polri">Divkum Polri</option>
-                                    <option value="Divhumas Polri">Divhumas Polri</option>
-                                    <option value="Div TIK Polri">Div TIK Polri</option>
-                                    <option value="Divhubinter Polri">Divhubinter Polri</option>
-                                    <option value="Pusdokkes Polri">Pusdokkes Polri</option>
-                                    <option value="Sahli Kapolri">Sahli Kapolri</option>
-                                    <option value="Puslitbang Polri">Puslitbang Polri</option>
-                                    <option value="Puskeu Polri">Puskeu Polri</option>
-                                    <option value="Pusjarah Polri">Pusjarah Polri</option>
-                                    <option value="Spripim Polri">Spripim Polri</option>
-                                    <option value="Yanma Polri">Yanma Polri</option>
-                                    <option value="Setum Polri">Setum Polri</option>
-                                    <option value="Polda Aceh">Polda Aceh</option>
-                                    <option value="Polda Sumatera Utara">Polda Sumatera Utara</option>
-                                    <option value="Polda Sumatera Barat">Polda Sumatera Barat</option>
-                                    <option value="Polda Riau">Polda Riau</option>
-                                    <option value="Polda Kepulauan Riau">Polda Kepulauan Riau</option>
-                                    <option value="Polda Jambi">Polda Jambi</option>
-                                    <option value="Polda Bengkulu">Polda Bengkulu</option>
-                                    <option value="Polda Sumatera Selatan">Polda Sumatera Selatan</option>
-                                    <option value="Polda Kepulauan Bangka Belitung">Polda Kepulauan Bangka Belitung</option>
-                                    <option value="Polda Lampung">Polda Lampung</option>
-                                    <option value="Polda Metro Jaya">Polda Metro Jaya</option>
-                                    <option value="Polda Banten">Polda Banten</option>
-                                    <option value="Polda Jawa Barat">Polda Jawa Barat</option>
-                                    <option value="Polda Jawa Tengah">Polda Jawa Tengah</option>
-                                    <option value="Polda Daerah Istimewa Yogyakarta">Polda Daerah Istimewa Yogyakarta</option>
-                                    <option value="Polda Jawa Timur">Polda Jawa Timur</option>
-                                    <option value="Polda Bali">Polda Bali</option>
-                                    <option value="Polda Nusa Tenggara Barat">Polda Nusa Tenggara Barat</option>
-                                    <option value="Polda Nusa Tenggara Timur">Polda Nusa Tenggara Timur</option>
-                                    <option value="Polda Kalimantan Barat">Polda Kalimantan Barat</option>
-                                    <option value="Polda Kalimantan Tengah">Polda Kalimantan Tengah</option>
-                                    <option value="Polda Kalimantan Selatan">Polda Kalimantan Selatan</option>
-                                    <option value="Polda Kalimantan Timur">Polda Kalimantan Timur</option>
-                                    <option value="Polda Kalimantan Utara">Polda Kalimantan Utara</option>
-                                    <option value="Polda Sulawesi Utara">Polda Sulawesi Utara</option>
-                                    <option value="Polda Gorontalo">Polda Gorontalo</option>
-                                    <option value="Polda Sulawesi Tengah">Polda Sulawesi Tengah</option>
-                                    <option value="Polda Sulawesi Barat">Polda Sulawesi Barat</option>
-                                    <option value="Polda Sulawesi Selatan">Polda Sulawesi Selatan</option>
-                                    <option value="Polda Sulawesi Tenggara">Polda Sulawesi Tenggara</option>
-                                    <option value="Polda Maluku">Polda Maluku</option>
-                                    <option value="Polda Maluku Utara">Polda Maluku Utara</option>
-                                    <option value="Polda Papua Barat">Polda Papua Barat</option>
-                                    <option value="Polda Papua Barat Daya">Polda Papua Barat Daya</option>
-                                    <option value="Polda Papua">Polda Papua</option>
-                                    <option value="Polda Papua Tengah">Polda Papua Tengah</option>
-                                    <option value="Polda Papua Pegunungan">Polda Papua Pegunungan</option>
-                                    <option value="Polda Papua Selatan">Polda Papua Selatan</option>
+                                    <option value="Itwasum Polri">ITWASUM POLRI</option>
+                                    <option value="Bareskrim Polri">BARESKRIM POLRI</option>
+                                    <option value="Baharkam Polri">BAHARKAM POLRI</option>
+                                    <option value="Korbrimob Polri">KORBRIMOB POLRI</option>
+                                    <option value="Baintelkam Polri">BAINTELKAM POLRI</option>
+                                    <option value="Lemdiklat Polri">LEMDIKLAT POLRI</option>
+                                    <option value="Stamaops Polri">STAMAOPS POLRI</option>
+                                    <option value="Stamarena Polri">STAMARENA POLRI</option>
+                                    <option value="Korlantas Polri">KORLANTAS POLRI</option>
+                                    <option value="Kortastipidkor Polri">KORTASTIPIDKOR POLRI</option>
+                                    <option value="Densus 88 AT Polri">DENSUS 88 AT POLRI</option>
+                                    <option value="SDM Polri">SDM POLRI</option>
+                                    <option value="Slog Polri">SLOG POLRI</option>
+                                    <option value="Divpropam Polri">DIVPROPAM POLRI</option>
+                                    <option value="Divkum Polri">DIVKUM POLRI</option>
+                                    <option value="Divhumas Polri">DIVHUMAS POLRI</option>
+                                    <option value="Div TIK Polri">DIV TIK POLRI</option>
+                                    <option value="Divhubinter Polri">DIVHUBINTER POLRI</option>
+                                    <option value="Pusdokkes Polri">PUSDOKKES POLRI</option>
+                                    <option value="Sahli Kapolri">SAHLI KAPOLRI</option>
+                                    <option value="Puslitbang Polri">PUSLITBANG POLRI</option>
+                                    <option value="Puskeu Polri">PUSKEU POLRI</option>
+                                    <option value="Pusjarah Polri">PUSJARAH POLRI</option>
+                                    <option value="Spripim Polri">SPRIPIM POLRI</option>
+                                    <option value="Yanma Polri">YANMA POLRI</option>
+                                    <option value="Setum Polri">SETUM POLRI</option>
+                                    <option value="Polda Aceh">POLDA ACEH</option>
+                                    <option value="Polda Sumatera Utara">POLDA SUMATERA UTARA</option>
+                                    <option value="Polda Sumatera Barat">POLDA SUMATERA BARAT</option>
+                                    <option value="Polda Riau">POLDA RIAU</option>
+                                    <option value="Polda Kepulauan Riau">POLDA KEPULAUAN RIAU</option>
+                                    <option value="Polda Jambi">POLDA JAMBI</option>
+                                    <option value="Polda Bengkulu">POLDA BENGKULU</option>
+                                    <option value="Polda Sumatera Selatan">POLDA SUMATERA SELATAN</option>
+                                    <option value="Polda Kepulauan Bangka Belitung">POLDA KEPULAUAN BANGKA BELITUNG</option>
+                                    <option value="Polda Lampung">POLDA LAMPUNG</option>
+                                    <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
+                                    <option value="Polda Banten">POLDA BANTEN</option>
+                                    <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
+                                    <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
+                                    <option value="Polda Daerah Istimewa Yogyakarta">POLDA DAERAH ISTIMEWA YOGYAKARTA</option>
+                                    <option value="Polda Jawa Timur">POLDA JAWA TIMUR</option>
+                                    <option value="Polda Bali">POLDA BALI</option>
+                                    <option value="Polda Nusa Tenggara Barat">POLDA NUSA TENGGARA BARAT</option>
+                                    <option value="Polda Nusa Tenggara Timur">POLDA NUSA TENGGARA TIMUR</option>
+                                    <option value="Polda Kalimantan Barat">POLDA KALIMANTAN BARAT</option>
+                                    <option value="Polda Kalimantan Tengah">POLDA KALIMANTAN TENGAH</option>
+                                    <option value="Polda Kalimantan Selatan">POLDA KALIMANTAN SELATAN</option>
+                                    <option value="Polda Kalimantan Timur">POLDA KALIMANTAN TIMUR</option>
+                                    <option value="Polda Kalimantan Utara">POLDA KALIMANTAN UTARA</option>
+                                    <option value="Polda Sulawesi Utara">POLDA SULAWESI UTARA</option>
+                                    <option value="Polda Gorontalo">POLDA GORONTALO</option>
+                                    <option value="Polda Sulawesi Tengah">POLDA SULAWESI TENGAH</option>
+                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI BARAT</option>
+                                    <option value="Polda Sulawesi Selatan">POLDA SULAWESI SELATAN</option>
+                                    <option value="Polda Sulawesi Tenggara">POLDA SULAWESI TENGGARA</option>
+                                    <option value="Polda Maluku">POLDA MALUKU</option>
+                                    <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
+                                    <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua">POLDA PAPUA</option>
+                                    <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
+                                    <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
+                                    <option value="Polda Papua Selatan">POLDA PAPUA SELATAN</option>
                                 </select>
                             </div>
 
