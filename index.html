@@ -79,8 +79,6 @@
                             <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
                             <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
                             <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
-                            <path d="m8 7.5.568.568L8 8.636V7.5z"/>
-                            <path d="M1.293 1.293l13.414 13.414-1.414 1.414L-1.293 2.707 1.293 1.293z"/>
                         </svg>
                     </button>
                 </div>
@@ -130,8 +128,6 @@
                             <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
                             <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
                             <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
-                            <path d="m8 7.5.568.568L8 8.636V7.5z"/>
-                            <path d="M1.293 1.293l13.414 13.414-1.414 1.414L-1.293 2.707 1.293 1.293z"/>
                         </svg>
                     </button>
                 </div>
@@ -151,13 +147,12 @@
                 <!-- Judul Aplikasi -->
                 <span class="navbar-brand mb-0 h1 d-flex align-items-center text-truncate" style="max-width: 70%;">
                     <img src="Setum_Polri.png" alt="Logo" style="height: 32px; width: auto;" class="me-2">
-                    <!-- Teks lengkap untuk desktop, teks singkat untuk mobile -->
                     <span class="d-none d-sm-inline">Sistem Pengelolaan Surat - Setum Polri</span>
                     <span class="d-inline d-sm-none">e-Pos Setum Polri</span>
                 </span>
                 
                 <div class="d-flex align-items-center">
-                    <!-- MENU DESKTOP: Disembunyikan di layar HP (d-none d-lg-flex) -->
+                    <!-- MENU DESKTOP -->
                     <ul class="nav nav-pills me-3 d-none d-lg-flex">
                         <li class="nav-item">
                             <button class="nav-link text-white active fw-bold" id="btn_menu_beranda" onclick="gantiMenu('beranda')">Beranda</button>
@@ -176,19 +171,15 @@
                     <!-- PROFIL & DROPDOWN MENU -->
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUserNav" data-bs-toggle="dropdown" aria-expanded="false">
-                            <!-- Sapaan disembunyikan di layar kecil agar tidak bertabrakan -->
                             <span class="me-2 small fw-bold d-none d-md-inline" id="teks_selamat_datang">Hi, Selamat datang!</span>
                             <div id="avatar_inisial_nav" class="nav-profile-avatar">U</div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUserNav">
-                            <!-- MENU MOBILE: Hanya muncul di layar HP (d-lg-none) -->
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('beranda')">Beranda</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('masuk')">Surat Masuk</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
                             <li class="d-lg-none d-none" id="li_menu_user_mobile"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('user')">Manajemen User</a></li>
                             <li class="d-lg-none"><hr class="dropdown-divider"></li>
-                            
-                            <!-- Tombol Keluar (Selalu Muncul) -->
                             <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="konfirmasiLogout()">Keluar</a></li>
                         </ul>
                     </div>
@@ -201,7 +192,6 @@
             <!-- ================= SECTION: BERANDA (GRAFIK) ================= -->
             <div id="section_beranda">
                 <div class="row">
-                    <!-- Grafik Surat Masuk -->
                     <div class="col-md-6 mb-4">
                         <div class="card shadow-sm h-100">
                             <div class="card-header bg-white py-3">
@@ -213,7 +203,6 @@
                         </div>
                     </div>
                     
-                    <!-- Grafik Surat Keluar -->
                     <div class="col-md-6 mb-4">
                         <div class="card shadow-sm h-100">
                             <div class="card-header bg-white py-3">
@@ -710,7 +699,7 @@
                                     <option value="Kapolda Jambi">KAPOLDA JAMBI</option>
                                     <option value="Kapolda Bengkulu">KAPOLDA BENGKULU</option>
                                     <option value="Kapolda Sumatera Selatan">KAPOLDA SUMATERA SELATAN</option>
-                                    <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN Bangka BELITUNG</option>
+                                    <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN BANGKA BELITUNG</option>
                                     <option value="Kapolda Lampung">KAPOLDA LAMPUNG</option>
                                     <option value="Kapolda Metro Jaya">KAPOLDA METRO JAYA</option>
                                     <option value="Kapolda Banten">KAPOLDA BANTEN</option>
@@ -988,8 +977,6 @@
                                             <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
                                             <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
                                             <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
-                                            <path d="m8 7.5.568.568L8 8.636V7.5z"/>
-                                            <path d="M1.293 1.293l13.414 13.414-1.414 1.414L-1.293 2.707 1.293 1.293z"/>
                                         </svg>
                                     </button>
                                 </div>
@@ -1108,7 +1095,6 @@
             const hashValue = window.location.hash;
             const queryParams = window.location.search;
             
-            // Deteksi jika link kedaluwarsa atau error akses ditolak
             if (hashValue.includes('error=access_denied') || hashValue.includes('error_code=') || queryParams.includes('error=access_denied')) {
                 sessionStorage.removeItem('sedangResetPassword');
                 try {
@@ -1128,12 +1114,10 @@
                 return;
             }
 
-            // Jika ada parameter recovery di URL (pertama kali klik link email), simpan ke sessionStorage
             if (hashValue && hashValue.includes('type=recovery')) {
                 sessionStorage.setItem('sedangResetPassword', 'true');
             }
             
-            // Periksa apakah status sessionStorage sedang dalam mode reset password (aman meskipun direfresh)
             const sedangReset = sessionStorage.getItem('sedangResetPassword');
             
             if (sedangReset === 'true') {
@@ -1240,10 +1224,10 @@
 
                 if (rolePenggunaAktif === 'super_admin' || rolePenggunaAktif === 'admin' || rolePenggunaAktif === 'kasubbag') {
                     document.getElementById('li_menu_user').classList.remove('d-none');
-                    document.getElementById('li_menu_user_mobile').classList.remove('d-none'); // Tampilkan di mobile juga
+                    document.getElementById('li_menu_user_mobile').classList.remove('d-none');
                 } else {
                     document.getElementById('li_menu_user').classList.add('d-none');
-                    document.getElementById('li_menu_user_mobile').classList.add('d-none'); // Sembunyikan di mobile
+                    document.getElementById('li_menu_user_mobile').classList.add('d-none');
                 }
 
                 aturTanggalSekarang();
@@ -1429,25 +1413,25 @@
             }
         }
 
-        // --- FUNGSI TOGGLE LIHAT/SEMBUNYIKAN PASSWORD ---
+        // --- FUNGSI TOGGLE LIHAT/SEMBUNYIKAN PASSWORD (DENGAN IKON YANG LEBIH BERSIH & RAPI) ---
         function togglePassword(idInput, idIcon) {
             const inputEl = document.getElementById(idInput);
             const iconEl = document.getElementById(idIcon);
             
             if (inputEl.type === "password") {
                 inputEl.type = "text";
+                // Ikon Mata Terbuka yang Bersih
                 iconEl.innerHTML = `
-                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
+                    <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
                 `;
             } else {
                 inputEl.type = "password";
+                // Ikon Mata Tertutup / Slash yang Rapi
                 iconEl.innerHTML = `
                     <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
                     <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
                     <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
-                    <path d="m8 7.5.568.568L8 8.636V7.5z"/>
-                    <path d="M1.293 1.293l13.414 13.414-1.414 1.414L-1.293 2.707 1.293 1.293z"/>
                 `;
             }
         }
@@ -1701,19 +1685,16 @@
             const btnKeluar = document.getElementById('btn_menu_keluar');
             const btnUser = document.getElementById('btn_menu_user');
 
-            // Sembunyikan semua halaman terlebih dahulu
             sectionBeranda.classList.add('d-none');
             sectionMasuk.classList.add('d-none');
             sectionKeluar.classList.add('d-none');
             sectionUser.classList.add('d-none');
 
-            // Hapus status aktif dari semua tombol
             btnBeranda.classList.remove('active');
             btnMasuk.classList.remove('active');
             btnKeluar.classList.remove('active');
             if(btnUser) btnUser.classList.remove('active');
 
-            // Tampilkan halaman yang dipilih
             if (menu === 'beranda') {
                 sectionBeranda.classList.remove('d-none');
                 btnBeranda.classList.add('active');
@@ -1780,7 +1761,6 @@
             }
         }
 
-        // --- PENGELOLA PENCARIAN & RESET GLOBAL ---
         function handlePencarian(tipe) {
             const keyword = document.getElementById(`cari_${tipe}`).value;
             const tglMulai = document.getElementById(`mulai_${tipe}`).value;
@@ -1804,7 +1784,6 @@
             tampilkanSurat(tipe);
         }
 
-        // --- SIMPAN / UPDATE SURAT (MASUK & KELUAR) ---
         async function simpanSurat(tipe) {
             const editId = document.getElementById(`edit_id_${tipe}`).value;
             const jenisSurat = document.getElementById(`jenis_surat_${tipe}`).value;
@@ -1875,7 +1854,6 @@
             }
         }
 
-        // --- TAMPILKAN / CARI SURAT DENGAN PAGINATION ---
         async function tampilkanSurat(tipe) {
             const namaTabel = tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar';
             const keyword = document.getElementById(`cari_${tipe}`).value;
@@ -2000,7 +1978,6 @@
             tampilkanSurat(tipe);
         }
 
-        // --- SISTEM KOTAK DIALOG MODAL KUSTOM ---
         function tampilkanModalKonfirmasi(pesan, fungsiEksekusi) {
             document.getElementById('teksPesanKonfirmasi').innerText = pesan;
             const modalEl = document.getElementById('modalKonfirmasi');
@@ -2207,12 +2184,10 @@
             doc.save(`Laporan_Surat_${tipe === 'masuk' ? 'Masuk' : 'Keluar'}.pdf`);
         }
 
-        // --- SISTEM GRAFIK BERANDA ---
         let grafikMasuk = null;
         let grafikKeluar = null;
 
         async function muatDataGrafik() {
-            // Ambil data surat dari Supabase (hanya mengambil kolom jenis_surat untuk mempercepat loading)
             const { data: dataMasuk, error: errMasuk } = await supabaseClient.from('surat_masuk').select('jenis_surat');
             const { data: dataKeluar, error: errKeluar } = await supabaseClient.from('surat_keluar').select('jenis_surat');
 
@@ -2221,16 +2196,13 @@
                 return;
             }
 
-            // Hitung jumlah masing-masing jenis surat
             const hitungMasuk = prosesPerhitungan(dataMasuk);
             const hitungKeluar = prosesPerhitungan(dataKeluar);
 
-            // Gambar ke kanvas
             gambarGrafik('kanvasGrafikMasuk', hitungMasuk, 'rgba(13, 110, 253, 0.6)', grafikMasuk, (instanceBaru) => grafikMasuk = instanceBaru);
             gambarGrafik('kanvasGrafikKeluar', hitungKeluar, 'rgba(25, 135, 84, 0.6)', grafikKeluar, (instanceBaru) => grafikKeluar = instanceBaru);
         }
 
-        // Fungsi bantuan untuk menghitung jumlah per jenis surat
         function prosesPerhitungan(dataSurat) {
             const hasilHitung = {};
             dataSurat.forEach(surat => {
@@ -2244,28 +2216,25 @@
             return hasilHitung;
         }
 
-        // Fungsi utama untuk menggambar menggunakan Chart.js
         function gambarGrafik(idKanvas, dataHitung, warna, grafikLama, simpanGrafikBaru) {
             const ctx = document.getElementById(idKanvas).getContext('2d');
             
-            // Hapus grafik lama jika ada (mencegah grafik saling menumpuk/berkedip saat di-refresh)
             if (grafikLama) {
                 grafikLama.destroy();
             }
 
-            // Pisahkan nama jenis surat (label) dan jumlahnya (nilai)
             const labelGrafik = Object.keys(dataHitung);
             const nilaiGrafik = Object.values(dataHitung);
 
             const chartBaru = new Chart(ctx, {
-                type: 'bar', // Anda bisa ganti 'bar' menjadi 'pie' atau 'line' jika mau
+                type: 'bar',
                 data: {
                     labels: labelGrafik,
                     datasets: [{
                         label: 'Jumlah Surat',
                         data: nilaiGrafik,
                         backgroundColor: warna,
-                        borderColor: warna.replace('0.6', '1'), // Bikin garis tepi sedikit lebih gelap
+                        borderColor: warna.replace('0.6', '1'),
                         borderWidth: 1
                     }]
                 },
@@ -2274,7 +2243,7 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: { stepSize: 1 } // Pastikan angka di samping adalah bilangan bulat (1, 2, 3...)
+                            ticks: { stepSize: 1 }
                         }
                     }
                 }
