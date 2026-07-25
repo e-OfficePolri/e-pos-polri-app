@@ -7,34 +7,24 @@
     
     <link rel="icon" type="image/png" href="Setum_Polri.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- CSS Tom Select untuk Dropdown bisa dicari -->
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    
-    <!-- JS Tom Select -->
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
-
-    <!-- JS Chart.js untuk Grafik -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- CSS Tambahan untuk Efek Blur, Menu Aktif, dan Avatar Inisial Otomatis -->
     <style>
         .modal-backdrop.show {
             backdrop-filter: blur(5px);
             background-color: rgba(0, 0, 0, 0.4);
         }
-
         .nav-pills .nav-link.active {
             background-color: #ffffff !important;
             color: #0d6efd !important;
         }
-
-        /* Styling untuk Avatar Lingkaran Otomatis (Inisial Nama) */
         .nav-profile-avatar {
             width: 35px;
             height: 35px;
@@ -49,8 +39,6 @@
             border: 2px solid #fff;
             text-transform: uppercase;
         }
-
-        /* Memastikan seluruh teks opsi dropdown menjadi huruf besar semua */
         select option {
             text-transform: uppercase;
         }
@@ -75,10 +63,10 @@
                 <div class="input-group">
                     <input type="password" id="password_login" class="form-control" placeholder="Masukkan password..." onkeydown="cekTombolEnter(event)" autocomplete="new-password" required>
                     <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password_login', 'icon_login')">
-                        <svg id="icon_login" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
-                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
-                            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
-                            <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
+                        <!-- Ikon Mata Tertutup Default (Slash) -->
+                        <svg id="icon_login" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                            <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588M5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                            <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
                         </svg>
                     </button>
                 </div>
@@ -124,10 +112,9 @@
                 <div class="input-group">
                     <input type="password" id="password_baru_pemulihan" class="form-control" placeholder="Minimal 6 karakter..." required>
                     <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password_baru_pemulihan', 'icon_pemulihan')">
-                        <svg id="icon_pemulihan" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
-                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
-                            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
-                            <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
+                        <svg id="icon_pemulihan" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                            <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588M5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                            <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
                         </svg>
                     </button>
                 </div>
@@ -144,7 +131,6 @@
     <div id="app_utama" class="d-none">
         <nav class="navbar navbar-dark bg-primary shadow-sm mb-4">
             <div class="container d-flex justify-content-between align-items-center">
-                <!-- Judul Aplikasi -->
                 <span class="navbar-brand mb-0 h1 d-flex align-items-center text-truncate" style="max-width: 70%;">
                     <img src="Setum_Polri.png" alt="Logo" style="height: 32px; width: auto;" class="me-2">
                     <span class="d-none d-sm-inline">Sistem Pengelolaan Surat - Setum Polri</span>
@@ -152,7 +138,6 @@
                 </span>
                 
                 <div class="d-flex align-items-center">
-                    <!-- MENU DESKTOP -->
                     <ul class="nav nav-pills me-3 d-none d-lg-flex">
                         <li class="nav-item">
                             <button class="nav-link text-white active fw-bold" id="btn_menu_beranda" onclick="gantiMenu('beranda')">Beranda</button>
@@ -168,7 +153,6 @@
                         </li>
                     </ul>
 
-                    <!-- PROFIL & DROPDOWN MENU -->
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUserNav" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="me-2 small fw-bold d-none d-md-inline" id="teks_selamat_datang">Hi, Selamat datang!</span>
@@ -188,8 +172,7 @@
         </nav>
 
         <div class="container mb-5">
-            
-            <!-- ================= SECTION: BERANDA (GRAFIK) ================= -->
+            <!-- ================= SECTION: BERANDA ================= -->
             <div id="section_beranda">
                 <div class="row">
                     <div class="col-md-6 mb-4">
@@ -202,7 +185,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-md-6 mb-4">
                         <div class="card shadow-sm h-100">
                             <div class="card-header bg-white py-3">
@@ -447,12 +429,10 @@
                             <button id="btn_simpan_masuk" class="btn btn-primary" onclick="simpanSurat('masuk')">Simpan Data Surat Masuk</button>
                             <button id="btn_batal_masuk" class="btn btn-secondary d-none" onclick="batalEdit('masuk')">Batal Edit</button>
                         </div>
-                        
                         <div id="pesan_masuk" class="mt-3 fw-bold"></div>
                     </div>
                 </div>
 
-                <!-- Tabel Data Surat Masuk -->
                 <div class="card shadow-sm">
                     <div class="card-header bg-white py-3">
                         <h5 class="mb-0 text-primary fw-bold">Daftar & Laporan Surat Masuk</h5>
@@ -498,9 +478,7 @@
                                         <th style="width: 10%;">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabel_masuk">
-                                    <!-- Data dimuat otomatis -->
-                                </tbody>
+                                <tbody id="tabel_masuk"></tbody>
                             </table>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-3">
@@ -742,12 +720,10 @@
                             <button id="btn_simpan_keluar" class="btn btn-success" onclick="simpanSurat('keluar')">Simpan Data Surat Keluar</button>
                             <button id="btn_batal_keluar" class="btn btn-secondary d-none" onclick="batalEdit('keluar')">Batal Edit</button>
                         </div>
-                        
                         <div id="pesan_keluar" class="mt-3 fw-bold"></div>
                     </div>
                 </div>
 
-                <!-- Tabel Data Surat Keluar -->
                 <div class="card shadow-sm">
                     <div class="card-header bg-white py-3">
                         <h5 class="mb-0 text-success fw-bold">Daftar & Laporan Surat Keluar</h5>
@@ -793,9 +769,7 @@
                                         <th style="width: 10%;">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabel_keluar">
-                                    <!-- Data dimuat otomatis -->
-                                </tbody>
+                                <tbody id="tabel_keluar"></tbody>
                             </table>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-3">
@@ -816,13 +790,11 @@
                         <input type="hidden" id="edit_user_id"> 
                         
                         <div class="row">
-                            <!-- Nama Lengkap -->
                             <div class="col-md-6 mb-3">
                                 <label for="nama_baru" class="form-label fw-bold">Nama Lengkap:</label>
                                 <input type="text" id="nama_baru" class="form-control" placeholder="Masukkan nama lengkap..." required>
                             </div>
 
-                            <!-- PANGKAT -->
                             <div class="col-md-6 mb-3">
                                 <label for="pangkat_baru" class="form-label fw-bold">Pangkat:</label>
                                 <select id="pangkat_baru" class="form-select searchable-select" required>
@@ -868,19 +840,16 @@
                                 </select>
                             </div>
 
-                            <!-- NRP / NIP (Diletakkan setelah Pangkat) -->
                             <div class="col-md-6 mb-3">
                                 <label for="nrp_nip_baru" class="form-label fw-bold">NRP / NIP:</label>
                                 <input type="text" id="nrp_nip_baru" class="form-control" placeholder="Masukkan NRP atau NIP..." required>
                             </div>
                             
-                            <!-- Email User -->
                             <div class="col-md-6 mb-3">
                                 <label for="email_baru" class="form-label fw-bold">Email User:</label>
                                 <input type="email" id="email_baru" class="form-control" placeholder="email@polri.go.id" required>
                             </div>
                         
-                            <!-- Satuan Kerja -->
                             <div class="col-md-6 mb-3">
                                 <label for="satker_baru" class="form-label fw-bold">Satuan Kerja:</label>
                                 <select id="satker_baru" class="form-select searchable-select" onchange="cekPilihanSatker()" required>
@@ -952,7 +921,6 @@
                                 </select>
                             </div>
 
-                            <!-- Subbag (Diletakkan setelah Satuan Kerja, dinamis muncul jika Setum Polri dipilih) -->
                             <div class="col-md-6 mb-3 d-none" id="wrapper_subbag_baru">
                                 <label for="subbag_baru" class="form-label fw-bold">Subbag:</label>
                                 <select id="subbag_baru" class="form-select searchable-select">
@@ -967,22 +935,19 @@
                                 </select>
                             </div>
                         
-                            <!-- Password Sementara -->
                             <div class="col-md-6 mb-3" id="wrapper_password_baru">
                                 <label for="password_baru" class="form-label fw-bold">Password Sementara:</label>
                                 <div class="input-group">
                                     <input type="password" id="password_baru" class="form-control" placeholder="Minimal 6 karakter" required>
                                     <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password_baru', 'icon_user_baru')">
-                                        <svg id="icon_user_baru" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
-                                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
-                                            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
-                                            <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
+                                        <svg id="icon_user_baru" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                            <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588M5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                                            <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
                                         </svg>
                                     </button>
                                 </div>
                             </div>
                             
-                            <!-- Pilih Role / Jabatan -->
                             <div class="col-md-6 mb-3">
                                 <label for="role_baru" class="form-label fw-bold">Pilih Role / Jabatan:</label>
                                 <select id="role_baru" class="form-select searchable-select" required>
@@ -1027,19 +992,16 @@
                                         <th id="kolom_aksi_user" class="d-none" style="width: 20%;">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabel_user">
-                                    <!-- Dimuat otomatis -->
-                                </tbody>
+                                <tbody id="tabel_user"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- ================= KOTAK DIALOG / MODAL KONFIRMASI KUSTOM ================= -->
+    <!-- ================= MODAL KONFIRMASI ================= -->
     <div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-labelledby="modalKonfirmasiLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg border-0">
@@ -1058,11 +1020,9 @@
         </div>
     </div>
 
-    <!-- Script Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // --- 1. KONEKSI SUPABASE ---
         const SUPABASE_URL = 'https://ttoavlqcwlvkykkmrlap.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0b2F2bHFjd2x2a3lra21ybGFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2NjQ0MzAsImV4cCI6MjEwMDI0MDQzMH0.vGInPpN5mnG2nMS2HiZYdKvhmMOMIuus4M-qSAYlXOI';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1077,7 +1037,6 @@
         let halamanMasukAktif = 1;
         let halamanKeluarAktif = 1;
 
-        // Inisialisasi Tom Select dengan mempertahankan urutan asli HTML
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.searchable-select').forEach((el) => {
                 let instance = new TomSelect(el, {
@@ -1087,7 +1046,6 @@
                 });
                 tomSelectInstances[el.id] = instance;
             });
-            
             cekStatusHalamanAwal();
         });
 
@@ -1097,17 +1055,12 @@
             
             if (hashValue.includes('error=access_denied') || hashValue.includes('error_code=') || queryParams.includes('error=access_denied')) {
                 sessionStorage.removeItem('sedangResetPassword');
-                try {
-                    await supabaseClient.auth.signOut(); 
-                } catch (e) {}
-                
+                try { await supabaseClient.auth.signOut(); } catch (e) {}
                 window.history.replaceState(null, null, window.location.pathname);
-                
                 document.getElementById('section_ubah_password').classList.add('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.add('d-none');
                 document.getElementById('section_login').classList.remove('d-none');
-                
                 const pesanLogin = document.getElementById('pesan_login');
                 pesanLogin.className = "mt-3 text-center small fw-bold text-danger";
                 pesanLogin.innerText = "Tautan reset password sudah kedaluwarsa atau sudah pernah digunakan. Silakan minta tautan baru.";
@@ -1118,9 +1071,7 @@
                 sessionStorage.setItem('sedangResetPassword', 'true');
             }
             
-            const sedangReset = sessionStorage.getItem('sedangResetPassword');
-            
-            if (sedangReset === 'true') {
+            if (sessionStorage.getItem('sedangResetPassword') === 'true') {
                 document.getElementById('section_login').classList.add('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.add('d-none');
@@ -1131,24 +1082,18 @@
             cekSesiPengguna();
         }
 
-        // --- 2. PEMANTAU AUTH STATE & SESI PENGGUNA ---
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
             const hashValue = window.location.hash;
             const queryParams = window.location.search;
 
             if (hashValue.includes('error=access_denied') || hashValue.includes('error_code=') || queryParams.includes('error=access_denied')) {
                 sessionStorage.removeItem('sedangResetPassword');
-                try {
-                    await supabaseClient.auth.signOut();
-                } catch (e) {}
-                
+                try { await supabaseClient.auth.signOut(); } catch (e) {}
                 window.history.replaceState(null, null, window.location.pathname);
-                
                 document.getElementById('section_ubah_password').classList.add('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.add('d-none');
                 document.getElementById('section_login').classList.remove('d-none');
-                
                 const pesanLogin = document.getElementById('pesan_login');
                 pesanLogin.className = "mt-3 text-center small fw-bold text-danger";
                 pesanLogin.innerText = "Tautan reset password sudah kedaluwarsa atau sudah pernah digunakan. Silakan minta tautan baru.";
@@ -1157,7 +1102,6 @@
 
             if (event === 'PASSWORD_RECOVERY') {
                 sessionStorage.setItem('sedangResetPassword', 'true');
-                
                 document.getElementById('section_login').classList.add('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.add('d-none');
@@ -1170,7 +1114,6 @@
                     document.getElementById('section_ubah_password').classList.remove('d-none');
                     return;
                 }
-
                 cekSesiPengguna(session);
             }
         });
@@ -1182,8 +1125,7 @@
                 session = res.data.session;
             }
             
-            const sedangReset = sessionStorage.getItem('sedangResetPassword');
-            if (sedangReset === 'true') {
+            if (sessionStorage.getItem('sedangResetPassword') === 'true') {
                 document.getElementById('section_login').classList.add('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.add('d-none');
@@ -1210,7 +1152,6 @@
                     const namaUser = profile.nama ? profile.nama.toUpperCase() : session.user.email.toUpperCase();
                     namaPenggunaAktif = pangkatUser + namaUser; 
                     sumberTeks = profile.nama || session.user.email;
-
                     document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${namaPenggunaAktif}!`;
                 } else {
                     rolePenggunaAktif = 'bamin_banum'; 
@@ -1219,10 +1160,9 @@
                     document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${session.user.email.toUpperCase()}!`;
                 }
 
-                const inisial = sumberTeks.charAt(0).toUpperCase();
-                document.getElementById('avatar_inisial_nav').innerText = inisial;
+                document.getElementById('avatar_inisial_nav').innerText = sumberTeks.charAt(0).toUpperCase();
 
-                if (rolePenggunaAktif === 'super_admin' || rolePenggunaAktif === 'admin' || rolePenggunaAktif === 'kasubbag') {
+                if (['super_admin', 'admin', 'kasubbag'].includes(rolePenggunaAktif)) {
                     document.getElementById('li_menu_user').classList.remove('d-none');
                     document.getElementById('li_menu_user_mobile').classList.remove('d-none');
                 } else {
@@ -1235,11 +1175,7 @@
                 tampilkanSurat('keluar');
                 
                 const menuTersimpan = localStorage.getItem('menuAktif');
-                if (menuTersimpan) {
-                    gantiMenu(menuTersimpan, false); 
-                } else {
-                    gantiMenu('beranda', false);
-                }
+                gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
             } else {
                 document.getElementById('section_login').classList.remove('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
@@ -1261,44 +1197,29 @@
             pesanEl.className = "mt-3 text-center small fw-bold text-primary";
             pesanEl.innerText = "Menyimpan password baru...";
 
-            const { error } = await supabaseClient.auth.updateUser({
-                password: passwordBaru
-            });
+            const { error } = await supabaseClient.auth.updateUser({ password: passwordBaru });
 
             if (error) {
                 pesanEl.className = "mt-3 text-center small fw-bold text-danger";
-                
-                if (error.message.includes("New password should be different from the old password")) {
-                    pesanEl.innerText = "Gagal mengubah password: Password baru harus berbeda dari password yang lama.";
-                } else if (error.message.includes("Auth session missing")) {
-                    pesanEl.innerText = "Gagal mengubah password: Sesi autentikasi tidak ditemukan atau sudah kedaluwarsa.";
-                } else {
-                    pesanEl.innerText = "Gagal mengubah password: " + error.message;
-                }
+                pesanEl.innerText = "Gagal mengubah password: " + error.message;
             } else {
                 pesanEl.className = "mt-3 text-center small fw-bold text-success";
                 pesanEl.innerText = "Berhasil mengubah password! Mengalihkan ke halaman masuk...";
-                
                 sessionStorage.removeItem('sedangResetPassword');
-                try {
-                    await supabaseClient.auth.signOut();
-                } catch (e) {}
-                
+                try { await supabaseClient.auth.signOut(); } catch (e) {}
                 setTimeout(() => {
                     window.history.replaceState(null, null, window.location.pathname);
                     document.getElementById('section_ubah_password').classList.add('d-none');
                     document.getElementById('section_login').classList.remove('d-none');
                     document.getElementById('pesan_login').className = "mt-3 text-center small fw-bold text-success";
-                    document.getElementById('pesan_login').innerText = "Password berhasil diubah! Silakan masuk dengan password baru Anda.";
+                    document.getElementById('pesan_login').innerText = "Password berhasil diubah! Silakan masuk dengan password baru.";
                 }, 2000);
             }
         }
 
         async function batalDanKeLogin() {
             sessionStorage.removeItem('sedangResetPassword');
-            try {
-                await supabaseClient.auth.signOut();
-            } catch (e) {}
+            try { await supabaseClient.auth.signOut(); } catch (e) {}
             window.history.replaceState(null, null, window.location.pathname);
             document.getElementById('section_ubah_password').classList.add('d-none');
             document.getElementById('section_login').classList.remove('d-none');
@@ -1318,46 +1239,30 @@
             pesanEl.className = "mt-3 text-center small fw-bold text-primary";
             pesanEl.innerText = "Memproses masuk...";
 
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
             if (error) {
                 pesanEl.className = "mt-3 text-center small fw-bold text-danger";
-                
-                if (error.message.includes("Invalid login credentials")) {
-                    pesanEl.innerText = "Gagal masuk: Email atau password Anda salah!";
-                } else if (error.message.includes("Email not confirmed")) {
-                    pesanEl.innerText = "Gagal masuk: Email belum dikonfirmasi.";
-                } else {
-                    pesanEl.innerText = "Gagal masuk: " + error.message;
-                }
+                pesanEl.innerText = "Gagal masuk: Email atau password Anda salah!";
             } else {
                 pesanEl.className = "mt-3 text-center small fw-bold text-success";
                 pesanEl.innerText = "Berhasil masuk! Memuat aplikasi...";
                 localStorage.setItem('menuAktif', 'beranda');
-                setTimeout(() => {
-                    cekSesiPengguna();
-                }, 1500);
+                setTimeout(() => cekSesiPengguna(), 1500);
             }
         }
 
         function gantiTampilanAuth(tujuan) {
-            const secLogin = document.getElementById('section_login');
-            const secLupa = document.getElementById('section_lupa_password');
-            const secUbah = document.getElementById('section_ubah_password');
-            
-            secLogin.classList.add('d-none');
-            secLupa.classList.add('d-none');
-            secUbah.classList.add('d-none');
+            document.getElementById('section_login').classList.add('d-none');
+            document.getElementById('section_lupa_password').classList.add('d-none');
+            document.getElementById('section_ubah_password').classList.add('d-none');
 
             if (tujuan === 'lupa') {
-                secLupa.classList.remove('d-none');
+                document.getElementById('section_lupa_password').classList.remove('d-none');
                 document.getElementById('pesan_lupa').innerText = '';
                 document.getElementById('email_lupa').value = '';
             } else {
-                secLogin.classList.remove('d-none');
+                document.getElementById('section_login').classList.remove('d-none');
                 document.getElementById('pesan_login').innerText = '';
             }
         }
@@ -1375,10 +1280,8 @@
             pesanEl.className = "mt-3 text-center small fw-bold text-primary";
             pesanEl.innerText = "Mengirim tautan pemulihan...";
 
-            const redirectUrl = window.location.origin + window.location.pathname;
-
             const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-                redirectTo: redirectUrl,
+                redirectTo: window.location.origin + window.location.pathname,
             });
 
             if (error) {
@@ -1391,72 +1294,53 @@
         }
 
         function cekTombolEnter(event) {
-            if (event.key === 'Enter') {
-                prosesLogin();
-            }
+            if (event.key === 'Enter') prosesLogin();
         }
 
         function konfirmasiLogout() {
-            tampilkanModalKonfirmasi("Apakah Anda yakin ingin keluar dari aplikasi?", function() {
-                eksekusiLogout();
-            });
+            tampilkanModalKonfirmasi("Apakah Anda yakin ingin keluar dari aplikasi?", eksekusiLogout);
         }
 
         async function eksekusiLogout() {
-            const { error } = await supabaseClient.auth.signOut();
-            if (error) {
-                alert("Gagal keluar: " + error.message);
-            } else {
-                document.getElementById('email_login').value = '';
-                document.getElementById('password_login').value = '';
-                window.location.reload();
-            }
+            await supabaseClient.auth.signOut();
+            window.location.reload();
         }
 
-        // --- FUNGSI TOGGLE LIHAT/SEMBUNYIKAN PASSWORD (DENGAN IKON YANG LEBIH BERSIH & RAPI) ---
+        // --- FUNGSI TOGGLE LIHAT/SEMBUNYIKAN PASSWORD (DENGAN IKON SVG STANDAR YANG BERSIH) ---
         function togglePassword(idInput, idIcon) {
             const inputEl = document.getElementById(idInput);
             const iconEl = document.getElementById(idIcon);
             
             if (inputEl.type === "password") {
                 inputEl.type = "text";
-                // Ikon Mata Terbuka yang Bersih
+                // Ikon Mata Terbuka (Bootstrap eye-fill)
                 iconEl.innerHTML = `
-                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
-                    <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                 `;
             } else {
                 inputEl.type = "password";
-                // Ikon Mata Tertutup / Slash yang Rapi
+                // Ikon Mata Tertutup (Bootstrap eye-slash-fill)
                 iconEl.innerHTML = `
-                    <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A6.094 6.094 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755l.191.195z"/>
-                    <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.828 2.828l.823.823z"/>
-                    <path d="M3.35 5.47c-.33.316-.663.68-.986 1.086C1.06 9.72 0 12 0 12s3 5.5 8 5.5c1.455 0 2.747-.358 3.854-.925l-1.077-1.077A6.538 6.538 0 0 1 8 16c-4.411 0-7.393-3.342-8-4 1.252-1.405 3.487-3.323 5.253-4.145l-1.903-1.903z"/>
+                    <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588M5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                    <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
                 `;
             }
         }
 
-        // --- FUNGSI KONDISIONAL SUBBAG BERDASARKAN SATKER ---
         function cekPilihanSatker() {
             const satkerEl = document.getElementById('satker_baru');
             const wrapperSubbag = document.getElementById('wrapper_subbag_baru');
-            const subbagEl = document.getElementById('subbag_baru');
-
             const nilaiSatker = tomSelectInstances['satker_baru'] ? tomSelectInstances['satker_baru'].getValue() : satkerEl.value;
 
             if (nilaiSatker === "Setum Polri") {
                 wrapperSubbag.classList.remove('d-none');
             } else {
                 wrapperSubbag.classList.add('d-none');
-                if (tomSelectInstances['subbag_baru']) {
-                    tomSelectInstances['subbag_baru'].clear();
-                } else {
-                    subbagEl.value = "";
-                }
+                if (tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].clear();
             }
         }
 
-        // --- CRUD MANAJEMEN USER ---
         async function simpanUser() {
             const editId = document.getElementById('edit_user_id').value;
             const nama = document.getElementById('nama_baru').value; 
@@ -1471,14 +1355,8 @@
             if (editId) {
                 pesanEl.className = "mt-3 fw-bold text-primary";
                 pesanEl.innerText = "Memperbarui data user...";
-
                 const { error } = await supabaseClient.from('profiles').update({ 
-                    nama: nama, 
-                    pangkat: pangkat, 
-                    nrp_nip: nrpNip, 
-                    role: role, 
-                    satker: satker, 
-                    subbag: satker === "Setum Polri" ? subbag : null 
+                    nama, pangkat, nrp_nip: nrpNip, role, satker, subbag: satker === "Setum Polri" ? subbag : null 
                 }).eq('id', editId);
                 
                 if (error) {
@@ -1496,30 +1374,17 @@
                     alert("Semua kolom wajib diisi untuk membuat akun baru!");
                     return;
                 }
-
                 pesanEl.className = "mt-3 fw-bold text-primary";
                 pesanEl.innerText = "Membuat akun baru...";
 
                 const { data, error } = await supabaseClient.auth.signUp({ email, password });
-
                 if (error) {
                     pesanEl.className = "mt-3 fw-bold text-danger";
                     pesanEl.innerText = "Gagal membuat user: " + error.message;
                 } else if (data && data.user) {
-                    const userId = data.user.id;
-                    const { error: profileError } = await supabaseClient.from('profiles').insert([
-                        { 
-                            id: userId, 
-                            nama: nama, 
-                            pangkat: pangkat, 
-                            nrp_nip: nrpNip, 
-                            email: email, 
-                            role: role, 
-                            satker: satker, 
-                            subbag: satker === "Setum Polri" ? subbag : null 
-                        }
-                    ]);
-
+                    const { error: profileError } = await supabaseClient.from('profiles').insert([{ 
+                        id: data.user.id, nama, pangkat, nrp_nip: nrpNip, email, role, satker, subbag: satker === "Setum Polri" ? subbag : null 
+                    }]);
                     if (profileError) {
                         pesanEl.className = "mt-3 fw-bold text-danger";
                         pesanEl.innerText = "Gagal menyimpan profil: " + profileError.message;
@@ -1536,74 +1401,36 @@
         function editUser(id, nama, pangkat, nrpNip, email, role, satker, subbag) {
             document.getElementById('edit_user_id').value = id;
             document.getElementById('nama_baru').value = nama; 
-            
-            if(tomSelectInstances['pangkat_baru']) {
-                tomSelectInstances['pangkat_baru'].setValue(pangkat || '');
-            } else {
-                document.getElementById('pangkat_baru').value = pangkat || '';
-            }
-
+            if(tomSelectInstances['pangkat_baru']) tomSelectInstances['pangkat_baru'].setValue(pangkat || '');
             document.getElementById('nrp_nip_baru').value = nrpNip || '';
             document.getElementById('email_baru').value = email;
             document.getElementById('email_baru').disabled = true;
             document.getElementById('wrapper_password_baru').classList.add('d-none');
-            
-            if(tomSelectInstances['role_baru']) {
-                tomSelectInstances['role_baru'].setValue(role ? role.toLowerCase() : '');
-            } else {
-                document.getElementById('role_baru').value = role ? role.toLowerCase() : '';
-            }
-
-            if(tomSelectInstances['satker_baru']) {
-                tomSelectInstances['satker_baru'].setValue(satker || '');
-            } else {
-                document.getElementById('satker_baru').value = satker || '';
-            }
-
+            if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].setValue(role ? role.toLowerCase() : '');
+            if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].setValue(satker || '');
             cekPilihanSatker();
-
-            if (satker === "Setum Polri") {
-                if(tomSelectInstances['subbag_baru']) {
-                    tomSelectInstances['subbag_baru'].setValue(subbag || '');
-                } else {
-                    document.getElementById('subbag_baru').value = subbag || '';
-                }
+            if (satker === "Setum Polri" && tomSelectInstances['subbag_baru']) {
+                tomSelectInstances['subbag_baru'].setValue(subbag || '');
             }
-
             document.getElementById('judul_form_user').innerText = "Edit Data User";
             document.getElementById('btn_simpan_user').innerText = "Perbarui Data";
             document.getElementById('btn_batal_user').classList.remove('d-none');
-            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function batalEditUser() {
             document.getElementById('edit_user_id').value = '';
             document.getElementById('nama_baru').value = ''; 
-            
             if(tomSelectInstances['pangkat_baru']) tomSelectInstances['pangkat_baru'].clear();
-
             document.getElementById('nrp_nip_baru').value = '';
             document.getElementById('email_baru').value = '';
             document.getElementById('email_baru').disabled = false;
             document.getElementById('password_baru').value = '';
             document.getElementById('wrapper_password_baru').classList.remove('d-none');
-            
-            if(tomSelectInstances['role_baru']) {
-                tomSelectInstances['role_baru'].clear();
-            } else {
-                document.getElementById('role_baru').value = '';
-            }
-
-            if(tomSelectInstances['satker_baru']) {
-                tomSelectInstances['satker_baru'].clear();
-            } else {
-                document.getElementById('satker_baru').value = '';
-            }
-
+            if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].clear();
+            if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].clear();
             document.getElementById('wrapper_subbag_baru').classList.add('d-none');
             if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].clear();
-
             document.getElementById('judul_form_user').innerText = "Formulir Tambah User Baru";
             document.getElementById('btn_simpan_user').innerText = "Buat Akun User Baru";
             document.getElementById('btn_batal_user').classList.add('d-none');
@@ -1611,33 +1438,23 @@
         }
 
         function konfirmasiHapusUser(id) {
-            tampilkanModalKonfirmasi("Yakin ingin menghapus profil ini? Akses user ke sistem akan dicabut.", function() {
-                eksekusiHapusUser(id);
-            });
+            tampilkanModalKonfirmasi("Yakin ingin menghapus profil ini? Akses user ke sistem akan dicabut.", () => eksekusiHapusUser(id));
         }
 
         async function eksekusiHapusUser(id) {
             const { error } = await supabaseClient.from('profiles').delete().eq('id', id);
-            
-            if (error) {
-                alert("Gagal menghapus profil: " + error.message);
-            } else {
-                tampilkanDaftarUser();
-            }
+            if (error) alert("Gagal menghapus profil: " + error.message);
+            else tampilkanDaftarUser();
         }
 
         async function tampilkanDaftarUser() {
             const { data, error } = await supabaseClient.from('profiles').select('*');
             const tbody = document.getElementById('tabel_user');
             const kolomAksi = document.getElementById('kolom_aksi_user');
-            
             tbody.innerHTML = '';
 
-            if (rolePenggunaAktif === 'super_admin') {
-                kolomAksi.classList.remove('d-none');
-            } else {
-                kolomAksi.classList.add('d-none');
-            }
+            if (rolePenggunaAktif === 'super_admin') kolomAksi.classList.remove('d-none');
+            else kolomAksi.classList.add('d-none');
 
             if (error || !data) {
                 tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Gagal memuat data user.</td></tr>`;
@@ -1654,63 +1471,49 @@
                         </td>
                     `;
                 }
-
                 const pangkatNama = (usr.pangkat ? usr.pangkat + ' ' : '') + (usr.nama || '-');
-                const roleFormatted = usr.role ? usr.role.toLowerCase() : '-';
-                const satkerSubbag = (usr.satker || '-') + (usr.subbag ? ' / ' + usr.subbag : '');
-
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${idx + 1}</td>
                         <td class="fw-bold text-uppercase">${pangkatNama}</td>
                         <td class="text-center">${usr.nrp_nip || '-'}</td>
                         <td class="text-lowercase">${usr.email}</td>
-                        <td class="text-center"><span class="badge bg-secondary text-lowercase">${roleFormatted}</span></td>
-                        <td class="text-center text-uppercase">${satkerSubbag}</td>
+                        <td class="text-center"><span class="badge bg-secondary text-lowercase">${usr.role || '-'}</span></td>
+                        <td class="text-center text-uppercase">${usr.satker || '-'}${usr.subbag ? ' / ' + usr.subbag : ''}</td>
                         ${aksiHTML}
                     </tr>
                 `;
             });
         }
 
-        // --- NAVIGASI MENU ---
         function gantiMenu(menu, simpanKeStorage = true) {
-            const sectionBeranda = document.getElementById('section_beranda');
-            const sectionMasuk = document.getElementById('section_surat_masuk');
-            const sectionKeluar = document.getElementById('section_surat_keluar');
-            const sectionUser = document.getElementById('section_manajemen_user');
+            ['beranda', 'surat_masuk', 'surat_keluar', 'manajemen_user'].forEach(m => {
+                let secId = m === 'surat_masuk' ? 'section_surat_masuk' : (m === 'surat_keluar' ? 'section_surat_keluar' : (m === 'manajemen_user' ? 'section_manajemen_user' : 'section_beranda'));
+                document.getElementById(secId).classList.add('d-none');
+            });
 
-            const btnBeranda = document.getElementById('btn_menu_beranda');
-            const btnMasuk = document.getElementById('btn_menu_masuk');
-            const btnKeluar = document.getElementById('btn_menu_keluar');
-            const btnUser = document.getElementById('btn_menu_user');
-
-            sectionBeranda.classList.add('d-none');
-            sectionMasuk.classList.add('d-none');
-            sectionKeluar.classList.add('d-none');
-            sectionUser.classList.add('d-none');
-
-            btnBeranda.classList.remove('active');
-            btnMasuk.classList.remove('active');
-            btnKeluar.classList.remove('active');
-            if(btnUser) btnUser.classList.remove('active');
+            ['beranda', 'masuk', 'keluar', 'user'].forEach(m => {
+                let btnId = m === 'masuk' ? 'btn_menu_masuk' : (m === 'keluar' ? 'btn_menu_keluar' : (m === 'user' ? 'btn_menu_user' : 'btn_menu_beranda'));
+                let btn = document.getElementById(btnId);
+                if(btn) btn.classList.remove('active');
+            });
 
             if (menu === 'beranda') {
-                sectionBeranda.classList.remove('d-none');
-                btnBeranda.classList.add('active');
+                document.getElementById('section_beranda').classList.remove('d-none');
+                document.getElementById('btn_menu_beranda').classList.add('active');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'beranda');
-                muatDataGrafik(); 
+                muatDataGrafik();
             } else if (menu === 'masuk') {
-                sectionMasuk.classList.remove('d-none');
-                btnMasuk.classList.add('active'); 
+                document.getElementById('section_surat_masuk').classList.remove('d-none');
+                document.getElementById('btn_menu_masuk').classList.add('active');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'masuk');
             } else if (menu === 'keluar') {
-                sectionKeluar.classList.remove('d-none');
-                btnKeluar.classList.add('active'); 
+                document.getElementById('section_surat_keluar').classList.remove('d-none');
+                document.getElementById('btn_menu_keluar').classList.add('active');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'keluar');
             } else if (menu === 'user') {
-                sectionUser.classList.remove('d-none');
-                btnUser.classList.add('active'); 
+                document.getElementById('section_manajemen_user').classList.remove('d-none');
+                document.getElementById('btn_menu_user').classList.add('active');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'user');
                 tampilkanDaftarUser();
             }
@@ -1720,10 +1523,8 @@
             const sekarang = new Date();
             sekarang.setMinutes(sekarang.getMinutes() - sekarang.getTimezoneOffset());
             const tanggalLokal = sekarang.toISOString().slice(0, 10);
-            
             document.getElementById('tanggal_masuk').value = tanggalLokal;
             document.getElementById('waktu_tersembunyi_masuk').value = '';
-
             document.getElementById('tanggal_keluar').value = tanggalLokal;
             document.getElementById('waktu_tersembunyi_keluar').value = '';
         }
@@ -1736,23 +1537,17 @@
                 if (bagian.length === 2) {
                     const tanggal = bagian[0].split('-'); 
                     const jam = bagian[1].substring(0, 5); 
-                    if (tanggal.length === 3) {
-                        return `${tanggal[2]}/${tanggal[1]}/${tanggal[0]} ${jam}`;
-                    }
+                    if (tanggal.length === 3) return `${tanggal[2]}/${tanggal[1]}/${tanggal[0]} ${jam}`;
                 }
                 return tanggalInput; 
-            } catch (error) {
-                return tanggalInput;
-            }
+            } catch (error) { return tanggalInput; }
         }
 
         function cekPilihanPengirim(tipe) {
             const selectEl = document.getElementById(`pengirim_${tipe}`);
-            const pilihan = selectEl.value;
             const wrapperLain = document.getElementById(`wrapper_pengirim_lain_${tipe}`);
             const inputLain = document.getElementById(`pengirim_lain_${tipe}`);
-
-            if (pilihan === "Instansi Luar") {
+            if (selectEl.value === "Instansi Luar") {
                 wrapperLain.classList.remove('d-none');
                 inputLain.focus();
             } else {
@@ -1767,12 +1562,8 @@
             const tglSampai = document.getElementById(`sampai_${tipe}`).value;
             const btnReset = document.getElementById(`btn_reset_${tipe}`);
 
-            if (keyword.trim() !== "" || tglMulai !== "" || tglSampai !== "") {
-                btnReset.classList.remove('d-none');
-            } else {
-                btnReset.classList.add('d-none');
-            }
-
+            if (keyword.trim() !== "" || tglMulai !== "" || tglSampai !== "") btnReset.classList.remove('d-none');
+            else btnReset.classList.add('d-none');
             tampilkanSurat(tipe);
         }
 
@@ -1794,56 +1585,24 @@
             const tujuanSurat = document.getElementById(`tujuan_${tipe}`).value;
             const perihalSurat = document.getElementById(`perihal_${tipe}`).value;
 
-            let pengirimFinal = pilihanPengirim;
-            if (pilihanPengirim === "Instansi Luar") {
-                pengirimFinal = inputPengirimLain;
-            }
-
+            let pengirimFinal = pilihanPengirim === "Instansi Luar" ? inputPengirimLain : pilihanPengirim;
             const sekarang = new Date();
-            const jam = String(sekarang.getHours()).padStart(2, '0');
-            const menit = String(sekarang.getMinutes()).padStart(2, '0');
-            const detik = String(sekarang.getSeconds()).padStart(2, '0');
-            
-            let tanggalFinal = tanggalInput;
-            if (tanggalInput) {
-                tanggalFinal = `${tanggalInput}T${jam}:${menit}:${detik}`;
-            }
+            let tanggalFinal = tanggalInput ? `${tanggalInput}T${String(sekarang.getHours()).padStart(2, '0')}:${String(sekarang.getMinutes()).padStart(2, '0')}:${String(sekarang.getSeconds()).padStart(2, '0')}` : tanggalInput;
 
-            if (!jenisSurat) { alert("Peringatan: Jenis Surat belum dipilih!"); return; }
-            if (!nomorSurat) { alert("Peringatan: Nomor Surat belum diisi!"); return; }
-            if (!tanggalInput) { alert("Peringatan: Tanggal belum dipilih!"); return; }
-            if (!pilihanPengirim) { alert("Peringatan: Pengirim belum dipilih!"); return; }
-            if (pilihanPengirim === "Instansi Luar" && !inputPengirimLain) { alert("Peringatan: Silakan masukan pengirim disini!"); return; }
-            if (!tujuanSurat) { alert("Peringatan: Tujuan belum dipilih!"); return; }
-            if (!perihalSurat) { alert("Peringatan: Perihal belum diisi!"); return; }
+            if (!jenisSurat || !nomorSurat || !tanggalInput || !pilihanPengirim || (pilihanPengirim === "Instansi Luar" && !inputPengirimLain) || !tujuanSurat || !perihalSurat) {
+                alert("Mohon lengkapi semua data formulir surat!");
+                return;
+            }
 
             const namaTabel = tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar';
             const pesanEl = document.getElementById(`pesan_${tipe}`);
             pesanEl.className = "mt-3 fw-bold text-primary";
             pesanEl.innerText = "Sedang menyimpan data...";
 
-            let dataYangDisimpan = { 
-                jenis_surat: jenisSurat,
-                nomor_surat: nomorSurat, 
-                tanggal_diterima: tanggalFinal, 
-                pengirim: pengirimFinal, 
-                tujuan: tujuanSurat,
-                perihal: perihalSurat,
-                petugas: namaPenggunaAktif 
-            };
-
-            let dbError = null;
-
-            if (editId) {
-                const { error } = await supabaseClient.from(namaTabel).update(dataYangDisimpan).eq('id', editId);
-                dbError = error;
-            } else {
-                const { error } = await supabaseClient.from(namaTabel).insert([dataYangDisimpan]);
-                dbError = error;
-            }
+            let dataSimpan = { jenis_surat: jenisSurat, nomor_surat: nomorSurat, tanggal_diterima: tanggalFinal, pengirim: pengirimFinal, tujuan: tujuanSurat, perihal: perihalSurat, petugas: namaPenggunaAktif };
+            let dbError = editId ? (await supabaseClient.from(namaTabel).update(dataSimpan).eq('id', editId)).error : (await supabaseClient.from(namaTabel).insert([dataSimpan])).error;
 
             if (dbError) {
-                console.error("Masalah database:", dbError);
                 pesanEl.className = "mt-3 fw-bold text-danger";
                 pesanEl.innerText = "Gagal menyimpan data ke database!";
             } else {
@@ -1859,56 +1618,34 @@
             const keyword = document.getElementById(`cari_${tipe}`).value;
             const tanggalMulai = document.getElementById(`mulai_${tipe}`).value;
             const tanggalSampai = document.getElementById(`sampai_${tipe}`).value;
-            
             let halamanAktif = tipe === 'masuk' ? halamanMasukAktif : halamanKeluarAktif;
 
             let queryCount = supabaseClient.from(namaTabel).select('*', { count: 'exact', head: true });
-            if (keyword) {
-                queryCount = queryCount.or(`nomor_surat.ilike.%${keyword}%,pengirim.ilike.%${keyword}%,tujuan.ilike.%${keyword}%,jenis_surat.ilike.%${keyword}%,petugas.ilike.%${keyword}%`);
-            }
-            if (tanggalMulai) {
-                queryCount = queryCount.gte('tanggal_diterima', tanggalMulai);
-            }
-            if (tanggalSampai) {
-                queryCount = queryCount.lte('tanggal_diterima', tanggalSampai + 'T23:59:59');
-            }
-            const { count, error: countError } = await queryCount;
-            if (countError) { console.error("Gagal menghitung data:", countError); return; }
-
+            if (keyword) queryCount = queryCount.or(`nomor_surat.ilike.%${keyword}%,pengirim.ilike.%${keyword}%,tujuan.ilike.%${keyword}%,jenis_surat.ilike.%${keyword}%,petugas.ilike.%${keyword}%`);
+            if (tanggalMulai) queryCount = queryCount.gte('tanggal_diterima', tanggalMulai);
+            if (tanggalSampai) queryCount = queryCount.lte('tanggal_diterima', tanggalSampai + 'T23:59:59');
+            
+            const { count } = await queryCount;
             const totalData = count || 0;
             const totalHalaman = Math.ceil(totalData / barisPerHalaman) || 1;
-
             if (halamanAktif > totalHalaman) halamanAktif = totalHalaman;
             if (halamanAktif < 1) halamanAktif = 1;
-
-            if (tipe === 'masuk') halamanMasukAktif = halamanAktif;
-            else halamanKeluarAktif = halamanAktif;
+            if (tipe === 'masuk') halamanMasukAktif = halamanAktif; else halamanKeluarAktif = halamanAktif;
 
             const dariIndex = (halamanAktif - 1) * barisPerHalaman;
-            const sampaiIndex = dariIndex + barisPerHalaman - 1;
+            let query = supabaseClient.from(namaTabel).select('*').order('dibuat_pada', { ascending: false }).range(dariIndex, dariIndex + barisPerHalaman - 1);
 
-            let query = supabaseClient.from(namaTabel).select('*').order('dibuat_pada', { ascending: false }).range(dariIndex, sampaiIndex);
+            if (keyword) query = query.or(`nomor_surat.ilike.%${keyword}%,pengirim.ilike.%${keyword}%,tujuan.ilike.%${keyword}%,jenis_surat.ilike.%${keyword}%,petugas.ilike.%${keyword}%`);
+            if (tanggalMulai) query = query.gte('tanggal_diterima', tanggalMulai);
+            if (tanggalSampai) query = query.lte('tanggal_diterima', tanggalSampai + 'T23:59:59');
 
-            if (keyword) {
-                query = query.or(`nomor_surat.ilike.%${keyword}%,pengirim.ilike.%${keyword}%,tujuan.ilike.%${keyword}%,jenis_surat.ilike.%${keyword}%,petugas.ilike.%${keyword}%`);
-            }
-            if (tanggalMulai) {
-                query = query.gte('tanggal_diterima', tanggalMulai);
-            }
-            if (tanggalSampai) {
-                query = query.lte('tanggal_diterima', tanggalSampai + 'T23:59:59'); 
-            }
-
-            const { data, error } = await query;
-            if (error) { console.error("Gagal mengambil data:", error); return; }
-
-            if (tipe === 'masuk') dataMasukTerakhir = data;
-            else dataKeluarTerakhir = data;
+            const { data } = await query;
+            if (tipe === 'masuk') dataMasukTerakhir = data || []; else dataKeluarTerakhir = data || [];
 
             const tbody = document.getElementById(`tabel_${tipe}`);
             tbody.innerHTML = ''; 
 
-            if (data.length === 0) {
+            if (!data || data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="9" class="text-center py-3 text-muted">Tidak ada data surat yang ditemukan.</td></tr>`;
                 document.getElementById(`info_halaman_${tipe}`).innerText = "Menampilkan 0 dari 0 data";
                 document.getElementById(`navigasi_halaman_${tipe}`).innerHTML = "";
@@ -1916,16 +1653,9 @@
             }
 
             data.forEach((surat, index) => {
-                const nomorUrut = dariIndex + index + 1;
-                
-                const isiTombol = `
-                    <button class="btn btn-warning btn-sm mb-1 w-100" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
-                    <button class="btn btn-danger btn-sm w-100" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
-                `;
-
-                const baris = `
+                tbody.innerHTML += `
                     <tr>
-                        <td class="text-center">${nomorUrut}</td>
+                        <td class="text-center">${dariIndex + index + 1}</td>
                         <td>${surat.jenis_surat || '-'}</td>
                         <td>${surat.nomor_surat}</td>
                         <td class="text-center">${formatTanggalWaktu(surat.tanggal_diterima)}</td>
@@ -1933,48 +1663,30 @@
                         <td>${surat.tujuan || '-'}</td>
                         <td>${surat.perihal}</td>
                         <td class="text-center"><span class="badge bg-info text-dark">${surat.petugas || '-'}</span></td>
-                        <td class="text-center">${isiTombol}</td>
+                        <td class="text-center">
+                            <button class="btn btn-warning btn-sm mb-1 w-100" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
+                            <button class="btn btn-danger btn-sm w-100" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
+                        </td>
                     </tr>
                 `;
-                tbody.innerHTML += baris;
             });
-
             renderPagination(tipe, halamanAktif, totalHalaman, totalData);
         }
 
         function renderPagination(tipe, halamanAktif, totalHalaman, totalData) {
-            const infoEl = document.getElementById(`info_halaman_${tipe}`);
-            const navEl = document.getElementById(`navigasi_halaman_${tipe}`);
-            
             const dariData = totalData === 0 ? 0 : ((halamanAktif - 1) * barisPerHalaman) + 1;
-            const sampaiData = Math.min(halamanAktif * barisPerHalaman, totalData);
-            infoEl.innerText = `Menampilkan ${dariData} - ${sampaiData} dari ${totalData} data`;
+            document.getElementById(`info_halaman_${tipe}`).innerText = `Menampilkan ${dariData} - ${Math.min(halamanAktif * barisPerHalaman, totalData)} dari ${totalData} data`;
 
-            let htmlNav = '';
-            
-            htmlNav += `<li class="page-item ${halamanAktif === 1 ? 'disabled' : ''}">
-                            <button class="page-link" onclick="gantiHalaman('${tipe}', ${halamanAktif - 1})">Sebelumnya</button>
-                        </li>`;
-
+            let htmlNav = `<li class="page-item ${halamanAktif === 1 ? 'disabled' : ''}"><button class="page-link" onclick="gantiHalaman('${tipe}', ${halamanAktif - 1})">Sebelumnya</button></li>`;
             for (let i = 1; i <= totalHalaman; i++) {
-                htmlNav += `<li class="page-item ${halamanAktif === i ? 'active' : ''}">
-                                <button class="page-link" onclick="gantiHalaman('${tipe}', ${i})">${i}</button>
-                            </li>`;
+                htmlNav += `<li class="page-item ${halamanAktif === i ? 'active' : ''}"><button class="page-link" onclick="gantiHalaman('${tipe}', ${i})">${i}</button></li>`;
             }
-
-            htmlNav += `<li class="page-item ${halamanAktif === totalHalaman ? 'disabled' : ''}">
-                            <button class="page-link" onclick="gantiHalaman('${tipe}', ${halamanAktif + 1})">Berikutnya</button>
-                        </li>`;
-
-            navEl.innerHTML = htmlNav;
+            htmlNav += `<li class="page-item ${halamanAktif === totalHalaman ? 'disabled' : ''}"><button class="page-link" onclick="gantiHalaman('${tipe}', ${halamanAktif + 1})">Berikutnya</button></li>`;
+            document.getElementById(`navigasi_halaman_${tipe}`).innerHTML = htmlNav;
         }
 
         function gantiHalaman(tipe, halamanBaru) {
-            if (tipe === 'masuk') {
-                halamanMasukAktif = halamanBaru;
-            } else {
-                halamanKeluarAktif = halamanBaru;
-            }
+            if (tipe === 'masuk') halamanMasukAktif = halamanBaru; else halamanKeluarAktif = halamanBaru;
             tampilkanSurat(tipe);
         }
 
@@ -1982,85 +1694,48 @@
             document.getElementById('teksPesanKonfirmasi').innerText = pesan;
             const modalEl = document.getElementById('modalKonfirmasi');
             const modalInstance = new bootstrap.Modal(modalEl);
-            
             const btnYa = document.getElementById('btnKonfirmasiYa');
             const btnBaru = btnYa.cloneNode(true);
             btnYa.parentNode.replaceChild(btnBaru, btnYa);
-
-            btnBaru.addEventListener('click', function() {
-                modalInstance.hide();
-                fungsiEksekusi();
-            });
-
+            btnBaru.addEventListener('click', () => { modalInstance.hide(); fungsiEksekusi(); });
             modalInstance.show();
         }
 
         function konfirmasiEdit(tipe, idSurat) {
-            tampilkanModalKonfirmasi("Apakah anda ingin mengubah data ini?", function() {
-                eksekusiEdit(tipe, idSurat);
-            });
+            tampilkanModalKonfirmasi("Apakah anda ingin mengubah data ini?", () => eksekusiEdit(tipe, idSurat));
         }
 
         function konfirmasiHapus(tipe, idSurat) {
-            tampilkanModalKonfirmasi("Apakah Anda yakin ingin menghapus data surat ini?", function() {
-                eksekusiHapus(tipe, idSurat);
-            });
+            tampilkanModalKonfirmasi("Apakah Anda yakin ingin menghapus data surat ini?", () => eksekusiHapus(tipe, idSurat));
         }
 
         function eksekusiEdit(tipe, idSurat) {
-            const dataSumber = tipe === 'masuk' ? dataMasukTerakhir : dataKeluarTerakhir;
-            const surat = dataSumber.find(s => s.id === idSurat);
-            
+            const surat = (tipe === 'masuk' ? dataMasukTerakhir : dataKeluarTerakhir).find(s => s.id === idSurat);
             if (surat) {
                 document.getElementById(`edit_id_${tipe}`).value = surat.id;
-                
-                if(tomSelectInstances[`jenis_surat_${tipe}`]) {
-                    tomSelectInstances[`jenis_surat_${tipe}`].setValue(surat.jenis_surat || '');
-                } else {
-                    document.getElementById(`jenis_surat_${tipe}`).value = surat.jenis_surat || '';
-                }
-
+                if(tomSelectInstances[`jenis_surat_${tipe}`]) tomSelectInstances[`jenis_surat_${tipe}`].setValue(surat.jenis_surat || '');
                 document.getElementById(`nomor_surat_${tipe}`).value = surat.nomor_surat;
                 
-                let tanggalDiterimaValue = surat.tanggal_diterima || '';
-                if (tanggalDiterimaValue) {
-                    tanggalDiterimaValue = tanggalDiterimaValue.split('.')[0].replace('Z', '');
-                    const parts = tanggalDiterimaValue.split('T');
-                    document.getElementById(`tanggal_${tipe}`).value = parts[0] || '';
-                }
+                let tglVal = surat.tanggal_diterima ? surat.tanggal_diterima.split('.')[0].replace('Z', '').split('T')[0] : '';
+                document.getElementById(`tanggal_${tipe}`).value = tglVal || '';
                 
                 const selectPengirimEl = document.getElementById(`pengirim_${tipe}`);
-                let opsiAda = Array.from(selectPengirimEl.options).some(option => option.value === surat.pengirim);
-
+                let opsiAda = Array.from(selectPengirimEl.options).some(o => o.value === surat.pengirim);
                 if (opsiAda) {
-                    if(tomSelectInstances[`pengirim_${tipe}`]) {
-                        tomSelectInstances[`pengirim_${tipe}`].setValue(surat.pengirim);
-                    } else {
-                        selectPengirimEl.value = surat.pengirim;
-                    }
+                    if(tomSelectInstances[`pengirim_${tipe}`]) tomSelectInstances[`pengirim_${tipe}`].setValue(surat.pengirim);
                     document.getElementById(`wrapper_pengirim_lain_${tipe}`).classList.add('d-none');
                 } else {
-                    if(tomSelectInstances[`pengirim_${tipe}`]) {
-                        tomSelectInstances[`pengirim_${tipe}`].setValue("Instansi Luar");
-                    } else {
-                        selectPengirimEl.value = "Instansi Luar";
-                    }
+                    if(tomSelectInstances[`pengirim_${tipe}`]) tomSelectInstances[`pengirim_${tipe}`].setValue("Instansi Luar");
                     document.getElementById(`wrapper_pengirim_lain_${tipe}`).classList.remove('d-none');
                     document.getElementById(`pengirim_lain_${tipe}`).value = surat.pengirim;
                 }
 
-                if(tomSelectInstances[`tujuan_${tipe}`]) {
-                    tomSelectInstances[`tujuan_${tipe}`].setValue(surat.tujuan || '');
-                } else {
-                    document.getElementById(`tujuan_${tipe}`).value = surat.tujuan || '';
-                }
-
+                if(tomSelectInstances[`tujuan_${tipe}`]) tomSelectInstances[`tujuan_${tipe}`].setValue(surat.tujuan || '');
                 document.getElementById(`perihal_${tipe}`).value = surat.perihal;
                 
                 const btnSimpan = document.getElementById(`btn_simpan_${tipe}`);
                 btnSimpan.innerText = "Perbarui Data";
                 btnSimpan.className = tipe === 'masuk' ? "btn btn-warning" : "btn btn-warning text-white";
-                
                 document.getElementById(`btn_batal_${tipe}`).classList.remove('d-none');
                 document.getElementById(`pesan_${tipe}`).innerText = "";
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2069,21 +1744,14 @@
 
         function batalEdit(tipe) {
             document.getElementById(`edit_id_${tipe}`).value = '';
-            
             if(tomSelectInstances[`jenis_surat_${tipe}`]) tomSelectInstances[`jenis_surat_${tipe}`].clear();
             document.getElementById(`nomor_surat_${tipe}`).value = '';
-            
             if(tomSelectInstances[`pengirim_${tipe}`]) tomSelectInstances[`pengirim_${tipe}`].clear();
             if(document.getElementById(`pengirim_lain_${tipe}`)) document.getElementById(`pengirim_lain_${tipe}`).value = '';
             document.getElementById(`wrapper_pengirim_lain_${tipe}`).classList.add('d-none');
-            
             if(tomSelectInstances[`tujuan_${tipe}`]) tomSelectInstances[`tujuan_${tipe}`].clear();
             document.getElementById(`perihal_${tipe}`).value = '';
-            
-            const sekarang = new Date();
-            sekarang.setMinutes(sekarang.getMinutes() - sekarang.getTimezoneOffset());
-            document.getElementById(`tanggal_${tipe}`).value = sekarang.toISOString().slice(0, 10);
-
+            aturTanggalSekarang();
             const btnSimpan = document.getElementById(`btn_simpan_${tipe}`);
             btnSimpan.innerText = tipe === 'masuk' ? "Simpan Data Surat Masuk" : "Simpan Data Surat Keluar";
             btnSimpan.className = tipe === 'masuk' ? "btn btn-primary" : "btn btn-success";
@@ -2091,33 +1759,16 @@
         }
 
         async function eksekusiHapus(tipe, idSurat) {
-            const namaTabel = tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar';
-            const { error } = await supabaseClient.from(namaTabel).delete().eq('id', idSurat);
-            
-            if (error) {
-                console.error("Gagal menghapus:", error);
-                alert("Gagal menghapus data surat!");
-            } else {
-                tampilkanSurat(tipe);
-            }
+            const { error } = await supabaseClient.from(tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar').delete().eq('id', idSurat);
+            if (error) alert("Gagal menghapus data surat!"); else tampilkanSurat(tipe);
         }
 
         function unduhExcel(tipe) {
             const dataSumber = tipe === 'masuk' ? dataMasukTerakhir : dataKeluarTerakhir;
             if (dataSumber.length === 0) { alert("Tidak ada data untuk diunduh!"); return; }
-            
-            const dataUntukExcel = dataSumber.map((surat, index) => ({ 
-                "No": index + 1, 
-                "Jenis Surat": surat.jenis_surat,
-                "Nomor Surat": surat.nomor_surat, 
-                "Tanggal & Jam": formatTanggalWaktu(surat.tanggal_diterima), 
-                "Pengirim": surat.pengirim, 
-                "Tujuan": surat.tujuan, 
-                "Perihal": surat.perihal,
-                "Petugas": surat.petugas || '-'
-            }));
-
-            const worksheet = XLSX.utils.json_to_sheet(dataUntukExcel);
+            const worksheet = XLSX.utils.json_to_sheet(dataSumber.map((s, i) => ({ 
+                "No": i + 1, "Jenis Surat": s.jenis_surat, "Nomor Surat": s.nomor_surat, "Tanggal & Jam": formatTanggalWaktu(s.tanggal_diterima), "Pengirim": s.pengirim, "Tujuan": s.tujuan, "Perihal": s.perihal, "Petugas": s.petugas || '-'
+            })));
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan");
             XLSX.writeFile(workbook, `Laporan_Surat_${tipe === 'masuk' ? 'Masuk' : 'Keluar'}.xlsx`);
@@ -2125,131 +1776,45 @@
 
         async function unduhPDF(tipe) {
             const namaTabel = tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar';
-            const keyword = document.getElementById(`cari_${tipe}`).value;
-            const tanggalMulai = document.getElementById(`mulai_${tipe}`).value;
-            const tanggalSampai = document.getElementById(`sampai_${tipe}`).value;
-
-            let query = supabaseClient.from(namaTabel).select('*').order('dibuat_pada', { ascending: false });
-
-            if (keyword) {
-                query = query.or(`nomor_surat.ilike.%${keyword}%,pengirim.ilike.%${keyword}%,tujuan.ilike.%${keyword}%,jenis_surat.ilike.%${keyword}%,petugas.ilike.%${keyword}%`);
-            }
-            if (tanggalMulai) {
-                query = query.gte('tanggal_diterima', tanggalMulai);
-            }
-            if (tanggalSampai) {
-                query = query.lte('tanggal_diterima', tanggalSampai + 'T23:59:59');
-            }
-
-            const { data, error } = await query;
-
-            if (error) {
-                console.error("Gagal mengambil data untuk PDF:", error);
-                alert("Gagal mengunduh PDF karena kesalahan data.");
-                return;
-            }
-
-            if (!data || data.length === 0) {
-                alert("Tidak ada data untuk diunduh!");
-                return;
-            }
+            const { data } = await supabaseClient.from(namaTabel).select('*').order('dibuat_pada', { ascending: false });
+            if (!data || data.length === 0) { alert("Tidak ada data untuk diunduh!"); return; }
             
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('l', 'mm', 'a4'); 
+            const doc = new jsPDF('l', 'mm', 'a4');
             doc.setFontSize(16);
             doc.text(`Laporan Surat ${tipe === 'masuk' ? 'Masuk' : 'Keluar'} - Setum Polri`, 14, 20);
-            doc.setFontSize(11);
-            doc.text("Dicetak pada: " + new Date().toLocaleDateString('id-ID'), 14, 28);
-
-            const namaKolom = [['No', 'Jenis Surat', 'Nomor Surat', 'Tanggal & Jam', 'Pengirim', 'Tujuan', 'Perihal', 'Petugas']];
-            const barisData = data.map((surat, index) => [ 
-                index + 1, 
-                surat.jenis_surat || '-',
-                surat.nomor_surat, 
-                formatTanggalWaktu(surat.tanggal_diterima), 
-                surat.pengirim, 
-                surat.tujuan || '-', 
-                surat.perihal,
-                surat.petugas || '-'
-            ]);
-
             doc.autoTable({ 
-                startY: 35, 
-                head: namaKolom, 
-                body: barisData, 
+                startY: 30, 
+                head: [['No', 'Jenis Surat', 'Nomor Surat', 'Tanggal & Jam', 'Pengirim', 'Tujuan', 'Perihal', 'Petugas']], 
+                body: data.map((s, i) => [i + 1, s.jenis_surat || '-', s.nomor_surat, formatTanggalWaktu(s.tanggal_diterima), s.pengirim, s.tujuan || '-', s.perihal, s.petugas || '-']), 
                 theme: 'grid', 
                 headStyles: { fillColor: tipe === 'masuk' ? [0, 77, 153] : [40, 167, 69] } 
             });
-            
             doc.save(`Laporan_Surat_${tipe === 'masuk' ? 'Masuk' : 'Keluar'}.pdf`);
         }
 
-        let grafikMasuk = null;
-        let grafikKeluar = null;
-
+        let grafikMasuk = null, grafikKeluar = null;
         async function muatDataGrafik() {
-            const { data: dataMasuk, error: errMasuk } = await supabaseClient.from('surat_masuk').select('jenis_surat');
-            const { data: dataKeluar, error: errKeluar } = await supabaseClient.from('surat_keluar').select('jenis_surat');
-
-            if (errMasuk || errKeluar) {
-                console.error("Gagal memuat data grafik");
-                return;
-            }
-
-            const hitungMasuk = prosesPerhitungan(dataMasuk);
-            const hitungKeluar = prosesPerhitungan(dataKeluar);
-
-            gambarGrafik('kanvasGrafikMasuk', hitungMasuk, 'rgba(13, 110, 253, 0.6)', grafikMasuk, (instanceBaru) => grafikMasuk = instanceBaru);
-            gambarGrafik('kanvasGrafikKeluar', hitungKeluar, 'rgba(25, 135, 84, 0.6)', grafikKeluar, (instanceBaru) => grafikKeluar = instanceBaru);
+            const { data: dataMasuk } = await supabaseClient.from('surat_masuk').select('jenis_surat');
+            const { data: dataKeluar } = await supabaseClient.from('surat_keluar').select('jenis_surat');
+            gambarGrafik('kanvasGrafikMasuk', prosesHitung(dataMasuk || []), 'rgba(13, 110, 253, 0.6)', grafikMasuk, i => grafikMasuk = i);
+            gambarGrafik('kanvasGrafikKeluar', prosesHitung(dataKeluar || []), 'rgba(25, 135, 84, 0.6)', grafikKeluar, i => grafikKeluar = i);
         }
 
-        function prosesPerhitungan(dataSurat) {
-            const hasilHitung = {};
-            dataSurat.forEach(surat => {
-                const jenis = surat.jenis_surat || 'Tidak Diketahui';
-                if (hasilHitung[jenis]) {
-                    hasilHitung[jenis] += 1;
-                } else {
-                    hasilHitung[jenis] = 1;
-                }
-            });
-            return hasilHitung;
+        function prosesHitung(data) {
+            const res = {};
+            data.forEach(s => { let j = s.jenis_surat || 'Tidak Diketahui'; res[j] = (res[j] || 0) + 1; });
+            return res;
         }
 
-        function gambarGrafik(idKanvas, dataHitung, warna, grafikLama, simpanGrafikBaru) {
+        function gambarGrafik(idKanvas, dataHitung, warna, lama, simpan) {
             const ctx = document.getElementById(idKanvas).getContext('2d');
-            
-            if (grafikLama) {
-                grafikLama.destroy();
-            }
-
-            const labelGrafik = Object.keys(dataHitung);
-            const nilaiGrafik = Object.values(dataHitung);
-
-            const chartBaru = new Chart(ctx, {
+            if (lama) lama.destroy();
+            simpan(new Chart(ctx, {
                 type: 'bar',
-                data: {
-                    labels: labelGrafik,
-                    datasets: [{
-                        label: 'Jumlah Surat',
-                        data: nilaiGrafik,
-                        backgroundColor: warna,
-                        borderColor: warna.replace('0.6', '1'),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1 }
-                        }
-                    }
-                }
-            });
-            
-            simpanGrafikBaru(chartBaru);
+                data: { labels: Object.keys(dataHitung), datasets: [{ label: 'Jumlah Surat', data: Object.values(dataHitung), backgroundColor: warna, borderWidth: 1 }] },
+                options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+            }));
         }
     </script>
 </body>
