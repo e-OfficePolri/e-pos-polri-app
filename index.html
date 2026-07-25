@@ -54,27 +54,6 @@
         select option {
             text-transform: uppercase;
         }
-
-        /* Penyesuaian khusus tampilan HP / Mobile */
-        @media (max-width: 991.98px) {
-            .navbar .container {
-                flex-direction: column;
-                align-items: flex-start !important;
-            }
-            .navbar .nav-pills {
-                margin-top: 10px;
-                flex-wrap: wrap;
-                width: 100%;
-            }
-            .navbar .nav-pills .nav-item {
-                margin-bottom: 5px;
-            }
-            .dropdown {
-                position: absolute;
-                top: 15px;
-                right: 15px;
-            }
-        }
     </style>
 </head>
 <body class="bg-light">
@@ -169,13 +148,17 @@
     <div id="app_utama" class="d-none">
         <nav class="navbar navbar-dark bg-primary shadow-sm mb-4">
             <div class="container d-flex justify-content-between align-items-center">
-                <span class="navbar-brand mb-0 h1 d-flex align-items-center">
+                <!-- Judul Aplikasi -->
+                <span class="navbar-brand mb-0 h1 d-flex align-items-center text-truncate" style="max-width: 70%;">
                     <img src="Setum_Polri.png" alt="Logo" style="height: 32px; width: auto;" class="me-2">
-                    Sistem Pengelolaan Surat - Setum Polri
+                    <!-- Teks lengkap untuk desktop, teks singkat untuk mobile -->
+                    <span class="d-none d-sm-inline">Sistem Pengelolaan Surat - Setum Polri</span>
+                    <span class="d-inline d-sm-none">e-Pos Setum Polri</span>
                 </span>
                 
                 <div class="d-flex align-items-center">
-                    <ul class="nav nav-pills me-3">
+                    <!-- MENU DESKTOP: Disembunyikan di layar HP (d-none d-lg-flex) -->
+                    <ul class="nav nav-pills me-3 d-none d-lg-flex">
                         <li class="nav-item">
                             <button class="nav-link text-white active fw-bold" id="btn_menu_beranda" onclick="gantiMenu('beranda')">Beranda</button>
                         </li>
@@ -193,10 +176,19 @@
                     <!-- PROFIL & DROPDOWN MENU -->
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUserNav" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="me-2 small fw-bold d-inline" id="teks_selamat_datang">Hi, Selamat datang!</span>
+                            <!-- Sapaan disembunyikan di layar kecil agar tidak bertabrakan -->
+                            <span class="me-2 small fw-bold d-none d-md-inline" id="teks_selamat_datang">Hi, Selamat datang!</span>
                             <div id="avatar_inisial_nav" class="nav-profile-avatar">U</div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUserNav">
+                            <!-- MENU MOBILE: Hanya muncul di layar HP (d-lg-none) -->
+                            <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('beranda')">Beranda</a></li>
+                            <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('masuk')">Surat Masuk</a></li>
+                            <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
+                            <li class="d-lg-none d-none" id="li_menu_user_mobile"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('user')">Manajemen User</a></li>
+                            <li class="d-lg-none"><hr class="dropdown-divider"></li>
+                            
+                            <!-- Tombol Keluar (Selalu Muncul) -->
                             <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="konfirmasiLogout()">Keluar</a></li>
                         </ul>
                     </div>
@@ -718,7 +710,7 @@
                                     <option value="Kapolda Jambi">KAPOLDA JAMBI</option>
                                     <option value="Kapolda Bengkulu">KAPOLDA BENGKULU</option>
                                     <option value="Kapolda Sumatera Selatan">KAPOLDA SUMATERA SELATAN</option>
-                                    <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN BANGKA BELITUNG</option>
+                                    <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN Bangka BELITUNG</option>
                                     <option value="Kapolda Lampung">KAPOLDA LAMPUNG</option>
                                     <option value="Kapolda Metro Jaya">KAPOLDA METRO JAYA</option>
                                     <option value="Kapolda Banten">KAPOLDA BANTEN</option>
@@ -1248,8 +1240,10 @@
 
                 if (rolePenggunaAktif === 'super_admin' || rolePenggunaAktif === 'admin' || rolePenggunaAktif === 'kasubbag') {
                     document.getElementById('li_menu_user').classList.remove('d-none');
+                    document.getElementById('li_menu_user_mobile').classList.remove('d-none'); // Tampilkan di mobile juga
                 } else {
                     document.getElementById('li_menu_user').classList.add('d-none');
+                    document.getElementById('li_menu_user_mobile').classList.add('d-none'); // Sembunyikan di mobile
                 }
 
                 aturTanggalSekarang();
