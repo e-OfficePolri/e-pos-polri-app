@@ -176,7 +176,7 @@
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('masuk')">Surat Masuk</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
                             
-                            <!-- Menu Manajemen User Tersembunyi -->
+                            <!-- Menu Manajemen User Tersembunyi (Menambahkan sub-menu Tambah Data Bag tepat di bawah Biro/Dir) -->
                             <li id="dropdown_sub_user_container" class="d-none">
                                 <a class="dropdown-item fw-bold text-primary" href="#" onclick="toggleSubMenuManajemenUser(event)">
                                     Manajemen User ▾
@@ -184,6 +184,7 @@
                                 <ul id="list_sub_menu_user" class="list-unstyled ps-3 bg-light py-1 d-none mb-0">
                                     <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('user')">• Tambah User Baru</a></li>
                                     <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('biro')">• Tambah Data Biro/Dir</a></li>
+                                    <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('bag')">• Tambah Data Bag</a></li>
                                 </ul>
                             </li>
 
@@ -1113,6 +1114,107 @@
                     </div>
                 </div>
 
+                <!-- FORM 3: TAMBAH DATA BAG (BARU) -->
+                <div id="form_sub_bag" class="card shadow-sm mb-4 d-none border-0">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="mb-0 text-dark fw-bold" id="judul_form_bag">Formulir Tambah Data Bag</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="edit_bag_id"> 
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="satker_bag" class="form-label fw-bold">Satuan Kerja:</label>
+                                <select id="satker_bag" class="form-select searchable-select" onchange="muatBiroDirUntukBag()" required>
+                                    <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
+                                    <option value="Itwasum Polri">ITWASUM POLRI</option>
+                                    <option value="Bareskrim Polri">BARESKRIM POLRI</option>
+                                    <option value="Baharkam Polri">BAHARKAM POLRI</option>
+                                    <option value="Korbrimob Polri">KORBRIMOB POLRI</option>
+                                    <option value="Baintelkam Polri">BAINTELKAM POLRI</option>
+                                    <option value="Lemdiklat Polri">LEMDIKLAT POLRI</option>
+                                    <option value="Stamaops Polri">STAMAOPS POLRI</option>
+                                    <option value="Stamarena Polri">STAMARENA POLRI</option>
+                                    <option value="Korlantas Polri">KORLANTAS POLRI</option>
+                                    <option value="Kortastipidkor Polri">KORTASTIPIDKOR POLRI</option>
+                                    <option value="Densus 88 AT Polri">DENSUS 88 AT POLRI</option>
+                                    <option value="SDM Polri">SDM POLRI</option>
+                                    <option value="Slog Polri">SLOG POLRI</option>
+                                    <option value="Divpropam Polri">DIVPROPAM POLRI</option>
+                                    <option value="Divkum Polri">DIVKUM POLRI</option>
+                                    <option value="Divhumas Polri">DIVHUMAS POLRI</option>
+                                    <option value="Div TIK Polri">DIV TIK POLRI</option>
+                                    <option value="Divhubinter Polri">DIVHUBINTER POLRI</option>
+                                    <option value="Pusdokkes Polri">PUSDOKKES POLRI</option>
+                                    <option value="Sahli Kapolri">SAHLI KAPOLRI</option>
+                                    <option value="Puslitbang Polri">PUSLITBANG POLRI</option>
+                                    <option value="Puskeu Polri">PUSKEU POLRI</option>
+                                    <option value="Pusjarah Polri">PUSJARAH POLRI</option>
+                                    <option value="Spripim Polri">SPRIPIM POLRI</option>
+                                    <option value="Yanma Polri">YANMA POLRI</option>
+                                    <option value="Setum Polri">SETUM POLRI</option>
+                                    <option value="Polda Aceh">POLDA ACEH</option>
+                                    <option value="Polda Sumatera Utara">POLDA SUMATERA UTARA</option>
+                                    <option value="Polda Sumatera Barat">POLDA SUMATERA BARAT</option>
+                                    <option value="Polda Riau">POLDA RIAU</option>
+                                    <option value="Polda Kepulauan Riau">POLDA KEPULAUAN RIAU</option>
+                                    <option value="Polda Jambi">POLDA JAMBI</option>
+                                    <option value="Polda Bengkulu">POLDA BENGKULU</option>
+                                    <option value="Polda Sumatera Selatan">POLDA SUMATERA SELATAN</option>
+                                    <option value="Polda Kepulauan Bangka Belitung">POLDA KEPULAUAN BANGKA BELITUNG</option>
+                                    <option value="Polda Lampung">POLDA LAMPUNG</option>
+                                    <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
+                                    <option value="Polda Banten">POLDA BANTEN</option>
+                                    <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
+                                    <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
+                                    <option value="Polda Daerah Istimewa Yogyakarta">POLDA DAERAH ISTIMEWA YOGYAKARTA</option>
+                                    <option value="Polda Jawa Timur">POLDA JAWA TIMUR</option>
+                                    <option value="Polda Bali">POLDA BALI</option>
+                                    <option value="Polda Nusa Tenggara Barat">POLDA NUSA TENGGARA BARAT</option>
+                                    <option value="Polda Nusa Tenggara Timur">POLDA NUSA TENGGARA TIMUR</option>
+                                    <option value="Polda Kalimantan Barat">POLDA KALIMANTAN BARAT</option>
+                                    <option value="Polda Kalimantan Tengah">POLDA KALIMANTAN TENGAH</option>
+                                    <option value="Polda Kalimantan Selatan">POLDA KALIMANTAN SELATAN</option>
+                                    <option value="Polda Kalimantan Timur">POLDA KALIMANTAN TIMUR</option>
+                                    <option value="Polda Kalimantan Utara">POLDA KALIMANTAN UTARA</option>
+                                    <option value="Polda Sulawesi Utara">POLDA SULAWESI UTARA</option>
+                                    <option value="Polda Gorontalo">POLDA GORONTALO</option>
+                                    <option value="Polda Sulawesi Tengah">POLDA SULAWESI TENGAH</option>
+                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI SELATAN</option>
+                                    <option value="Polda Sulawesi Selatan">POLDA SULAWESI SELATAN</option>
+                                    <option value="Polda Sulawesi Tenggara">POLDA SULAWESI TENGGARA</option>
+                                    <option value="Polda Maluku">POLDA MALUKU</option>
+                                    <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
+                                    <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua">POLDA PAPUA</option>
+                                    <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
+                                    <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
+                                    <option value="Polda Papua Selatan">POLDA PAPUA SELATAN</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="biro_dir_bag" class="form-label fw-bold">Biro / Direktorat:</label>
+                                <select id="biro_dir_bag" class="form-select searchable-select" required>
+                                    <option value="" disabled selected>-- Pilih Biro / Direktorat --</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="nama_bag" class="form-label fw-bold">Nama Bag:</label>
+                                <input type="text" id="nama_bag" class="form-control" placeholder="Masukkan nama Bag..." required>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button id="btn_simpan_bag" class="btn btn-dark fw-bold" onclick="simpanBag()">Simpan Data Bag</button>
+                            <button id="btn_batal_bag" class="btn btn-secondary fw-bold d-none" onclick="batalEditBag()">Batal Edit</button>
+                        </div>
+                        <div id="pesan_bag" class="mt-3 fw-bold"></div>
+                    </div>
+                </div>
+
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-dark fw-bold">Daftar Akun Pengguna Terdaftar</h5>
@@ -1487,13 +1589,18 @@
             gantiMenu('user', false);
             const formUser = document.getElementById('form_sub_user');
             const formBiro = document.getElementById('form_sub_biro');
+            const formBag = document.getElementById('form_sub_bag');
+
+            formUser.classList.add('d-none');
+            formBiro.classList.add('d-none');
+            formBag.classList.add('d-none');
 
             if (jenis === 'user') {
                 formUser.classList.remove('d-none');
-                formBiro.classList.add('d-none');
-            } else {
-                formUser.classList.add('d-none');
+            } else if (jenis === 'biro') {
                 formBiro.classList.remove('d-none');
+            } else if (jenis === 'bag') {
+                formBag.classList.remove('d-none');
             }
         }
 
@@ -1521,6 +1628,34 @@
             if (data && data.length > 0 && tsBiro) {
                 data.forEach(item => {
                     tsBiro.addOption({value: item.nama_biro, text: item.nama_biro});
+                });
+            }
+        }
+
+        async function muatBiroDirUntukBag() {
+            const satkerPilihan = document.getElementById('satker_bag').value;
+            const tsBiroBag = tomSelectInstances['biro_dir_bag'];
+
+            if (tsBiroBag) {
+                tsBiroBag.clear();
+                tsBiroBag.clearOptions();
+            }
+
+            if (!satkerPilihan) return;
+
+            const { data, error } = await supabaseClient
+                .from('biro_dir')
+                .select('*')
+                .eq('satker', satkerPilihan);
+
+            if (error) {
+                console.error("Gagal memuat data biro/dir untuk bag:", error.message);
+                return;
+            }
+
+            if (data && data.length > 0 && tsBiroBag) {
+                data.forEach(item => {
+                    tsBiroBag.addOption({value: item.nama_biro, text: item.nama_biro});
                 });
             }
         }
@@ -1628,6 +1763,40 @@
             }
         }
 
+        async function simpanBag() {
+            const editId = document.getElementById('edit_bag_id').value;
+            const satker = document.getElementById('satker_bag').value;
+            const biroDir = document.getElementById('biro_dir_bag').value;
+            const namaBag = document.getElementById('nama_bag').value;
+            const pesanEl = document.getElementById('pesan_bag');
+
+            if (!satker || !biroDir || !namaBag) {
+                alert("Semua kolom wajib diisi!");
+                return;
+            }
+
+            pesanEl.className = "mt-3 fw-bold text-primary";
+            pesanEl.innerText = "Menyimpan data Bag...";
+
+            let dbError = null;
+            if (editId) {
+                const res = await supabaseClient.from('bag_data').update({ satker, biro_dir: biroDir, nama_bag: namaBag }).eq('id', editId);
+                dbError = res.error;
+            } else {
+                const res = await supabaseClient.from('bag_data').insert([{ satker, biro_dir: biroDir, nama_bag: namaBag }]);
+                dbError = res.error;
+            }
+
+            if (dbError) {
+                pesanEl.className = "mt-3 fw-bold text-danger";
+                pesanEl.innerText = "Gagal menyimpan data Bag: " + dbError.message;
+            } else {
+                pesanEl.className = "mt-3 fw-bold text-success";
+                pesanEl.innerText = "Data Bag berhasil disimpan!";
+                batalEditBag();
+            }
+        }
+
         function batalEditBiro() {
             document.getElementById('edit_biro_id').value = '';
             if(tomSelectInstances['satker_biro']) tomSelectInstances['satker_biro'].clear();
@@ -1636,6 +1805,20 @@
             document.getElementById('btn_simpan_biro').innerText = "Simpan Data Biro/Dir";
             document.getElementById('btn_batal_biro').classList.add('d-none');
             document.getElementById('pesan_biro').innerText = "";
+        }
+
+        function batalEditBag() {
+            document.getElementById('edit_bag_id').value = '';
+            if(tomSelectInstances['satker_bag']) tomSelectInstances['satker_bag'].clear();
+            if(tomSelectInstances['biro_dir_bag']) {
+                tomSelectInstances['biro_dir_bag'].clear();
+                tomSelectInstances['biro_dir_bag'].clearOptions();
+            }
+            document.getElementById('nama_bag').value = '';
+            document.getElementById('judul_form_bag').innerText = "Formulir Tambah Data Bag";
+            document.getElementById('btn_simpan_bag').innerText = "Simpan Data Bag";
+            document.getElementById('btn_batal_bag').classList.add('d-none');
+            document.getElementById('pesan_bag').innerText = "";
         }
 
         async function editUser(id, nama, pangkat, nrpNip, email, role, satker, biroDir, bag, subbag) {
