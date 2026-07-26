@@ -176,7 +176,7 @@
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('masuk')">Surat Masuk</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
                             
-                            <!-- Menu Manajemen User Tersembunyi (Menambahkan sub-menu Tambah Data Bag tepat di bawah Biro/Dir) -->
+                            <!-- Menu Manajemen User Tersembunyi -->
                             <li id="dropdown_sub_user_container" class="d-none">
                                 <a class="dropdown-item fw-bold text-primary" href="#" onclick="toggleSubMenuManajemenUser(event)">
                                     Manajemen User ▾
@@ -410,7 +410,7 @@
                                     <option value="Kapolda Jambi">KAPOLDA JAMBI</option>
                                     <option value="Kapolda Bengkulu">KAPOLDA BENGKULU</option>
                                     <option value="Kapolda Sumatera Selatan">KAPOLDA SUMATERA SELATAN</option>
-                                    <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN BANGKA BELITUNG</option>
+                                    <option value="Kapolda Kepulauan Bangka Belitung">POLDA KEPULAUAN BANGKA BELITUNG</option>
                                     <option value="Kapolda Lampung">KAPOLDA LAMPUNG</option>
                                     <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
                                     <option value="Polda Banten">POLDA BANTEN</option>
@@ -701,7 +701,7 @@
                                     <option value="Kapolda Jambi">KAPOLDA JAMBI</option>
                                     <option value="Kapolda Bengkulu">KAPOLDA BENGKULU</option>
                                     <option value="Kapolda Sumatera Selatan">KAPOLDA SUMATERA SELATAN</option>
-                                    <option value="Kapolda Kepulauan Bangka Belitung">KAPOLDA KEPULAUAN BANGKA BELITUNG</option>
+                                    <option value="Kapolda Kepulauan Bangka Belitung">POLDA KEPULAUAN BANGKA BELITUNG</option>
                                     <option value="Kapolda Lampung">KAPOLDA LAMPUNG</option>
                                     <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
                                     <option value="Polda Banten">POLDA BANTEN</option>
@@ -954,7 +954,6 @@
                                 </select>
                             </div>
 
-                            <!-- INPUT BAGIAN (BAG) BARU TEPAT SETELAH BIRO/DIR -->
                             <div class="col-md-6 mb-3" id="wrapper_bag_baru">
                                 <label for="bag_baru" class="form-label fw-bold">Bag:</label>
                                 <select id="bag_baru" class="form-select searchable-select">
@@ -1240,7 +1239,7 @@
                     </div>
                 </div>
 
-                <!-- TABEL 2: DAFTAR BIRO/DIR (D-NONE AWALNYA) -->
+                <!-- TABEL 2: DAFTAR BIRO/DIR -->
                 <div id="card_tabel_biro" class="card shadow-sm border-0 d-none">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-dark fw-bold">Daftar Biro / Direktorat Terdaftar</h5>
@@ -1262,7 +1261,7 @@
                     </div>
                 </div>
 
-                <!-- TABEL 3: DAFTAR BAG (D-NONE AWALNYA) -->
+                <!-- TABEL 3: DAFTAR BAG -->
                 <div id="card_tabel_bag" class="card shadow-sm border-0 d-none">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-dark fw-bold">Daftar Bag Terdaftar</h5>
@@ -1657,6 +1656,7 @@
             const cardTabelBiro = document.getElementById('card_tabel_biro');
             const cardTabelBag = document.getElementById('card_tabel_bag');
 
+            // Sembunyikan semua form dan tabel terlebih dahulu
             formUser.classList.add('d-none');
             formBiro.classList.add('d-none');
             formBag.classList.add('d-none');
@@ -1664,6 +1664,7 @@
             if(cardTabelBiro) cardTabelBiro.classList.add('d-none');
             if(cardTabelBag) cardTabelBag.classList.add('d-none');
 
+            // Tampilkan secara eksklusif form dan tabel pasangannya masing-masing
             if (jenis === 'user') {
                 formUser.classList.remove('d-none');
                 if(cardTabelUser) cardTabelUser.classList.remove('d-none');
