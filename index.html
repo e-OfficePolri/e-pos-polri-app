@@ -175,7 +175,6 @@
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('beranda')">Beranda</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('masuk')">Surat Masuk</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
-                            <li class="d-lg-none"><hr class="dropdown-divider"></li>
                             
                             <!-- Menu Manajemen User Tersembunyi -->
                             <li id="dropdown_sub_user_container" class="d-none">
@@ -186,7 +185,6 @@
                                     <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('user')">• Tambah User Baru</a></li>
                                     <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('biro')">• Tambah Data Biro/Dir</a></li>
                                 </ul>
-                                <li><hr class="dropdown-divider"></li>
                             </li>
 
                             <li><a class="dropdown-item text-danger fw-bold" href="#" onclick="konfirmasiLogout()">Keluar</a></li>
@@ -436,7 +434,7 @@
                                     <option value="Polda Maluku">POLDA MALUKU</option>
                                     <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
                                     <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
-                                    <option value="Polda Papua Barat Daya">POLDA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA PAPUA BARAT DAYA</option>
                                     <option value="Polda Papua">POLDA PAPUA</option>
                                     <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
                                     <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
@@ -1267,19 +1265,15 @@
                 document.getElementById('section_ubah_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.remove('d-none');
                 
-                // --- KODE YANG DIPERBARUI: Menambahkan pengecekan error ---
                 const { data: profile, error: profileError } = await supabaseClient
                     .from('profiles')
                     .select('role, nama, pangkat')
                     .eq('id', session.user.id)
                     .single();
 
-                // Mencetak error ke console jika gagal mengambil data
                 if (profileError) {
                     console.error("Gagal memuat profil pengguna:", profileError.message);
-                    console.error("Pastikan Row Level Security (RLS) di Supabase mengizinkan SELECT untuk tabel 'profiles' atau data user tersebut memang ada.");
                 }
-                // ----------------------------------------------------------
 
                 let sumberTeks = '';
                 if (profile) {
