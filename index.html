@@ -1251,29 +1251,29 @@
             });
         }
 
-        // Fungsi untuk mengatur pilihan Subbag secara fleksibel (mendukung Biro/Bag yang kosong/NULL)
+        // Fungsi untuk mengatur pilihan Subbag secara fleksibel
         function aturDropdownSubbag(bagTerpilih) {
             let satkerTerpilih = document.getElementById('satker_baru').value;
             let biroTerpilih = document.getElementById('biro_dir_baru').value;
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
+            if (!tsSubbag) return;
+
             tsSubbag.clear(); 
             tsSubbag.clearOptions();
 
-            // Saring data berdasarkan Satker yang wajib, serta Biro dan Bag yang bersifat opsional
+            if (!satkerTerpilih) return;
+
+            // Saring data dari variabel global berdasarkan Satker, Biro, dan Bag
             let filterSubbag = dataJabatanGlobal.filter(item => {
                 let cocokSatker = item.satker === satkerTerpilih;
-        
-                // Cek pencocokan Biro (cocok jika pilihan sama, atau jika data di database & form sama-sama kosong)
                 let cocokBiro = (item.nama_biro === biroTerpilih) || (!item.nama_biro && !biroTerpilih);
-        
-                // Cek pencocokan Bag (cocok jika pilihan sama, atau jika data di database & form sama-sama kosong)
                 let cocokBag = (item.nama_bag === bagTerpilih) || (!item.nama_bag && !bagTerpilih);
 
                 return cocokSatker && cocokBiro && cocokBag;
             });
     
-            // Ambil nama subbag yang unik agar tidak ada pilihan ganda
+            // Ambil nama subbag yang unik
             let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
 
             subbagUnik.forEach(subbag => {
@@ -1281,17 +1281,21 @@
             });
         }
         
-        // Fungsi untuk mendeteksi setiap kali dropdown berubah pilihan
+        // Fungsi untuk mendeteksi setiap kali dropdown berubah pilihan secara fleksibel
         function pasangEventDropdownDinamis() {
             if(tomSelectInstances['satker_baru']) {
                 tomSelectInstances['satker_baru'].on('change', function(value) {
                     aturDropdownBiroDir(value);
+                    // Langsung panggil juga pencarian subbag berdasarkan satker, 
+                    // jaga-jaga jika biro/bag bernilai kosong (NULL)
+                    aturDropdownSubbag(''); 
                 });
             }
             if(tomSelectInstances['biro_dir_baru']) {
                 tomSelectInstances['biro_dir_baru'].on('change', function(value) {
                     aturDropdownBag(value);
-                });
+                    aturDropdownSubbag('');
+               });
             }
             if(tomSelectInstances['bag_baru']) {
                 tomSelectInstances['bag_baru'].on('change', function(value) {
