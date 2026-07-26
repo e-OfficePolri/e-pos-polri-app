@@ -1055,7 +1055,7 @@
                                     <option value="Polda Lampung">POLDA LAMPUNG</option>
                                     <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
                                     <option value="Polda Banten">POLDA BANTEN</option>
-                                    <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
+                                    <option value="Polda Jawa Barat">POLDA JAWA Barat</option>
                                     <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
                                     <option value="Polda Daerah Istimewa Yogyakarta">POLDA DAERAH ISTIMEWA YOGYAKARTA</option>
                                     <option value="Polda Jawa Timur">POLDA JAWA TIMUR</option>
@@ -1263,11 +1263,19 @@
                 document.getElementById('section_ubah_password').classList.add('d-none');
                 document.getElementById('app_utama').classList.remove('d-none');
                 
-                const { data: profile } = await supabaseClient
+                // --- KODE YANG DIPERBARUI: Menambahkan pengecekan error ---
+                const { data: profile, error: profileError } = await supabaseClient
                     .from('profiles')
                     .select('role, nama, pangkat')
                     .eq('id', session.user.id)
                     .single();
+
+                // Mencetak error ke console jika gagal mengambil data
+                if (profileError) {
+                    console.error("Gagal memuat profil pengguna:", profileError.message);
+                    console.error("Pastikan Row Level Security (RLS) di Supabase mengizinkan SELECT untuk tabel 'profiles' atau data user tersebut memang ada.");
+                }
+                // ----------------------------------------------------------
 
                 let sumberTeks = '';
                 if (profile) {
