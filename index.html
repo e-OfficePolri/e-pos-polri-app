@@ -1703,9 +1703,9 @@
             const namaSubbag = document.getElementById('nama_subbag_jabatan').value;
             const pesanEl = document.getElementById('pesan_jabatan');
 
-            // Validasi pengecekan kolom kosong termasuk subbag
-            if (!satker || !namaBiro || !namaBag || !namaSubbag) {
-                alert("Semua kolom termasuk Subbag wajib diisi!");
+            // Validasi: Hanya Satuan Kerja dan Subbag yang wajib diisi
+            if (!satker || !namaSubbag) {
+                alert("Satuan Kerja dan Subbag wajib diisi!");
                 return;
             }
 
@@ -1714,8 +1714,8 @@
 
             let dataPayload = { 
                 satker: satker, 
-                nama_biro: namaBiro, 
-                nama_bag: namaBag,
+                nama_biro: namaBiro || null, 
+                nama_bag: namaBag || null,
                 nama_subbag: namaSubbag 
             };
 
