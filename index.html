@@ -1251,7 +1251,7 @@
             });
         }
 
-        // Fungsi untuk mengatur pilihan Subbag berdasarkan Bag
+        // Fungsi untuk mengatur pilihan Subbag secara fleksibel (mendukung Biro/Bag yang kosong/NULL)
         function aturDropdownSubbag(bagTerpilih) {
             let satkerTerpilih = document.getElementById('satker_baru').value;
             let biroTerpilih = document.getElementById('biro_dir_baru').value;
@@ -1260,16 +1260,20 @@
             tsSubbag.clear(); 
             tsSubbag.clearOptions();
 
-            if (!bagTerpilih) return;
+            // Saring data berdasarkan Satker yang wajib, serta Biro dan Bag yang bersifat opsional
+            let filterSubbag = dataJabatanGlobal.filter(item => {
+                let cocokSatker = item.satker === satkerTerpilih;
+        
+                // Cek pencocokan Biro (cocok jika pilihan sama, atau jika data di database & form sama-sama kosong)
+                let cocokBiro = (item.nama_biro === biroTerpilih) || (!item.nama_biro && !biroTerpilih);
+        
+                // Cek pencocokan Bag (cocok jika pilihan sama, atau jika data di database & form sama-sama kosong)
+                let cocokBag = (item.nama_bag === bagTerpilih) || (!item.nama_bag && !bagTerpilih);
 
-            // Saring data dari variabel global berdasarkan kombinasi Satker, Biro, dan Bag
-            let filterSubbag = dataJabatanGlobal.filter(item => 
-                item.satker === satkerTerpilih && 
-                (item.nama_biro === biroTerpilih || (!item.nama_biro && !biroTerpilih)) && 
-                item.nama_bag === bagTerpilih
-            );
+                return cocokSatker && cocokBiro && cocokBag;
+            });
     
-            // Ambil nama subbag yang unik
+            // Ambil nama subbag yang unik agar tidak ada pilihan ganda
             let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
 
             subbagUnik.forEach(subbag => {
