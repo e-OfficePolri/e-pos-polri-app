@@ -964,13 +964,6 @@
                                 <label for="subbag_baru" class="form-label fw-bold">Subbag:</label>
                                 <select id="subbag_baru" class="form-select searchable-select">
                                     <option value="" disabled selected>-- Pilih Subbag --</option>
-                                    <option value="SUBBAGRENMIN">SUBBAGRENMIN</option>
-                                    <option value="SUBBAGTAKAH">SUBBAGTAKAH</option>
-                                    <option value="SUBBAGBINSET">SUBBAGBINSET</option>
-                                    <option value="SUBBAGARSIP">SUBBAGARSIP</option>
-                                    <option value="SUBBAGUM">SUBBAGUM</option>
-                                    <option value="KANPOS">KANPOS</option>
-                                    <option value="URKEU">URKEU</option>
                                 </select>
                             </div>
                         
@@ -1202,9 +1195,102 @@
         let namaPenggunaAktif = ''; 
         let tomSelectInstances = {};
 
+        // Variabel global untuk menyimpan data jabatan
+        let dataJabatanGlobal = [];
+
         const barisPerHalaman = 10;
         let halamanMasukAktif = 1;
         let halamanKeluarAktif = 1;
+
+        // Fungsi untuk mengambil data dari tabel jabatan_data di Supabase
+        async function muatDataJabatanUntukDropdown() {
+            const { data, error } = await supabaseClient.from('jabatan_data').select('*');
+            if (error) {
+                console.error("Gagal memuat data jabatan:", error.message);
+            } else {
+                dataJabatanGlobal = data || [];
+            }
+        }
+
+        // Fungsi untuk mengatur pilihan Biro/Dir berdasarkan Satker
+        function aturDropdownBiroDir(satkerTerpilih) {
+            let tsBiro = tomSelectInstances['biro_dir_baru'];
+            let tsBag = tomSelectInstances['bag_baru'];
+            let tsSubbag = tomSelectInstances['subbag_baru'];
+
+            tsBiro.clear(); tsBiro.clearOptions();
+            tsBag.clear(); tsBag.clearOptions();
+            tsSubbag.clear(); tsSubbag.clearOptions();
+
+            if (!satkerTerpilih) return; 
+
+            let filterBiro = dataJabatanGlobal.filter(item => item.satker === satkerTerpilih);
+            let biroUnik = [...new Set(filterBiro.map(item => item.nama_biro))];
+
+            biroUnik.forEach(biro => {
+                if (biro) tsBiro.addOption({value: biro, text: biro});
+            });
+        }
+
+        // Fungsi untuk mengatur pilihan Bag berdasarkan Biro/Dir
+        function aturDropdownBag(biroTerpilih) {
+            let satkerTerpilih = document.getElementById('satker_baru').value;
+            let tsBag = tomSelectInstances['bag_baru'];
+            let tsSubbag = tomSelectInstances['subbag_baru'];
+
+            tsBag.clear(); tsBag.clearOptions();
+            tsSubbag.clear(); tsSubbag.clearOptions();
+
+            if (!biroTerpilih) return;
+
+            let filterBag = dataJabatanGlobal.filter(item => item.satker === satkerTerpilih && item.nama_biro === biroTerpilih);
+            let bagUnik = [...new Set(filterBag.map(item => item.nama_bag))];
+
+            bagUnik.forEach(bag => {
+                if (bag) tsBag.addOption({value: bag, text: bag});
+            });
+        }
+
+        // Fungsi untuk mengatur pilihan Subbag berdasarkan Bag
+        function aturDropdownSubbag(bagTerpilih) {
+            let satkerTerpilih = document.getElementById('satker_baru').value;
+            let biroTerpilih = document.getElementById('biro_dir_baru').value;
+            let tsSubbag = tomSelectInstances['subbag_baru'];
+
+            tsSubbag.clear(); tsSubbag.clearOptions();
+
+            if (!bagTerpilih) return;
+
+            let filterSubbag = dataJabatanGlobal.filter(item => 
+                item.satker === satkerTerpilih && 
+                item.nama_biro === biroTerpilih && 
+                item.nama_bag === bagTerpilih
+            );
+            let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
+
+            subbagUnik.forEach(subbag => {
+                if (subbag) tsSubbag.addOption({value: subbag, text: subbag});
+            });
+        }
+
+        // Fungsi untuk mendeteksi setiap kali dropdown berubah pilihan
+        function pasangEventDropdownDinamis() {
+            if(tomSelectInstances['satker_baru']) {
+                tomSelectInstances['satker_baru'].on('change', function(value) {
+                    aturDropdownBiroDir(value);
+                });
+            }
+            if(tomSelectInstances['biro_dir_baru']) {
+                tomSelectInstances['biro_dir_baru'].on('change', function(value) {
+                    aturDropdownBag(value);
+                });
+            }
+            if(tomSelectInstances['bag_baru']) {
+                tomSelectInstances['bag_baru'].on('change', function(value) {
+                    aturDropdownSubbag(value);
+                });
+            }
+        }
 
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.searchable-select').forEach((el) => {
@@ -1217,6 +1303,9 @@
                 let instance = new TomSelect(el, optionsConfig);
                 tomSelectInstances[el.id] = instance;
             });
+
+            // Muat data jabatan untuk Dropdown dan pasang deteksi Event Dropdown
+            muatDataJabatanUntukDropdown().then(() => pasangEventDropdownDinamis());
 
             cekStatusHalamanAwal();
         });
@@ -1400,11 +1489,10 @@
         async function batalDanKeLogin() {
             sessionStorage.removeItem('sedangResetPassword');
             try { await supabaseClient.auth.signOut(); } catch (e) {}
-                window.history.replaceState(null, null, window.location.pathname);
-                document.getElementById('section_ubah_password').classList.add('d-none');
-                document.getElementById('section_login').classList.remove('d-none');
+            window.history.replaceState(null, null, window.location.pathname);
+            document.getElementById('section_ubah_password').classList.add('d-none');
+            document.getElementById('section_login').classList.remove('d-none');
         }
-
 
         async function prosesLogin() {
             const email = document.getElementById('email_login').value.trim();
@@ -1673,7 +1761,22 @@
             document.getElementById('wrapper_password_baru').classList.add('d-none');
             
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].setValue(role ? role.toLowerCase() : '');
-            if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].setValue(satker || '');
+            
+            // Set data Dropdown bertingkat secara otomatis saat di edit
+            if(tomSelectInstances['satker_baru']) {
+                tomSelectInstances['satker_baru'].setValue(satker || '');
+                if(satker) {
+                    setTimeout(() => {
+                        if(tomSelectInstances['biro_dir_baru']) tomSelectInstances['biro_dir_baru'].setValue(biroDir || '');
+                        setTimeout(() => {
+                            if(tomSelectInstances['bag_baru']) tomSelectInstances['bag_baru'].setValue(bag || '');
+                            setTimeout(() => {
+                                if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].setValue(subbag || '');
+                            }, 100);
+                        }, 100);
+                    }, 100);
+                }
+            }
             
             document.getElementById('judul_form_user').innerText = "Edit Data User";
             document.getElementById('btn_simpan_user').innerText = "Perbarui Data";
@@ -1693,6 +1796,7 @@
             
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].clear();
             if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].clear();
+            // Tidak perlu clear biro/bag/subbag karena otomatis dibersihkan oleh onchange satker_baru
             
             document.getElementById('judul_form_user').innerText = "Formulir Tambah User Baru";
             document.getElementById('btn_simpan_user').innerText = "Buat Akun User Baru";
