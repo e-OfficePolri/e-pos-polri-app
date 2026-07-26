@@ -1664,68 +1664,60 @@
             }
         }
 
+        let sedangMemuatBiro = false;
         async function muatBiroDirBerdasarkanSatker() {
+            if (sedangMemuatBiro) return;
+            sedangMemuatBiro = true;
+
             const satkerPilihan = document.getElementById('satker_baru').value;
             const tsBiro = tomSelectInstances['biro_dir_baru'];
 
-            if (!tsBiro) return;
+            if (tsBiro) {
+                tsBiro.clear();
+                tsBiro.clearOptions();
 
-            const nilaiLama = tsBiro.getValue();
-            tsBiro.clear();
-            tsBiro.clearOptions();
+                if (satkerPilihan) {
+                    const { data, error } = await supabaseClient
+                        .from('biro_dir')
+                        .select('*')
+                        .eq('satker', satkerPilihan);
 
-            if (!satkerPilihan) return;
-
-            const { data, error } = await supabaseClient
-                .from('biro_dir')
-                .select('*')
-                .eq('satker', satkerPilihan);
-
-            if (error) {
-                console.error("Gagal memuat data biro/dir:", error.message);
-                return;
-            }
-
-            if (data && data.length > 0) {
-                data.forEach(item => {
-                    tsBiro.addOption({value: item.nama_biro, text: item.nama_biro});
-                });
-                if (nilaiLama) {
-                    tsBiro.setValue(nilaiLama);
+                    if (!error && data && data.length > 0) {
+                        data.forEach(item => {
+                            tsBiro.addOption({value: item.nama_biro, text: item.nama_biro});
+                        });
+                    }
                 }
             }
+            sedangMemuatBiro = false;
         }
 
+        let sedangMemuatBiroBag = false;
         async function muatBiroDirUntukBag() {
+            if (sedangMemuatBiroBag) return;
+            sedangMemuatBiroBag = true;
+
             const satkerPilihan = document.getElementById('satker_bag').value;
             const tsBiroBag = tomSelectInstances['biro_dir_bag'];
 
-            if (!tsBiroBag) return;
+            if (tsBiroBag) {
+                tsBiroBag.clear();
+                tsBiroBag.clearOptions();
 
-            const nilaiLama = tsBiroBag.getValue();
-            tsBiroBag.clear();
-            tsBiroBag.clearOptions();
+                if (satkerPilihan) {
+                    const { data, error } = await supabaseClient
+                        .from('biro_dir')
+                        .select('*')
+                        .eq('satker', satkerPilihan);
 
-            if (!satkerPilihan) return;
-
-            const { data, error } = await supabaseClient
-                .from('biro_dir')
-                .select('*')
-                .eq('satker', satkerPilihan);
-
-            if (error) {
-                console.error("Gagal memuat data biro/dir untuk bag:", error.message);
-                return;
-            }
-
-            if (data && data.length > 0) {
-                data.forEach(item => {
-                    tsBiroBag.addOption({value: item.nama_biro, text: item.nama_biro});
-                });
-                if (nilaiLama) {
-                    tsBiroBag.setValue(nilaiLama);
+                    if (!error && data && data.length > 0) {
+                        data.forEach(item => {
+                            tsBiroBag.addOption({value: item.nama_biro, text: item.nama_biro});
+                        });
+                    }
                 }
             }
+            sedangMemuatBiroBag = false;
         }
 
         async function simpanUser() {
