@@ -185,6 +185,7 @@
                                     <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('user')">• Tambah User Baru</a></li>
                                     <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('biro')">• Tambah Data Biro/Dir</a></li>
                                     <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('bag')">• Tambah Data Bag</a></li>
+                                    <li><a class="dropdown-item small py-1 text-primary fw-medium" href="#" onclick="gantiTabUser('subbag')">• Tambah Data Subbag</a></li>
                                 </ul>
                             </li>
 
@@ -549,7 +550,7 @@
                                     <option value="Sipil">SIPIL</option>
                                     <option value="SOP">SOP</option>
                                     <option value="Surat Cuti">SURAT CUTI</option>
-                                    <option value="Surat Edaran">SURAT EDARAN</option>
+                                    <option value="Surat Edaran">SURAT Edaran</option>
                                     <option value="Surat Izin">SURAT IZIN</option>
                                     <option value="Surat Izin Jalan">SURAT IZIN JALAN</option>
                                     <option value="Surat Keterangan">SURAT KETERANGAN</option>
@@ -1209,6 +1210,114 @@
                     </div>
                 </div>
 
+                <!-- FORM 4: TAMBAH DATA SUBBAG (TAMBAHAN BARU) -->
+                <div id="form_sub_subbag" class="card shadow-sm mb-4 d-none border-0">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="mb-0 text-dark fw-bold" id="judul_form_subbag">Formulir Tambah Data Subbag</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="edit_subbag_id"> 
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="satker_subbag" class="form-label fw-bold">Satuan Kerja:</label>
+                                <select id="satker_subbag" class="form-select searchable-select" required>
+                                    <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
+                                    <option value="Itwasum Polri">ITWASUM POLRI</option>
+                                    <option value="Bareskrim Polri">BARESKRIM POLRI</option>
+                                    <option value="Baharkam Polri">BAHARKAM POLRI</option>
+                                    <option value="Korbrimob Polri">KORBRIMOB POLRI</option>
+                                    <option value="Baintelkam Polri">BAINTELKAM POLRI</option>
+                                    <option value="Lemdiklat Polri">LEMDIKLAT POLRI</option>
+                                    <option value="Stamaops Polri">STAMAOPS POLRI</option>
+                                    <option value="Stamarena Polri">STAMARENA POLRI</option>
+                                    <option value="Korlantas Polri">KORLANTAS POLRI</option>
+                                    <option value="Kortastipidkor Polri">KORTASTIPIDKOR POLRI</option>
+                                    <option value="Densus 88 AT Polri">DENSUS 88 AT POLRI</option>
+                                    <option value="SDM Polri">SDM POLRI</option>
+                                    <option value="Slog Polri">SLOG POLRI</option>
+                                    <option value="Divpropam Polri">DIVPROPAM POLRI</option>
+                                    <option value="Divkum Polri">DIVKUM POLRI</option>
+                                    <option value="Divhumas Polri">DIVHUMAS POLRI</option>
+                                    <option value="Div TIK Polri">DIV TIK POLRI</option>
+                                    <option value="Divhubinter Polri">DIVHUBINTER POLRI</option>
+                                    <option value="Pusdokkes Polri">PUSDOKKES POLRI</option>
+                                    <option value="Sahli Kapolri">SAHLI KAPOLRI</option>
+                                    <option value="Puslitbang Polri">PUSLITBANG POLRI</option>
+                                    <option value="Puskeu Polri">PUSKEU POLRI</option>
+                                    <option value="Pusjarah Polri">PUSJARAH POLRI</option>
+                                    <option value="Spripim Polri">SPRIPIM POLRI</option>
+                                    <option value="Yanma Polri">YANMA POLRI</option>
+                                    <option value="Setum Polri">SETUM POLRI</option>
+                                    <option value="Polda Aceh">POLDA ACEH</option>
+                                    <option value="Polda Sumatera Utara">POLDA SUMATERA UTARA</option>
+                                    <option value="Polda Sumatera Barat">POLDA SUMATERA BARAT</option>
+                                    <option value="Polda Riau">POLDA RIAU</option>
+                                    <option value="Polda Kepulauan Riau">POLDA KEPULAUAN RIAU</option>
+                                    <option value="Polda Jambi">POLDA JAMBI</option>
+                                    <option value="Polda Bengkulu">POLDA BENGKULU</option>
+                                    <option value="Polda Sumatera Selatan">POLDA SUMATERA SELATAN</option>
+                                    <option value="Polda Kepulauan Bangka Belitung">POLDA KEPULAUAN BANGKA BELITUNG</option>
+                                    <option value="Polda Lampung">POLDA LAMPUNG</option>
+                                    <option value="Polda Metro Jaya">POLDA METRO JAYA</option>
+                                    <option value="Polda Banten">POLDA BANTEN</option>
+                                    <option value="Polda Jawa Barat">POLDA JAWA BARAT</option>
+                                    <option value="Polda Jawa Tengah">POLDA JAWA TENGAH</option>
+                                    <option value="Polda Daerah Istimewa Yogyakarta">POLDA DAERAH ISTIMEWA YOGYAKARTA</option>
+                                    <option value="Polda Jawa Timur">POLDA JAWA TIMUR</option>
+                                    <option value="Polda Bali">POLDA BALI</option>
+                                    <option value="Polda Nusa Tenggara Barat">POLDA NUSA TENGGARA BARAT</option>
+                                    <option value="Polda Nusa Tenggara Timur">POLDA NUSA TENGGARA TIMUR</option>
+                                    <option value="Polda Kalimantan Barat">POLDA KALIMANTAN BARAT</option>
+                                    <option value="Polda Kalimantan Tengah">POLDA KALIMANTAN TENGAH</option>
+                                    <option value="Polda Kalimantan Selatan">POLDA KALIMANTAN SELATAN</option>
+                                    <option value="Polda Kalimantan Timur">POLDA KALIMANTAN TIMUR</option>
+                                    <option value="Polda Kalimantan Utara">POLDA KALIMANTAN UTARA</option>
+                                    <option value="Polda Sulawesi Utara">POLDA SULAWESI UTARA</option>
+                                    <option value="Polda Gorontalo">POLDA GORONTALO</option>
+                                    <option value="Polda Sulawesi Tengah">POLDA SULAWESI TENGAH</option>
+                                    <option value="Polda Sulawesi Barat">POLDA SULAWESI SELATAN</option>
+                                    <option value="Polda Sulawesi Selatan">POLDA SULAWESI SELATAN</option>
+                                    <option value="Polda Sulawesi Tenggara">POLDA SULAWESI TENGGARA</option>
+                                    <option value="Polda Maluku">POLDA MALUKU</option>
+                                    <option value="Polda Maluku Utara">POLDA MALUKU UTARA</option>
+                                    <option value="Polda Papua Barat">POLDA PAPUA BARAT</option>
+                                    <option value="Polda Papua Barat Daya">POLDA PAPUA PAPUA BARAT DAYA</option>
+                                    <option value="Polda Papua">POLDA PAPUA</option>
+                                    <option value="Polda Papua Tengah">POLDA PAPUA TENGAH</option>
+                                    <option value="Polda Papua Pegunungan">POLDA PAPUA PEGUNUNGAN</option>
+                                    <option value="Polda Papua Selatan">POLDA PAPUA SELATAN</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="biro_dir_subbag" class="form-label fw-bold">Biro / Direktorat:</label>
+                                <select id="biro_dir_subbag" class="form-select searchable-select" required>
+                                    <option value="" disabled selected>-- Pilih Biro / Direktorat --</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="bag_subbag" class="form-label fw-bold">Bag:</label>
+                                <select id="bag_subbag" class="form-select searchable-select" required>
+                                    <option value="" disabled selected>-- Pilih Bag --</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="nama_subbag" class="form-label fw-bold">Nama Subbag:</label>
+                                <input type="text" id="nama_subbag" class="form-control" placeholder="Masukkan nama Subbag..." required>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button id="btn_simpan_subbag" class="btn btn-dark fw-bold" onclick="simpanSubbag()">Simpan Data Subbag</button>
+                            <button id="btn_batal_subbag" class="btn btn-secondary fw-bold d-none" onclick="batalEditSubbag()">Batal Edit</button>
+                        </div>
+                        <div id="pesan_subbag" class="mt-3 fw-bold"></div>
+                    </div>
+                </div>
+
                 <!-- TABEL 1: DAFTAR USER -->
                 <div id="card_tabel_user" class="card shadow-sm border-0">
                     <div class="card-header bg-white py-3 border-0">
@@ -1279,6 +1388,30 @@
                     </div>
                 </div>
 
+                <!-- TABEL 4: DAFTAR SUBBAG (TAMBAHAN BARU) -->
+                <div id="card_tabel_subbag" class="card shadow-sm border-0 d-none">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="mb-0 text-dark fw-bold">Daftar Subbag Terdaftar</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead class="table-dark text-center">
+                                    <tr>
+                                        <th style="width: 5%;">No</th>
+                                        <th style="width: 25%;">Satuan Kerja</th>
+                                        <th style="width: 20%;">Biro / Direktorat</th>
+                                        <th style="width: 20%;">Bag</th>
+                                        <th style="width: 20%;">Nama Subbag</th>
+                                        <th style="width: 10%;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel_subbag_data"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -1341,6 +1474,19 @@
             if (tomSelectInstances['satker_bag']) {
                 tomSelectInstances['satker_bag'].on('change', function(value) {
                     muatBiroDirUntukBag(value);
+                });
+            }
+
+            // Tambahan: Logika untuk Dropdown form Subbag
+            if (tomSelectInstances['satker_subbag']) {
+                tomSelectInstances['satker_subbag'].on('change', function(value) {
+                    muatBiroDirUntukSubbag(value);
+                });
+            }
+            if (tomSelectInstances['biro_dir_subbag']) {
+                tomSelectInstances['biro_dir_subbag'].on('change', function(value) {
+                    let satker = tomSelectInstances['satker_subbag'].getValue();
+                    muatBagUntukSubbag(satker, value);
                 });
             }
 
@@ -1642,6 +1788,7 @@
             }
         }
 
+        // ======================= FUNGSI NAVIGASI TAB USER =======================
         function gantiTabUser(jenis) {
             document.getElementById('section_beranda').classList.add('d-none');
             document.getElementById('section_surat_masuk').classList.add('d-none');
@@ -1653,17 +1800,22 @@
             const formUser = document.getElementById('form_sub_user');
             const formBiro = document.getElementById('form_sub_biro');
             const formBag = document.getElementById('form_sub_bag');
+            const formSubbag = document.getElementById('form_sub_subbag'); 
             
             const cardTabelUser = document.getElementById('card_tabel_user');
             const cardTabelBiro = document.getElementById('card_tabel_biro');
             const cardTabelBag = document.getElementById('card_tabel_bag');
+            const cardTabelSubbag = document.getElementById('card_tabel_subbag');
 
             formUser.classList.add('d-none');
             formBiro.classList.add('d-none');
             formBag.classList.add('d-none');
+            formSubbag.classList.add('d-none'); 
+
             if(cardTabelUser) cardTabelUser.classList.add('d-none');
             if(cardTabelBiro) cardTabelBiro.classList.add('d-none');
             if(cardTabelBag) cardTabelBag.classList.add('d-none');
+            if(cardTabelSubbag) cardTabelSubbag.classList.add('d-none');
 
             if (jenis === 'user') {
                 formUser.classList.remove('d-none');
@@ -1677,6 +1829,10 @@
                 formBag.classList.remove('d-none');
                 if(cardTabelBag) cardTabelBag.classList.remove('d-none');
                 tampilkanDaftarBag();
+            } else if (jenis === 'subbag') {
+                formSubbag.classList.remove('d-none');
+                if(cardTabelSubbag) cardTabelSubbag.classList.remove('d-none');
+                tampilkanDaftarSubbag(); 
             }
         }
 
@@ -1769,6 +1925,71 @@
                 }
             }
         }
+
+        // FUNGSI UNTUK MENU SUBBAG
+        async function muatBiroDirUntukSubbag(satkerPilihan) {
+            const tsBiroSubbag = tomSelectInstances['biro_dir_subbag'];
+            if (!tsBiroSubbag) return;
+
+            const nilaiLama = tsBiroSubbag.getValue();
+            tsBiroSubbag.clear();
+            tsBiroSubbag.clearOptions();
+
+            if (!satkerPilihan) return;
+
+            const { data, error } = await supabaseClient
+                .from('biro_dir')
+                .select('*')
+                .eq('satker', satkerPilihan);
+
+            if (error) {
+                console.error("Gagal memuat data biro/dir untuk subbag:", error.message);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                data.forEach(item => {
+                    tsBiroSubbag.addOption({value: item.nama_biro, text: item.nama_biro});
+                });
+                if (nilaiLama) {
+                    tsBiroSubbag.setValue(nilaiLama);
+                }
+            }
+        }
+
+        async function muatBagUntukSubbag(satkerPilihan, biroPilihan) {
+            const tsBagSubbag = tomSelectInstances['bag_subbag'];
+            if (!tsBagSubbag) return;
+
+            const nilaiLama = tsBagSubbag.getValue();
+            tsBagSubbag.clear();
+            tsBagSubbag.clearOptions();
+
+            if (!satkerPilihan) return;
+
+            // Jika ada biro dipilih, load bag spesifik, atau ambil semua di satker tersebut
+            let query = supabaseClient.from('bag_data').select('*').eq('satker', satkerPilihan);
+            if(biroPilihan) {
+                query = query.eq('biro_dir', biroPilihan);
+            }
+
+            const { data, error } = await query;
+
+            if (error) {
+                console.error("Gagal memuat data bag untuk subbag:", error.message);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                data.forEach(item => {
+                    tsBagSubbag.addOption({value: item.nama_bag, text: item.nama_bag});
+                });
+                if (nilaiLama) {
+                    tsBagSubbag.setValue(nilaiLama);
+                }
+            }
+        }
+
 
         async function simpanUser() {
             const editId = document.getElementById('edit_user_id').value;
@@ -1909,6 +2130,44 @@
             }
         }
 
+        // FUNGSI SIMPAN SUBBAG
+        async function simpanSubbag() {
+            const editId = document.getElementById('edit_subbag_id').value;
+            const satker = document.getElementById('satker_subbag').value;
+            const biroDir = document.getElementById('biro_dir_subbag').value;
+            const bag = document.getElementById('bag_subbag').value;
+            const namaSubbag = document.getElementById('nama_subbag').value;
+            const pesanEl = document.getElementById('pesan_subbag');
+
+            if (!satker || !biroDir || !bag || !namaSubbag) {
+                alert("Semua kolom wajib diisi!");
+                return;
+            }
+
+            pesanEl.className = "mt-3 fw-bold text-primary";
+            pesanEl.innerText = "Menyimpan data Subbag...";
+
+            // Asumsi kita menggunakan tabel bernama 'subbag_data' di Supabase
+            let dbError = null;
+            if (editId) {
+                const res = await supabaseClient.from('subbag_data').update({ satker, biro_dir: biroDir, bag, nama_subbag: namaSubbag }).eq('id', editId);
+                dbError = res.error;
+            } else {
+                const res = await supabaseClient.from('subbag_data').insert([{ satker, biro_dir: biroDir, bag, nama_subbag: namaSubbag }]);
+                dbError = res.error;
+            }
+
+            if (dbError) {
+                pesanEl.className = "mt-3 fw-bold text-danger";
+                pesanEl.innerText = "Gagal menyimpan data Subbag: " + dbError.message;
+            } else {
+                pesanEl.className = "mt-3 fw-bold text-success";
+                pesanEl.innerText = "Data Subbag berhasil disimpan!";
+                batalEditSubbag();
+                tampilkanDaftarSubbag();
+            }
+        }
+
         function batalEditBiro() {
             document.getElementById('edit_biro_id').value = '';
             if(tomSelectInstances['satker_biro']) tomSelectInstances['satker_biro'].clear();
@@ -1931,6 +2190,24 @@
             document.getElementById('btn_simpan_bag').innerText = "Simpan Data Bag";
             document.getElementById('btn_batal_bag').classList.add('d-none');
             document.getElementById('pesan_bag').innerText = "";
+        }
+
+        function batalEditSubbag() {
+            document.getElementById('edit_subbag_id').value = '';
+            if(tomSelectInstances['satker_subbag']) tomSelectInstances['satker_subbag'].clear();
+            if(tomSelectInstances['biro_dir_subbag']) {
+                tomSelectInstances['biro_dir_subbag'].clear();
+                tomSelectInstances['biro_dir_subbag'].clearOptions();
+            }
+            if(tomSelectInstances['bag_subbag']) {
+                tomSelectInstances['bag_subbag'].clear();
+                tomSelectInstances['bag_subbag'].clearOptions();
+            }
+            document.getElementById('nama_subbag').value = '';
+            document.getElementById('judul_form_subbag').innerText = "Formulir Tambah Data Subbag";
+            document.getElementById('btn_simpan_subbag').innerText = "Simpan Data Subbag";
+            document.getElementById('btn_batal_subbag').classList.add('d-none');
+            document.getElementById('pesan_subbag').innerText = "";
         }
 
         async function editUser(id, nama, pangkat, nrpNip, email, role, satker, biroDir, bag, subbag) {
@@ -2112,6 +2389,34 @@
             });
         }
 
+        // TAMPILKAN DAFTAR SUBBAG
+        async function tampilkanDaftarSubbag() {
+            // Memerlukan tabel subbag_data
+            const { data, error } = await supabaseClient.from('subbag_data').select('*').order('satker', { ascending: true });
+            const tbody = document.getElementById('tabel_subbag_data');
+            tbody.innerHTML = '';
+
+            if (error || !data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Belum ada data Subbag.</td></tr>`;
+                return;
+            }
+
+            data.forEach((item, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-center">${idx + 1}</td>
+                        <td class="text-uppercase">${item.satker}</td>
+                        <td class="text-uppercase">${item.biro_dir}</td>
+                        <td class="text-uppercase">${item.bag}</td>
+                        <td class="text-uppercase">${item.nama_subbag}</td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm" onclick="hapusSubbag('${item.id}')">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
         async function hapusBiroDir(id) {
             if (confirm("Yakin ingin menghapus data Biro/Dir ini?")) {
                 const { error } = await supabaseClient.from('biro_dir').delete().eq('id', id);
@@ -2125,6 +2430,14 @@
                 const { error } = await supabaseClient.from('bag_data').delete().eq('id', id);
                 if (error) alert("Gagal menghapus: " + error.message);
                 else tampilkanDaftarBag();
+            }
+        }
+
+        async function hapusSubbag(id) {
+            if (confirm("Yakin ingin menghapus data Subbag ini?")) {
+                const { error } = await supabaseClient.from('subbag_data').delete().eq('id', id);
+                if (error) alert("Gagal menghapus: " + error.message);
+                else tampilkanDaftarSubbag();
             }
         }
 
