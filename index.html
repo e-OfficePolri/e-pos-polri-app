@@ -1966,7 +1966,7 @@
 
             let query = supabaseClient.from('bag_data').select('*').eq('satker', satkerPilihan);
             if(biroPilihan) {
-                query = query.eq('biro_dir', biroPilihan);
+                query = query.eq('nama_biro', biroPilihan);
             }
 
             const { data, error } = await query;
@@ -2093,11 +2093,11 @@
         async function simpanBag() {
             const editId = document.getElementById('edit_bag_id').value;
             const satker = document.getElementById('satker_bag').value;
-            const biroDir = document.getElementById('biro_dir_bag').value;
+            const namaBiro = document.getElementById('biro_dir_bag').value;
             const namaBag = document.getElementById('nama_bag').value;
             const pesanEl = document.getElementById('pesan_bag');
 
-            if (!satker || !biroDir || !namaBag) {
+            if (!satker || !namaBiro || !namaBag) {
                 alert("Semua kolom wajib diisi!");
                 return;
             }
@@ -2105,12 +2105,18 @@
             pesanEl.className = "mt-3 fw-bold text-primary";
             pesanEl.innerText = "Menyimpan data Bag...";
 
+            let dataPayload = { 
+                satker: satker, 
+                nama_biro: namaBiro, 
+                nama_bag: namaBag 
+            };
+
             let dbError = null;
             if (editId) {
-                const res = await supabaseClient.from('bag_data').update({ satker, biro_dir: biroDir, nama_bag: namaBag }).eq('id', editId);
+                const res = await supabaseClient.from('bag_data').update(dataPayload).eq('id', editId);
                 dbError = res.error;
             } else {
-                const res = await supabaseClient.from('bag_data').insert([{ satker, biro_dir: biroDir, nama_bag: namaBag }]);
+                const res = await supabaseClient.from('bag_data').insert([dataPayload]);
                 dbError = res.error;
             }
 
@@ -2379,7 +2385,7 @@
                     <tr>
                         <td class="text-center">${idx + 1}</td>
                         <td class="text-uppercase">${item.satker}</td>
-                        <td class="text-uppercase">${item.biro_dir}</td>
+                        <td class="text-uppercase">${item.nama_biro}</td>
                         <td class="text-uppercase">${item.nama_bag}</td>
                         <td class="text-center">
                             <button class="btn btn-danger btn-sm" onclick="hapusBag('${item.id}')">Hapus</button>
