@@ -1647,7 +1647,13 @@
         }
 
         function gantiTabUser(jenis) {
-            gantiMenu('user', false);
+            document.getElementById('section_beranda').classList.add('d-none');
+            document.getElementById('section_surat_masuk').classList.add('d-none');
+            document.getElementById('section_surat_keluar').classList.add('d-none');
+            document.getElementById('section_manajemen_user').classList.remove('d-none');
+            
+            localStorage.setItem('menuAktif', 'user');
+
             const formUser = document.getElementById('form_sub_user');
             const formBiro = document.getElementById('form_sub_biro');
             const formBag = document.getElementById('form_sub_bag');
@@ -1656,7 +1662,6 @@
             const cardTabelBiro = document.getElementById('card_tabel_biro');
             const cardTabelBag = document.getElementById('card_tabel_bag');
 
-            // Sembunyikan semua form dan tabel terlebih dahulu
             formUser.classList.add('d-none');
             formBiro.classList.add('d-none');
             formBag.classList.add('d-none');
@@ -1664,7 +1669,6 @@
             if(cardTabelBiro) cardTabelBiro.classList.add('d-none');
             if(cardTabelBag) cardTabelBag.classList.add('d-none');
 
-            // Tampilkan secara eksklusif form dan tabel pasangannya masing-masing
             if (jenis === 'user') {
                 formUser.classList.remove('d-none');
                 if(cardTabelUser) cardTabelUser.classList.remove('d-none');
@@ -2086,7 +2090,8 @@
         function gantiMenu(menu, simpanKeStorage = true) {
             ['beranda', 'surat_masuk', 'surat_keluar', 'manajemen_user'].forEach(m => {
                 let secId = m === 'surat_masuk' ? 'section_surat_masuk' : (m === 'surat_keluar' ? 'section_surat_keluar' : (m === 'manajemen_user' ? 'section_manajemen_user' : 'section_beranda'));
-                document.getElementById(secId).classList.add('d-none');
+                let el = document.getElementById(secId);
+                if(el) el.classList.add('d-none');
             });
 
             ['beranda', 'masuk', 'keluar', 'user'].forEach(m => {
@@ -2109,7 +2114,6 @@
                 document.getElementById('btn_menu_keluar').classList.add('active');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'keluar');
             } else if (menu === 'user') {
-                document.getElementById('section_manajemen_user').classList.remove('d-none');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'user');
                 gantiTabUser('user');
             }
