@@ -1212,15 +1212,15 @@
             }
         }
 
-        // Fungsi untuk mengatur pilihan Biro/Dir berdasarkan Satker
+        // 1. Fungsi untuk mengatur pilihan Biro/Dir (otomatis huruf besar)
         function aturDropdownBiroDir(satkerTerpilih) {
             let tsBiro = tomSelectInstances['biro_dir_baru'];
             let tsBag = tomSelectInstances['bag_baru'];
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
-            tsBiro.clear(); tsBiro.clearOptions();
-            tsBag.clear(); tsBag.clearOptions();
-            tsSubbag.clear(); tsSubbag.clearOptions();
+            if (tsBiro) { tsBiro.clear(); tsBiro.clearOptions(); }
+            if (tsBag) { tsBag.clear(); tsBag.clearOptions(); }
+            if (tsSubbag) { tsSubbag.clear(); tsSubbag.clearOptions(); }
 
             if (!satkerTerpilih) return; 
 
@@ -1228,18 +1228,21 @@
             let biroUnik = [...new Set(filterBiro.map(item => item.nama_biro))];
 
             biroUnik.forEach(biro => {
-                if (biro) tsBiro.addOption({value: biro, text: biro});
+                if (biro) {
+                    let biroBesar = biro.toUpperCase(); // Ubah ke huruf besar
+                    tsBiro.addOption({value: biroBesar, text: biroBesar});
+                }
             });
         }
 
-        // Fungsi untuk mengatur pilihan Bag berdasarkan Biro/Dir
+        // 2. Fungsi untuk mengatur pilihan Bag (otomatis huruf besar)
         function aturDropdownBag(biroTerpilih) {
             let satkerTerpilih = document.getElementById('satker_baru').value;
             let tsBag = tomSelectInstances['bag_baru'];
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
-            tsBag.clear(); tsBag.clearOptions();
-            tsSubbag.clear(); tsSubbag.clearOptions();
+            if (tsBag) { tsBag.clear(); tsBag.clearOptions(); }
+            if (tsSubbag) { tsSubbag.clear(); tsSubbag.clearOptions(); }
 
             if (!biroTerpilih) return;
 
@@ -1247,11 +1250,14 @@
             let bagUnik = [...new Set(filterBag.map(item => item.nama_bag))];
 
             bagUnik.forEach(bag => {
-                if (bag) tsBag.addOption({value: bag, text: bag});
+                if (bag) {
+                    let bagBesar = bag.toUpperCase(); // Ubah ke huruf besar
+                    tsBag.addOption({value: bagBesar, text: bagBesar});
+                }
             });
         }
 
-        // Fungsi untuk mengatur pilihan Subbag secara fleksibel
+        // 3. Fungsi untuk mengatur pilihan Subbag (otomatis huruf besar)
         function aturDropdownSubbag(bagTerpilih) {
             let satkerTerpilih = document.getElementById('satker_baru').value;
             let biroTerpilih = document.getElementById('biro_dir_baru').value;
@@ -1264,7 +1270,6 @@
 
             if (!satkerTerpilih) return;
 
-            // Saring data dari variabel global berdasarkan Satker, Biro, dan Bag
             let filterSubbag = dataJabatanGlobal.filter(item => {
                 let cocokSatker = item.satker === satkerTerpilih;
                 let cocokBiro = (item.nama_biro === biroTerpilih) || (!item.nama_biro && !biroTerpilih);
@@ -1273,11 +1278,13 @@
                 return cocokSatker && cocokBiro && cocokBag;
             });
     
-            // Ambil nama subbag yang unik
             let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
 
             subbagUnik.forEach(subbag => {
-                if (subbag) tsSubbag.addOption({value: subbag, text: subbag});
+                if (subbag) {
+                    let subbagBesar = subbag.toUpperCase(); // Ubah ke huruf besar
+                    tsSubbag.addOption({value: subbagBesar, text: subbagBesar});
+                }
             });
         }
         
