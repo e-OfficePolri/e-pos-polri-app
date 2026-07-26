@@ -550,7 +550,7 @@
                                     <option value="Sipil">SIPIL</option>
                                     <option value="SOP">SOP</option>
                                     <option value="Surat Cuti">SURAT CUTI</option>
-                                    <option value="Surat Edaran">SURAT Edaran</option>
+                                    <option value="Surat Edaran">SURAT EDARAN</option>
                                     <option value="Surat Izin">SURAT IZIN</option>
                                     <option value="Surat Izin Jalan">SURAT IZIN JALAN</option>
                                     <option value="Surat Keterangan">SURAT KETERANGAN</option>
@@ -1210,7 +1210,7 @@
                     </div>
                 </div>
 
-                <!-- FORM 4: TAMBAH DATA SUBBAG (TAMBAHAN BARU) -->
+                <!-- FORM 4: TAMBAH DATA SUBBAG -->
                 <div id="form_sub_subbag" class="card shadow-sm mb-4 d-none border-0">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-dark fw-bold" id="judul_form_subbag">Formulir Tambah Data Subbag</h5>
@@ -1388,7 +1388,7 @@
                     </div>
                 </div>
 
-                <!-- TABEL 4: DAFTAR SUBBAG (TAMBAHAN BARU) -->
+                <!-- TABEL 4: DAFTAR SUBBAG -->
                 <div id="card_tabel_subbag" class="card shadow-sm border-0 d-none">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-dark fw-bold">Daftar Subbag Terdaftar</h5>
@@ -1477,7 +1477,6 @@
                 });
             }
 
-            // Tambahan: Logika untuk Dropdown form Subbag
             if (tomSelectInstances['satker_subbag']) {
                 tomSelectInstances['satker_subbag'].on('change', function(value) {
                     muatBiroDirUntukSubbag(value);
@@ -1788,7 +1787,6 @@
             }
         }
 
-        // ======================= FUNGSI NAVIGASI TAB USER =======================
         function gantiTabUser(jenis) {
             document.getElementById('section_beranda').classList.add('d-none');
             document.getElementById('section_surat_masuk').classList.add('d-none');
@@ -1926,7 +1924,6 @@
             }
         }
 
-        // FUNGSI UNTUK MENU SUBBAG
         async function muatBiroDirUntukSubbag(satkerPilihan) {
             const tsBiroSubbag = tomSelectInstances['biro_dir_subbag'];
             if (!tsBiroSubbag) return;
@@ -1967,7 +1964,6 @@
 
             if (!satkerPilihan) return;
 
-            // Jika ada biro dipilih, load bag spesifik, atau ambil semua di satker tersebut
             let query = supabaseClient.from('bag_data').select('*').eq('satker', satkerPilihan);
             if(biroPilihan) {
                 query = query.eq('biro_dir', biroPilihan);
@@ -1989,7 +1985,6 @@
                 }
             }
         }
-
 
         async function simpanUser() {
             const editId = document.getElementById('edit_user_id').value;
@@ -2130,7 +2125,6 @@
             }
         }
 
-        // FUNGSI SIMPAN SUBBAG
         async function simpanSubbag() {
             const editId = document.getElementById('edit_subbag_id').value;
             const satker = document.getElementById('satker_subbag').value;
@@ -2147,13 +2141,19 @@
             pesanEl.className = "mt-3 fw-bold text-primary";
             pesanEl.innerText = "Menyimpan data Subbag...";
 
-            // Asumsi kita menggunakan tabel bernama 'subbag_data' di Supabase
+            let dataPayload = { 
+                satker: satker, 
+                biro_dir: biroDir, 
+                nama_bag: bag, 
+                nama_subbag: namaSubbag 
+            };
+
             let dbError = null;
             if (editId) {
-                const res = await supabaseClient.from('subbag_data').update({ satker, biro_dir: biroDir, bag, nama_subbag: namaSubbag }).eq('id', editId);
+                const res = await supabaseClient.from('subbag_data').update(dataPayload).eq('id', editId);
                 dbError = res.error;
             } else {
-                const res = await supabaseClient.from('subbag_data').insert([{ satker, biro_dir: biroDir, bag, nama_subbag: namaSubbag }]);
+                const res = await supabaseClient.from('subbag_data').insert([dataPayload]);
                 dbError = res.error;
             }
 
@@ -2389,9 +2389,7 @@
             });
         }
 
-        // TAMPILKAN DAFTAR SUBBAG
         async function tampilkanDaftarSubbag() {
-            // Memerlukan tabel subbag_data
             const { data, error } = await supabaseClient.from('subbag_data').select('*').order('satker', { ascending: true });
             const tbody = document.getElementById('tabel_subbag_data');
             tbody.innerHTML = '';
@@ -2407,7 +2405,7 @@
                         <td class="text-center">${idx + 1}</td>
                         <td class="text-uppercase">${item.satker}</td>
                         <td class="text-uppercase">${item.biro_dir}</td>
-                        <td class="text-uppercase">${item.bag}</td>
+                        <td class="text-uppercase">${item.nama_bag}</td>
                         <td class="text-uppercase">${item.nama_subbag}</td>
                         <td class="text-center">
                             <button class="btn btn-danger btn-sm" onclick="hapusSubbag('${item.id}')">Hapus</button>
