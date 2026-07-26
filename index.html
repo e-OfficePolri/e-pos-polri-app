@@ -1257,22 +1257,26 @@
             let biroTerpilih = document.getElementById('biro_dir_baru').value;
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
-            tsSubbag.clear(); tsSubbag.clearOptions();
+            tsSubbag.clear(); 
+            tsSubbag.clearOptions();
 
             if (!bagTerpilih) return;
 
+            // Saring data dari variabel global berdasarkan kombinasi Satker, Biro, dan Bag
             let filterSubbag = dataJabatanGlobal.filter(item => 
                 item.satker === satkerTerpilih && 
-                item.nama_biro === biroTerpilih && 
+                (item.nama_biro === biroTerpilih || (!item.nama_biro && !biroTerpilih)) && 
                 item.nama_bag === bagTerpilih
             );
+    
+            // Ambil nama subbag yang unik
             let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
 
             subbagUnik.forEach(subbag => {
                 if (subbag) tsSubbag.addOption({value: subbag, text: subbag});
             });
         }
-
+        
         // Fungsi untuk mendeteksi setiap kali dropdown berubah pilihan
         function pasangEventDropdownDinamis() {
             if(tomSelectInstances['satker_baru']) {
