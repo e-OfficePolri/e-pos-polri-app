@@ -1337,7 +1337,6 @@
                 tomSelectInstances[el.id] = instance;
             });
 
-            // Daftarkan event listener Tom Select secara aman untuk mencegah stack overflow
             if (tomSelectInstances['satker_baru']) {
                 tomSelectInstances['satker_baru'].on('change', function(value) {
                     muatBiroDirBerdasarkanSatker(value);
