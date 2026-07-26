@@ -1114,7 +1114,7 @@
                     </div>
                 </div>
 
-                <!-- FORM 3: TAMBAH DATA BAG (BARU) -->
+                <!-- FORM 3: TAMBAH DATA BAG -->
                 <div id="form_sub_bag" class="card shadow-sm mb-4 d-none border-0">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-dark fw-bold" id="judul_form_bag">Formulir Tambah Data Bag</h5>
@@ -1215,7 +1215,8 @@
                     </div>
                 </div>
 
-                <div class="card shadow-sm border-0">
+                <!-- TABEL 1: DAFTAR USER -->
+                <div id="card_tabel_user" class="card shadow-sm border-0">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-dark fw-bold">Daftar Akun Pengguna Terdaftar</h5>
                     </div>
@@ -1238,6 +1239,52 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- TABEL 2: DAFTAR BIRO/DIR (D-NONE AWALNYA) -->
+                <div id="card_tabel_biro" class="card shadow-sm border-0 d-none">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="mb-0 text-dark fw-bold">Daftar Biro / Direktorat Terdaftar</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead class="table-dark text-center">
+                                    <tr>
+                                        <th style="width: 10%;">No</th>
+                                        <th style="width: 40%;">Satuan Kerja</th>
+                                        <th style="width: 40%;">Biro / Direktorat</th>
+                                        <th style="width: 10%;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel_biro_dir"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABEL 3: DAFTAR BAG (D-NONE AWALNYA) -->
+                <div id="card_tabel_bag" class="card shadow-sm border-0 d-none">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="mb-0 text-dark fw-bold">Daftar Bag Terdaftar</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead class="table-dark text-center">
+                                    <tr>
+                                        <th style="width: 8%;">No</th>
+                                        <th style="width: 30%;">Satuan Kerja</th>
+                                        <th style="width: 30%;">Biro / Direktorat</th>
+                                        <th style="width: 22%;">Nama Bag</th>
+                                        <th style="width: 10%;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel_bag_data"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -1590,17 +1637,30 @@
             const formUser = document.getElementById('form_sub_user');
             const formBiro = document.getElementById('form_sub_biro');
             const formBag = document.getElementById('form_sub_bag');
+            
+            const cardTabelUser = document.getElementById('card_tabel_user');
+            const cardTabelBiro = document.getElementById('card_tabel_biro');
+            const cardTabelBag = document.getElementById('card_tabel_bag');
 
             formUser.classList.add('d-none');
             formBiro.classList.add('d-none');
             formBag.classList.add('d-none');
+            if(cardTabelUser) cardTabelUser.classList.add('d-none');
+            if(cardTabelBiro) cardTabelBiro.classList.add('d-none');
+            if(cardTabelBag) cardTabelBag.classList.add('d-none');
 
             if (jenis === 'user') {
                 formUser.classList.remove('d-none');
+                if(cardTabelUser) cardTabelUser.classList.remove('d-none');
+                tampilkanDaftarUser();
             } else if (jenis === 'biro') {
                 formBiro.classList.remove('d-none');
+                if(cardTabelBiro) cardTabelBiro.classList.remove('d-none');
+                tampilkanDaftarBiroDir();
             } else if (jenis === 'bag') {
                 formBag.classList.remove('d-none');
+                if(cardTabelBag) cardTabelBag.classList.remove('d-none');
+                tampilkanDaftarBag();
             }
         }
 
@@ -1760,6 +1820,7 @@
                 pesanEl.className = "mt-3 fw-bold text-success";
                 pesanEl.innerText = "Data Biro/Dir berhasil disimpan!";
                 batalEditBiro();
+                tampilkanDaftarBiroDir();
             }
         }
 
@@ -1794,6 +1855,7 @@
                 pesanEl.className = "mt-3 fw-bold text-success";
                 pesanEl.innerText = "Data Bag berhasil disimpan!";
                 batalEditBag();
+                tampilkanDaftarBag();
             }
         }
 
@@ -1936,6 +1998,71 @@
             });
         }
 
+        async function tampilkanDaftarBiroDir() {
+            const { data, error } = await supabaseClient.from('biro_dir').select('*').order('satker', { ascending: true });
+            const tbody = document.getElementById('tabel_biro_dir');
+            tbody.innerHTML = '';
+
+            if (error || !data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Belum ada data Biro/Dir.</td></tr>`;
+                return;
+            }
+
+            data.forEach((item, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-center">${idx + 1}</td>
+                        <td class="text-uppercase">${item.satker}</td>
+                        <td class="text-uppercase">${item.nama_biro}</td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm" onclick="hapusBiroDir('${item.id}')">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function tampilkanDaftarBag() {
+            const { data, error } = await supabaseClient.from('bag_data').select('*').order('satker', { ascending: true });
+            const tbody = document.getElementById('tabel_bag_data');
+            tbody.innerHTML = '';
+
+            if (error || !data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Belum ada data Bag.</td></tr>`;
+                return;
+            }
+
+            data.forEach((item, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="text-center">${idx + 1}</td>
+                        <td class="text-uppercase">${item.satker}</td>
+                        <td class="text-uppercase">${item.biro_dir}</td>
+                        <td class="text-uppercase">${item.nama_bag}</td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm" onclick="hapusBag('${item.id}')">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function hapusBiroDir(id) {
+            if (confirm("Yakin ingin menghapus data Biro/Dir ini?")) {
+                const { error } = await supabaseClient.from('biro_dir').delete().eq('id', id);
+                if (error) alert("Gagal menghapus: " + error.message);
+                else tampilkanDaftarBiroDir();
+            }
+        }
+
+        async function hapusBag(id) {
+            if (confirm("Yakin ingin menghapus data Bag ini?")) {
+                const { error } = await supabaseClient.from('bag_data').delete().eq('id', id);
+                if (error) alert("Gagal menghapus: " + error.message);
+                else tampilkanDaftarBag();
+            }
+        }
+
         function gantiMenu(menu, simpanKeStorage = true) {
             ['beranda', 'surat_masuk', 'surat_keluar', 'manajemen_user'].forEach(m => {
                 let secId = m === 'surat_masuk' ? 'section_surat_masuk' : (m === 'surat_keluar' ? 'section_surat_keluar' : (m === 'manajemen_user' ? 'section_manajemen_user' : 'section_beranda'));
@@ -1964,7 +2091,7 @@
             } else if (menu === 'user') {
                 document.getElementById('section_manajemen_user').classList.remove('d-none');
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'user');
-                tampilkanDaftarUser();
+                gantiTabUser('user');
             }
         }
 
