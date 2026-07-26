@@ -958,11 +958,6 @@
                                 <label for="bag_baru" class="form-label fw-bold">Bag:</label>
                                 <select id="bag_baru" class="form-select searchable-select">
                                     <option value="" disabled selected>-- Pilih Bag --</option>
-                                    <option value="BAGREN">BAGREN</option>
-                                    <option value="BAGBINOPS">BAGBINOPS</option>
-                                    <option value="BAGWATPERS">BAGWATPERS</option>
-                                    <option value="BAGLOG">BAGLOG</option>
-                                    <option value="BAGPSI">BAGPSI</option>
                                 </select>
                             </div>
 
@@ -1339,6 +1334,7 @@
             if (tomSelectInstances['satker_baru']) {
                 tomSelectInstances['satker_baru'].on('change', function(value) {
                     muatBiroDirBerdasarkanSatker(value);
+                    muatBagBerdasarkanSatker(value);
                 });
             }
 
@@ -1714,6 +1710,36 @@
             }
         }
 
+        async function muatBagBerdasarkanSatker(satkerPilihan) {
+            const tsBag = tomSelectInstances['bag_baru'];
+            if (!tsBag) return;
+
+            const nilaiLama = tsBag.getValue();
+            tsBag.clear();
+            tsBag.clearOptions();
+
+            if (!satkerPilihan) return;
+
+            const { data, error } = await supabaseClient
+                .from('bag_data')
+                .select('*')
+                .eq('satker', satkerPilihan);
+
+            if (error) {
+                console.error("Gagal memuat data bag:", error.message);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                data.forEach(item => {
+                    tsBag.addOption({value: item.nama_bag, text: item.nama_bag});
+                });
+                if (nilaiLama) {
+                    tsBag.setValue(nilaiLama);
+                }
+            }
+        }
+
         async function muatBiroDirUntukBag(satkerPilihan) {
             const tsBiroBag = tomSelectInstances['biro_dir_bag'];
             if (!tsBiroBag) return;
@@ -1933,7 +1959,19 @@
                 tsBiro.setValue(biroDir || '');
             }
 
-            if(tomSelectInstances['bag_baru']) tomSelectInstances['bag_baru'].setValue(bag || '');
+            const tsBag = tomSelectInstances['bag_baru'];
+            if (tsBag) {
+                tsBag.clear();
+                tsBag.clearOptions();
+                if (satker) {
+                    const { data } = await supabaseClient.from('bag_data').select('*').eq('satker', satker);
+                    if (data && data.length > 0) {
+                        data.forEach(item => tsBag.addOption({value: item.nama_bag, text: item.nama_bag}));
+                    }
+                }
+                tsBag.setValue(bag || '');
+            }
+
             if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].setValue(subbag || '');
             
             document.getElementById('judul_form_user').innerText = "Edit Data User";
@@ -1958,7 +1996,10 @@
                 tomSelectInstances['biro_dir_baru'].clear();
                 tomSelectInstances['biro_dir_baru'].clearOptions();
             }
-            if(tomSelectInstances['bag_baru']) tomSelectInstances['bag_baru'].clear();
+            if(tomSelectInstances['bag_baru']) {
+                tomSelectInstances['bag_baru'].clear();
+                tomSelectInstances['bag_baru'].clearOptions();
+            }
             if(tomSelectInstances['subbag_baru']) tomSelectInstances['subbag_baru'].clear();
             
             document.getElementById('judul_form_user').innerText = "Formulir Tambah User Baru";
