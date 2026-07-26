@@ -948,7 +948,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="biro_dir_baru" class="form-label fw-bold">Biro / Direktorat:</label>
-                                <select id="biro_dir_baru" class="form-select searchable-select" required>
+                                <select id="biro_dir_baru" class="form-select searchable-select">
                                     <option value="" disabled selected>-- Pilih Biro / Direktorat --</option>
                                 </select>
                             </div>
@@ -962,7 +962,7 @@
 
                             <div class="col-md-6 mb-3" id="wrapper_subbag_baru">
                                 <label for="subbag_baru" class="form-label fw-bold">Subbag:</label>
-                                <select id="subbag_baru" class="form-select searchable-select">
+                                <select id="subbag_baru" class="form-select searchable-select" required>
                                     <option value="" disabled selected>-- Pilih Subbag --</option>
                                 </select>
                             </div>
@@ -1088,12 +1088,12 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="nama_biro_jabatan" class="form-label fw-bold">Biro / Direktorat:</label>
-                                <input type="text" id="nama_biro_jabatan" class="form-control" placeholder="Masukkan Biro / Direktorat..." required>
+                                <input type="text" id="nama_biro_jabatan" class="form-control" placeholder="Masukkan Biro / Direktorat...">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="nama_bag_jabatan" class="form-label fw-bold">Bag:</label>
-                                <input type="text" id="nama_bag_jabatan" class="form-control" placeholder="Masukkan Bag..." required>
+                                <input type="text" id="nama_bag_jabatan" class="form-control" placeholder="Masukkan Bag...">
                             </div>
 
                             <div class="col-md-6 mb-3">
@@ -1703,8 +1703,9 @@
             const namaSubbag = document.getElementById('nama_subbag_jabatan').value;
             const pesanEl = document.getElementById('pesan_jabatan');
 
+            // Validasi pengecekan kolom kosong termasuk subbag
             if (!satker || !namaBiro || !namaBag || !namaSubbag) {
-                alert("Semua kolom wajib diisi!");
+                alert("Semua kolom termasuk Subbag wajib diisi!");
                 return;
             }
 
