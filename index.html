@@ -1668,10 +1668,11 @@
             const satkerPilihan = document.getElementById('satker_baru').value;
             const tsBiro = tomSelectInstances['biro_dir_baru'];
 
-            if (tsBiro) {
-                tsBiro.clear();
-                tsBiro.clearOptions();
-            }
+            if (!tsBiro) return;
+
+            const nilaiLama = tsBiro.getValue();
+            tsBiro.clear();
+            tsBiro.clearOptions();
 
             if (!satkerPilihan) return;
 
@@ -1685,10 +1686,13 @@
                 return;
             }
 
-            if (data && data.length > 0 && tsBiro) {
+            if (data && data.length > 0) {
                 data.forEach(item => {
                     tsBiro.addOption({value: item.nama_biro, text: item.nama_biro});
                 });
+                if (nilaiLama) {
+                    tsBiro.setValue(nilaiLama);
+                }
             }
         }
 
@@ -1696,10 +1700,11 @@
             const satkerPilihan = document.getElementById('satker_bag').value;
             const tsBiroBag = tomSelectInstances['biro_dir_bag'];
 
-            if (tsBiroBag) {
-                tsBiroBag.clear();
-                tsBiroBag.clearOptions();
-            }
+            if (!tsBiroBag) return;
+
+            const nilaiLama = tsBiroBag.getValue();
+            tsBiroBag.clear();
+            tsBiroBag.clearOptions();
 
             if (!satkerPilihan) return;
 
@@ -1713,10 +1718,13 @@
                 return;
             }
 
-            if (data && data.length > 0 && tsBiroBag) {
+            if (data && data.length > 0) {
                 data.forEach(item => {
                     tsBiroBag.addOption({value: item.nama_biro, text: item.nama_biro});
                 });
+                if (nilaiLama) {
+                    tsBiroBag.setValue(nilaiLama);
+                }
             }
         }
 
