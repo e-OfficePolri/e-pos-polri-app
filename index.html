@@ -878,7 +878,7 @@
                         
                             <div class="col-md-6 mb-3">
                                 <label for="satker_baru" class="form-label fw-bold">Satuan Kerja:</label>
-                                <select id="satker_baru" class="form-select searchable-select" onchange="muatBiroDirBerdasarkanSatker()" required>
+                                <select id="satker_baru" class="form-select searchable-select" required>
                                     <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
                                     <option value="Itwasum Polri">ITWASUM POLRI</option>
                                     <option value="Bareskrim Polri">BARESKRIM POLRI</option>
@@ -1125,7 +1125,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="satker_bag" class="form-label fw-bold">Satuan Kerja:</label>
-                                <select id="satker_bag" class="form-select searchable-select" onchange="muatBiroDirUntukBag()" required>
+                                <select id="satker_bag" class="form-select searchable-select" required>
                                     <option value="" disabled selected>-- Pilih Satuan Kerja --</option>
                                     <option value="Itwasum Polri">ITWASUM POLRI</option>
                                     <option value="Bareskrim Polri">BARESKRIM POLRI</option>
@@ -1327,13 +1327,29 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.searchable-select').forEach((el) => {
-                let instance = new TomSelect(el, {
+                let optionsConfig = {
                     create: false,
                     sortField: false,
-                    maxOptions: null 
-                });
+                    maxOptions: null
+                };
+
+                let instance = new TomSelect(el, optionsConfig);
                 tomSelectInstances[el.id] = instance;
             });
+
+            // Daftarkan event listener Tom Select secara aman untuk mencegah stack overflow
+            if (tomSelectInstances['satker_baru']) {
+                tomSelectInstances['satker_baru'].on('change', function(value) {
+                    muatBiroDirBerdasarkanSatker(value);
+                });
+            }
+
+            if (tomSelectInstances['satker_bag']) {
+                tomSelectInstances['satker_bag'].on('change', function(value) {
+                    muatBiroDirUntukBag(value);
+                });
+            }
+
             cekStatusHalamanAwal();
         });
 
@@ -1664,60 +1680,64 @@
             }
         }
 
-        let sedangMemuatBiro = false;
-        async function muatBiroDirBerdasarkanSatker() {
-            if (sedangMemuatBiro) return;
-            sedangMemuatBiro = true;
-
-            const satkerPilihan = document.getElementById('satker_baru').value;
+        async function muatBiroDirBerdasarkanSatker(satkerPilihan) {
             const tsBiro = tomSelectInstances['biro_dir_baru'];
+            if (!tsBiro) return;
 
-            if (tsBiro) {
-                tsBiro.clear();
-                tsBiro.clearOptions();
+            const nilaiLama = tsBiro.getValue();
+            tsBiro.clear();
+            tsBiro.clearOptions();
 
-                if (satkerPilihan) {
-                    const { data, error } = await supabaseClient
-                        .from('biro_dir')
-                        .select('*')
-                        .eq('satker', satkerPilihan);
+            if (!satkerPilihan) return;
 
-                    if (!error && data && data.length > 0) {
-                        data.forEach(item => {
-                            tsBiro.addOption({value: item.nama_biro, text: item.nama_biro});
-                        });
-                    }
+            const { data, error } = await supabaseClient
+                .from('biro_dir')
+                .select('*')
+                .eq('satker', satkerPilihan);
+
+            if (error) {
+                console.error("Gagal memuat data biro/dir:", error.message);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                data.forEach(item => {
+                    tsBiro.addOption({value: item.nama_biro, text: item.nama_biro});
+                });
+                if (nilaiLama) {
+                    tsBiro.setValue(nilaiLama);
                 }
             }
-            sedangMemuatBiro = false;
         }
 
-        let sedangMemuatBiroBag = false;
-        async function muatBiroDirUntukBag() {
-            if (sedangMemuatBiroBag) return;
-            sedangMemuatBiroBag = true;
-
-            const satkerPilihan = document.getElementById('satker_bag').value;
+        async function muatBiroDirUntukBag(satkerPilihan) {
             const tsBiroBag = tomSelectInstances['biro_dir_bag'];
+            if (!tsBiroBag) return;
 
-            if (tsBiroBag) {
-                tsBiroBag.clear();
-                tsBiroBag.clearOptions();
+            const nilaiLama = tsBiroBag.getValue();
+            tsBiroBag.clear();
+            tsBiroBag.clearOptions();
 
-                if (satkerPilihan) {
-                    const { data, error } = await supabaseClient
-                        .from('biro_dir')
-                        .select('*')
-                        .eq('satker', satkerPilihan);
+            if (!satkerPilihan) return;
 
-                    if (!error && data && data.length > 0) {
-                        data.forEach(item => {
-                            tsBiroBag.addOption({value: item.nama_biro, text: item.nama_biro});
-                        });
-                    }
+            const { data, error } = await supabaseClient
+                .from('biro_dir')
+                .select('*')
+                .eq('satker', satkerPilihan);
+
+            if (error) {
+                console.error("Gagal memuat data biro/dir untuk bag:", error.message);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                data.forEach(item => {
+                    tsBiroBag.addOption({value: item.nama_biro, text: item.nama_biro});
+                });
+                if (nilaiLama) {
+                    tsBiroBag.setValue(nilaiLama);
                 }
             }
-            sedangMemuatBiroBag = false;
         }
 
         async function simpanUser() {
