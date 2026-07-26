@@ -1712,10 +1712,11 @@
             pesanEl.className = "mt-3 fw-bold text-primary";
             pesanEl.innerText = "Menyimpan data Jabatan...";
 
+            // Mengubah string kosong menjadi null agar aman dikirim ke database
             let dataPayload = { 
                 satker: satker, 
-                nama_biro: namaBiro || null, 
-                nama_bag: namaBag || null,
+                nama_biro: namaBiro ? namaBiro : null, 
+                nama_bag: namaBag ? namaBag : null,
                 nama_subbag: namaSubbag 
             };
 
