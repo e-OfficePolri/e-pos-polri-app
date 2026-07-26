@@ -1397,13 +1397,14 @@
             }
         }
 
-        function batalDanKeLogin() {
+        async function batalDanKeLogin() {
             sessionStorage.removeItem('sedangResetPassword');
             try { await supabaseClient.auth.signOut(); } catch (e) {}
-            window.history.replaceState(null, null, window.location.pathname);
-            document.getElementById('section_ubah_password').classList.add('d-none');
-            document.getElementById('section_login').classList.remove('d-none');
+                window.history.replaceState(null, null, window.location.pathname);
+                document.getElementById('section_ubah_password').classList.add('d-none');
+                document.getElementById('section_login').classList.remove('d-none');
         }
+
 
         async function prosesLogin() {
             const email = document.getElementById('email_login').value.trim();
