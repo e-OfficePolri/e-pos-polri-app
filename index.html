@@ -1334,23 +1334,26 @@
             });
         }
         
-        // Fungsi untuk mendeteksi setiap kali dropdown berubah pilihan secara fleksibel
+        // Fungsi untuk mendeteksi setiap kali dropdown berubah pilihan secara fleksibel menggunakan Tom Select
         function pasangEventDropdownDinamis() {
-            if(tomSelectInstances['satker_baru']) {
+            // Memantau perubahan pada Satuan Kerja
+            if (tomSelectInstances['satker_baru']) {
                 tomSelectInstances['satker_baru'].on('change', function(value) {
                     aturDropdownBiroDir(value);
-                    // Langsung panggil juga pencarian subbag berdasarkan satker, 
-                    // jaga-jaga jika biro/bag bernilai kosong (NULL)
                     aturDropdownSubbag(''); 
                 });
             }
-            if(tomSelectInstances['biro_dir_baru']) {
+            
+            // Memantau perubahan pada Biro / Direktorat
+            if (tomSelectInstances['biro_dir_baru']) {
                 tomSelectInstances['biro_dir_baru'].on('change', function(value) {
                     aturDropdownBag(value);
                     aturDropdownSubbag('');
                });
             }
-            if(tomSelectInstances['bag_baru']) {
+            
+            // Memantau perubahan pada Bag
+            if (tomSelectInstances['bag_baru']) {
                 tomSelectInstances['bag_baru'].on('change', function(value) {
                     aturDropdownSubbag(value);
                 });
@@ -1369,7 +1372,7 @@
                 tomSelectInstances[el.id] = instance;
             });
 
-            // Muat data jabatan untuk Dropdown dan pasang deteksi Event Dropdown
+            // Muat data jabatan untuk Dropdown dan pasang deteksi Event Dropdown secara otomatis
             muatDataJabatanUntukDropdown().then(() => pasangEventDropdownDinamis());
 
             cekStatusHalamanAwal();
