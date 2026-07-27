@@ -139,6 +139,36 @@
         </div>
     </div>
 
+    <!-- ================= HALAMAN PILIH APLIKASI ================= -->
+    <div id="section_pilih_aplikasi" class="container d-flex justify-content-center align-items-center vh-100 d-none">
+        <div class="text-center w-100" style="max-width: 800px;">
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
+                <img src="Tribrata.png" alt="Logo Tribrata" style="height: 70px; width: auto;" onerror="this.style.display='none'">
+                <img src="Setum_Polri.png" alt="Logo Setum Polri" style="height: 70px; width: auto;">
+            </div>
+            <h2 class="text-primary fw-bold mb-2">Portal e-Office Polri</h2>
+            <p class="text-muted mb-5">Silakan pilih aplikasi yang ingin Anda akses</p>
+            
+            <div class="row g-4 justify-content-center">
+                <!-- Tombol e-Pos Setum Polri -->
+                <div class="col-md-5">
+                    <button class="btn btn-outline-primary w-100 h-100 py-5 rounded-4 shadow-sm" onclick="masukAplikasi('epos')">
+                        <h3 class="fw-bold mb-3">e-Pos Setum Polri</h3>
+                        <p class="mb-0">Sistem Pengelolaan Surat</p>
+                    </button>
+                </div>
+                
+                <!-- Tombol e-Takkah Polri -->
+                <div class="col-md-5">
+                    <button class="btn btn-outline-secondary w-100 h-100 py-5 rounded-4 shadow-sm" style="cursor: default;" onclick="masukAplikasi('etakkah')">
+                        <h3 class="fw-bold mb-3">e-Takkah Polri</h3>
+                        <p class="mb-0">Sistem Tata Naskah (Segera Hadir)</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- ================= APLIKASI UTAMA ================= -->
     <div id="app_utama" class="d-none">
         <nav class="navbar navbar-dark bg-primary shadow-sm mb-4">
@@ -1421,7 +1451,10 @@
                 document.getElementById('section_login').classList.add('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('section_ubah_password').classList.add('d-none');
-                document.getElementById('app_utama').classList.remove('d-none');
+                
+                // Sembunyikan app_utama, dan tampilkan halaman pilih aplikasi
+                document.getElementById('app_utama').classList.add('d-none');
+                document.getElementById('section_pilih_aplikasi').classList.remove('d-none');
                 
                 const { data: profile, error: profileError } = await supabaseClient
                     .from('profiles')
@@ -1460,8 +1493,6 @@
                 tampilkanSurat('masuk');
                 tampilkanSurat('keluar');
                 
-                const menuTersimpan = localStorage.getItem('menuAktif');
-                gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
             } else {
                 document.getElementById('section_login').classList.remove('d-none');
                 document.getElementById('section_lupa_password').classList.add('d-none');
@@ -1544,6 +1575,22 @@
             }
         }
 
+        // ================= FUNGSI MASUK APLIKASI DARI PORTAL =================
+        function masukAplikasi(namaAplikasi) {
+            if (namaAplikasi === 'epos') {
+                // Sembunyikan halaman portal, buka aplikasi e-Pos
+                document.getElementById('section_pilih_aplikasi').classList.add('d-none');
+                document.getElementById('app_utama').classList.remove('d-none');
+                
+                // Muat menu terakhir yang dibuka pengguna (atau kembali ke beranda)
+                const menuTersimpan = localStorage.getItem('menuAktif');
+                gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
+            } else if (namaAplikasi === 'etakkah') {
+                // Diamkan saja tanpa memberikan respons apapun
+                return;
+            }
+        }
+        
         function gantiTampilanAuth(tujuan) {
             document.getElementById('section_login').classList.add('d-none');
             document.getElementById('section_lupa_password').classList.add('d-none');
