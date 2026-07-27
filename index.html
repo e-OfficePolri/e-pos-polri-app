@@ -1264,9 +1264,10 @@
             let tsBag = tomSelectInstances['bag_baru'];
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
-            if (tsBiro) { tsBiro.clear(); tsBiro.clearOptions(); }
-            if (tsBag) { tsBag.clear(); tsBag.clearOptions(); }
-            if (tsSubbag) { tsSubbag.clear(); tsSubbag.clearOptions(); }
+            // Gunakan clear(true) agar tidak memicu event 'change' secara beruntun
+            if (tsBiro) { tsBiro.clear(true); tsBiro.clearOptions(); }
+            if (tsBag) { tsBag.clear(true); tsBag.clearOptions(); }
+            if (tsSubbag) { tsSubbag.clear(true); tsSubbag.clearOptions(); }
 
             if (!satkerTerpilih) return; 
 
@@ -1287,8 +1288,9 @@
             let tsBag = tomSelectInstances['bag_baru'];
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
-            if (tsBag) { tsBag.clear(); tsBag.clearOptions(); }
-            if (tsSubbag) { tsSubbag.clear(); tsSubbag.clearOptions(); }
+            // Gunakan clear(true) agar tidak memicu event beruntun
+            if (tsBag) { tsBag.clear(true); tsBag.clearOptions(); }
+            if (tsSubbag) { tsSubbag.clear(true); tsSubbag.clearOptions(); }
 
             if (!biroTerpilih) return;
 
@@ -1311,7 +1313,8 @@
 
             if (!tsSubbag) return;
 
-            tsSubbag.clear(); 
+            // Gunakan clear(true) agar tidak memicu event beruntun
+            tsSubbag.clear(true); 
             tsSubbag.clearOptions();
 
             if (!satkerTerpilih) return;
@@ -1340,6 +1343,7 @@
             if (tomSelectInstances['satker_baru']) {
                 tomSelectInstances['satker_baru'].on('change', function(value) {
                     aturDropdownBiroDir(value);
+                    aturDropdownBag(''); // Kita tambahkan ini agar list Bag dibersihkan dengan sempurna
                     aturDropdownSubbag(''); 
                 });
             }
