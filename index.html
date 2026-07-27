@@ -1458,9 +1458,21 @@
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('section_ubah_password').classList.add('d-none');
                 
-                // Sembunyikan app_utama, dan tampilkan halaman pilih aplikasi
-                document.getElementById('app_utama').classList.add('d-none');
-                document.getElementById('section_pilih_aplikasi').classList.remove('d-none');
+                // Dokumentasi: Cek apakah user sudah berada di dalam aplikasi e-Pos sebelum refresh
+                const aplikasiAktif = localStorage.getItem('aplikasiAktif');
+                
+                if (aplikasiAktif === 'epos') {
+                    // Jika iya, langsung buka e-Pos dan sembunyikan portal
+                    document.getElementById('section_pilih_aplikasi').classList.add('d-none');
+                    document.getElementById('app_utama').classList.remove('d-none');
+                    
+                    const menuTersimpan = localStorage.getItem('menuAktif');
+                    gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
+                } else {
+                    // Jika tidak, tampilkan portal pilihan aplikasi
+                    document.getElementById('app_utama').classList.add('d-none');
+                    document.getElementById('section_pilih_aplikasi').classList.remove('d-none');
+                }
                 
                 const { data: profile, error: profileError } = await supabaseClient
                     .from('profiles')
@@ -1584,9 +1596,11 @@
         // ================= FUNGSI MASUK APLIKASI DARI PORTAL =================
         function masukAplikasi(namaAplikasi) {
             if (namaAplikasi === 'epos') {
+                // Dokumentasi: Menyimpan ingatan bahwa user sedang membuka e-Pos
+                localStorage.setItem('aplikasiAktif', 'epos');
+                
                 // Sembunyikan halaman portal, buka aplikasi e-Pos
                 document.getElementById('section_pilih_aplikasi').classList.add('d-none');
-                document.getElementById('app_utama').classList.remove('d-none');
                 
                 // Muat menu terakhir yang dibuka pengguna (atau kembali ke beranda)
                 const menuTersimpan = localStorage.getItem('menuAktif');
@@ -1647,6 +1661,9 @@
         }
 
         async function eksekusiLogout() {
+            // Dokumentasi: Menghapus ingatan aplikasi saat logout
+            localStorage.removeItem('aplikasiAktif');
+            
             await supabaseClient.auth.signOut();
             window.location.reload();
         }
