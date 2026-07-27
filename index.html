@@ -2094,9 +2094,9 @@
                         <td>${surat.tujuan || '-'}</td>
                         <td>${surat.perihal}</td>
                         <td class="text-center"><span class="badge bg-info text-dark">${surat.petugas || '-'}</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-warning btn-sm mb-1 w-100" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
-                            <button class="btn btn-danger btn-sm w-100" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
+                        <td class="text-center text-nowrap">
+                            <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
                         </td>
                     </tr>
                 `;
