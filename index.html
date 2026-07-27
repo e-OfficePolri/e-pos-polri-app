@@ -1713,6 +1713,12 @@
             document.getElementById('section_surat_keluar').classList.add('d-none');
             document.getElementById('section_manajemen_user').classList.remove('d-none');
             
+            // Dokumentasi: Menghapus warna penanda (kelas 'active') dari semua menu utama
+            ['btn_menu_beranda', 'btn_menu_masuk', 'btn_menu_keluar'].forEach(id => {
+                let btn = document.getElementById(id);
+                if(btn) btn.classList.remove('active');
+            });
+
             localStorage.setItem('menuAktif', 'user');
 
             const formUser = document.getElementById('form_sub_user');
