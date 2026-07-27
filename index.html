@@ -1462,15 +1462,19 @@
                 const aplikasiAktif = localStorage.getItem('aplikasiAktif');
                 
                 if (aplikasiAktif === 'epos') {
-                    // Jika iya, langsung buka e-Pos dan sembunyikan portal
+                    // Jika iya, sembunyikan portal
                     document.getElementById('section_pilih_aplikasi').classList.add('d-none');
-                    document.getElementById('app_utama').classList.remove('d-none');
                     
-                    // Dokumentasi: Berikan jeda 100 milidetik untuk mencegah grafik gagal dimuat saat refresh
-                    setTimeout(() => {
-                        const menuTersimpan = localStorage.getItem('menuAktif');
-                        gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
-                    }, 100);
+                    // Tampilkan aplikasi utama
+                    let appUtama = document.getElementById('app_utama');
+                    appUtama.classList.remove('d-none');
+                    
+                    // Dokumentasi: Memaksa browser menghitung ukuran kanvas seketika tanpa jeda waktu
+                    let pancingTampilan = appUtama.offsetHeight;
+                    
+                    // Muat langsung menu terakhir
+                    const menuTersimpan = localStorage.getItem('menuAktif');
+                    gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
                 } else {
                     // Jika tidak, tampilkan portal pilihan aplikasi
                     document.getElementById('app_utama').classList.add('d-none');
@@ -1602,15 +1606,19 @@
                 // Dokumentasi: Menyimpan ingatan bahwa user sedang membuka e-Pos
                 localStorage.setItem('aplikasiAktif', 'epos');
                 
-                // Sembunyikan halaman portal, buka aplikasi e-Pos
+                // Sembunyikan halaman portal
                 document.getElementById('section_pilih_aplikasi').classList.add('d-none');
-                document.getElementById('app_utama').classList.remove('d-none');
                 
-                // Dokumentasi: Berikan jeda 100 milidetik agar browser selesai menampilkan layar sebelum memuat grafik
-                setTimeout(() => {
-                    const menuTersimpan = localStorage.getItem('menuAktif');
-                    gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
-                }, 100);
+                // Buka aplikasi utama e-Pos
+                let appUtama = document.getElementById('app_utama');
+                appUtama.classList.remove('d-none');
+                
+                // Dokumentasi: Tanpa jeda waktu! Kita memaksa browser menghitung ukuran kanvas seketika
+                let pancingTampilan = appUtama.offsetHeight; 
+                
+                // Langsung muat menu secara instan
+                const menuTersimpan = localStorage.getItem('menuAktif');
+                gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
             } else if (namaAplikasi === 'etakkah') {
                 // Diamkan saja tanpa memberikan respons apapun
                 return;
