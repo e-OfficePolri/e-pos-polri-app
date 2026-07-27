@@ -1466,8 +1466,11 @@
                     document.getElementById('section_pilih_aplikasi').classList.add('d-none');
                     document.getElementById('app_utama').classList.remove('d-none');
                     
-                    const menuTersimpan = localStorage.getItem('menuAktif');
-                    gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
+                    // Dokumentasi: Berikan jeda 100 milidetik untuk mencegah grafik gagal dimuat saat refresh
+                    setTimeout(() => {
+                        const menuTersimpan = localStorage.getItem('menuAktif');
+                        gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
+                    }, 100);
                 } else {
                     // Jika tidak, tampilkan portal pilihan aplikasi
                     document.getElementById('app_utama').classList.add('d-none');
@@ -1601,10 +1604,13 @@
                 
                 // Sembunyikan halaman portal, buka aplikasi e-Pos
                 document.getElementById('section_pilih_aplikasi').classList.add('d-none');
+                document.getElementById('app_utama').classList.remove('d-none');
                 
-                // Muat menu terakhir yang dibuka pengguna (atau kembali ke beranda)
-                const menuTersimpan = localStorage.getItem('menuAktif');
-                gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
+                // Dokumentasi: Berikan jeda 100 milidetik agar browser selesai menampilkan layar sebelum memuat grafik
+                setTimeout(() => {
+                    const menuTersimpan = localStorage.getItem('menuAktif');
+                    gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
+                }, 100);
             } else if (namaAplikasi === 'etakkah') {
                 // Diamkan saja tanpa memberikan respons apapun
                 return;
