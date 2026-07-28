@@ -1385,8 +1385,8 @@
                 tomSelectInstances[el.id] = instance;
             });
 
-            // Muat data jabatan untuk Dropdown dan pasang deteksi Event Dropdown secara otomatis
-            muatDataJabatanUntukDropdown().then(() => pasangEventDropdownDinamis());
+            // Hanya pasang event deteksi saja di awal, datanya kita ambil nanti setelah dipastikan login
+            pasangEventDropdownDinamis();
 
             cekStatusHalamanAwal();
         });
@@ -1539,6 +1539,9 @@
                 aturTanggalSekarang();
                 tampilkanSurat('masuk');
                 tampilkanSurat('keluar');
+                
+                // AMBIL DATA JABATAN DI SINI (Karena user sudah dipastikan login)
+                muatDataJabatanUntukDropdown();
                 
             } else {
                 document.getElementById('section_login').classList.remove('d-none');
