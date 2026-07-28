@@ -2401,6 +2401,60 @@
                 options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
             }));
         }
+
+        // ================= FITUR LOGOUT OTOMATIS (IDLE TIMEOUT) =================
+        let penghitungWaktuMati;
+        
+        // Atur batas waktu tidak aktif di sini (dalam milidetik)
+        // Contoh: 10 menit = 10 * 60 * 1000 = 600000 milidetik
+        const BATAS_WAKTU_IDLE = 10 * 60 * 1000; 
+
+        // Fungsi untuk melakukan logout otomatis
+        async function eksekusiLogoutOtomatis() {
+            // Pastikan kita hanya memproses ini jika user memang sedang login
+            // (Kita cek apakah halaman login sedang disembunyikan)
+            const halamanLoginDisembunyikan = document.getElementById('section_login').classList.contains('d-none');
+            
+            if (halamanLoginDisembunyikan) {
+                // Tampilkan pemberitahuan kepada pengguna
+                alert("Sesi Anda telah habis karena tidak ada aktivitas selama beberapa menit. Anda telah dikeluarkan secara otomatis demi keamanan.");
+                
+                // Hapus semua ingatan (memori) aplikasi
+                localStorage.removeItem('aplikasiAktif');
+                localStorage.removeItem('menuAktif');
+                localStorage.removeItem('subTabUserAktif');
+                
+                // Logout dari Supabase dan muat ulang (refresh) halaman ke tampilan awal
+                await supabaseClient.auth.signOut();
+                window.location.reload();
+            }
+        }
+
+        // Fungsi untuk mereset stopwatch setiap kali ada aktivitas
+        function resetPenghitungWaktu() {
+            // Hentikan stopwatch yang sedang berjalan
+            clearTimeout(penghitungWaktuMati);
+            
+            // Mulai ulang stopwatch dari 0
+            penghitungWaktuMati = setTimeout(eksekusiLogoutOtomatis, BATAS_WAKTU_IDLE);
+        }
+
+        // Pasang sensor pendeteksi aktivitas ke seluruh halaman web
+        window.onload = function() {
+            // Mendeteksi gerakan mouse
+            document.addEventListener('mousemove', resetPenghitungWaktu);
+            // Mendeteksi klik
+            document.addEventListener('mousedown', resetPenghitungWaktu);
+            // Mendeteksi ketikan keyboard
+            document.addEventListener('keypress', resetPenghitungWaktu);
+            // Mendeteksi sentuhan (untuk HP/Tablet)
+            document.addEventListener('touchstart', resetPenghitungWaktu);
+            // Mendeteksi guliran (scroll) halaman
+            document.addEventListener('scroll', resetPenghitungWaktu);
+            
+            // Nyalakan stopwatch untuk pertama kalinya
+            resetPenghitungWaktu();
+        };
     </script>
 </body>
 </html>
