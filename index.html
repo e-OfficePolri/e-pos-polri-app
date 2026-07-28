@@ -1228,6 +1228,24 @@
         </div>
     </div>
 
+    <!-- ================= MODAL PEMBERITAHUAN (INFO/ERROR) ================= -->
+    <div class="modal fade" id="modalPemberitahuan" tabindex="-1" aria-labelledby="modalPemberitahuanLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold" id="modalPemberitahuanLabel">Pemberitahuan</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="teksPesanPemberitahuan" class="fs-6 mb-0 text-center fw-medium">Pesan akan muncul di sini</p>
+                </div>
+                <div class="modal-footer justify-content-center bg-light">
+                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Mengerti & Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -1845,7 +1863,8 @@
 
             // Validasi: Hanya Satuan Kerja dan Subbag yang wajib diisi
             if (!satker || !namaSubbag) {
-                alert("Satuan Kerja dan Subbag wajib diisi!");
+                // KODE BARU: Menggunakan modal/pop-up aplikasi
+                tampilkanModalPemberitahuan("Mohon maaf, pilihan Satuan Kerja dan nama Subbag wajib diisi!");
                 return;
             }
 
@@ -2249,6 +2268,16 @@
             const btnBaru = btnYa.cloneNode(true);
             btnYa.parentNode.replaceChild(btnBaru, btnYa);
             btnBaru.addEventListener('click', () => { modalInstance.hide(); fungsiEksekusi(); });
+            modalInstance.show();
+        }
+
+        function tampilkanModalPemberitahuan(pesan) {
+            // Masukkan teks pesan ke dalam pop-up
+            document.getElementById('teksPesanPemberitahuan').innerText = pesan;
+            
+            // Panggil dan tampilkan pop-up pemberitahuannya
+            const modalEl = document.getElementById('modalPemberitahuan');
+            const modalInstance = new bootstrap.Modal(modalEl);
             modalInstance.show();
         }
 
