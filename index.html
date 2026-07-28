@@ -1861,14 +1861,14 @@
             const namaSubbag = document.getElementById('nama_subbag_jabatan').value;
             const pesanEl = document.getElementById('pesan_jabatan');
 
-            // Validasi 1: Cek apakah Satuan Kerja sudah diisi
-            if (!satker) {
+            // Validasi: Cek berbagai kondisi jika ada input yang terlewat
+            if (!satker && !namaSubbag) {
+                tampilkanModalPemberitahuan("Mohon maaf, Satuan Kerja dan Subbag belum diinput. Silakan lengkapi keduanya terlebih dahulu!");
+                return; // Hentikan proses simpan
+            } else if (!satker) {
                 tampilkanModalPemberitahuan("Mohon maaf, Satuan Kerja belum diinput. Silakan pilih Satuan Kerja terlebih dahulu!");
                 return; // Hentikan proses simpan
-            }
-
-            // Validasi 2: Cek apakah Subbag sudah diisi
-            if (!namaSubbag) {
+            } else if (!namaSubbag) {
                 tampilkanModalPemberitahuan("Mohon maaf, Subbag belum diinput. Silakan isi nama Subbag terlebih dahulu!");
                 return; // Hentikan proses simpan
             }
