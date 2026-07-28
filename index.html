@@ -1313,22 +1313,31 @@
 
             if (!tsSubbag) return;
 
-            // Gunakan clear(true) agar tidak memicu event beruntun
+            // Bersihkan pilihan sebelumnya tanpa memicu event beruntun
             tsSubbag.clear(true); 
             tsSubbag.clearOptions();
 
             if (!satkerTerpilih) return;
 
+            // PERBAIKAN LOGIKA FILTER DI SINI
             let filterSubbag = dataJabatanGlobal.filter(item => {
                 let cocokSatker = item.satker === satkerTerpilih;
-                let cocokBiro = (item.nama_biro === biroTerpilih) || (!item.nama_biro && !biroTerpilih);
-                let cocokBag = (item.nama_bag === bagTerpilih) || (!item.nama_bag && !bagTerpilih);
+                
+                // Jika biro belum dipilih (kosong), maka anggap true (tampilkan semua subbag di satker itu)
+                // Jika sudah dipilih, baru saring berdasarkan biro yang cocok
+                let cocokBiro = biroTerpilih ? (item.nama_biro === biroTerpilih) : true;
+                
+                // Jika bag belum dipilih (kosong), maka anggap true (tampilkan semua subbag di biro/satker itu)
+                // Jika sudah dipilih, baru saring berdasarkan bag yang cocok
+                let cocokBag = bagTerpilih ? (item.nama_bag === bagTerpilih) : true;
 
                 return cocokSatker && cocokBiro && cocokBag;
             });
     
+            // Mengambil nama-nama subbag agar tidak ada yang duplikat
             let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
 
+            // Memasukkan nama subbag ke dalam dropdown
             subbagUnik.forEach(subbag => {
                 if (subbag) {
                     let subbagBesar = subbag.toUpperCase(); // Ubah ke huruf besar
