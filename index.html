@@ -1739,6 +1739,8 @@
             });
 
             localStorage.setItem('menuAktif', 'user');
+            // KODE BARU: Simpan ingatan sub-menu yang sedang dibuka ('user' atau 'jabatan')
+            localStorage.setItem('subTabUserAktif', jenis);
 
             const formUser = document.getElementById('form_sub_user');
             const formJabatan = document.getElementById('form_sub_jabatan'); 
@@ -2061,7 +2063,10 @@
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'keluar');
             } else if (menu === 'user') {
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'user');
-                gantiTabUser('user');
+                
+                // KODE BARU: Ambil ingatan sub-menu terakhir, jika tidak ada, gunakan default 'user'
+                let subTabTerakhir = localStorage.getItem('subTabUserAktif') || 'user';
+                gantiTabUser(subTabTerakhir);
             }
         }
 
