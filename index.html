@@ -43,11 +43,6 @@
             text-transform: uppercase;
         }
     </style>
-    
-    <!-- Script untuk memunculkan Console di HP (Eruda) -->
-    <!-- JANGAN AKTIFKAN DI VERSI RESMI (PRODUCTION) UNTUK KEAMANAN -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script> -->
-    <!-- <script>eruda.init();</script> -->
 </head>
 <body class="bg-light">
 
@@ -142,12 +137,9 @@
 
     <!-- ================= HALAMAN PILIH APLIKASI ================= -->
     <div id="section_pilih_aplikasi" class="container d-flex justify-content-center align-items-center vh-100 d-none">
-        
-        <!-- Dokumentasi: Tombol Keluar di Pojok Kanan Atas -->
         <button class="btn btn-outline-danger px-4 rounded-pill fw-bold shadow-sm position-absolute top-0 end-0 m-4" onclick="konfirmasiLogout()">
             Keluar
         </button>
-        
         <div class="text-center w-100" style="max-width: 800px;">
             <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
                 <img src="Tribrata.png" alt="Logo Tribrata" style="height: 70px; width: auto;" onerror="this.style.display='none'">
@@ -157,15 +149,12 @@
             <p class="text-muted mb-5">Silakan pilih aplikasi yang ingin Anda akses</p>
             
             <div class="row g-4 justify-content-center">
-                <!-- Tombol e-Pos Setum Polri -->
                 <div class="col-md-5">
                     <button class="btn btn-outline-primary w-100 h-100 py-5 rounded-4 shadow-sm" onclick="masukAplikasi('epos')">
                         <h3 class="fw-bold mb-3">e-Pos Setum Polri</h3>
                         <p class="mb-0">Sistem Pengelolaan Surat</p>
                     </button>
                 </div>
-                
-                <!-- Tombol e-Takkah Polri -->
                 <div class="col-md-5">
                     <button class="btn btn-outline-secondary w-100 h-100 py-5 rounded-4 shadow-sm" style="cursor: default;" onclick="masukAplikasi('etakkah')">
                         <h3 class="fw-bold mb-3">e-Takkah Polri</h3>
@@ -212,7 +201,6 @@
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('masuk')">Surat Masuk</a></li>
                             <li class="d-lg-none"><a class="dropdown-item fw-bold text-primary" href="#" onclick="gantiMenu('keluar')">Surat Keluar</a></li>
                             
-                            <!-- Menu Manajemen User Tersembunyi -->
                             <li id="dropdown_sub_user_container" class="d-none">
                                 <a class="dropdown-item fw-bold text-primary" href="#" onclick="toggleSubMenuManajemenUser(event)">
                                     Manajemen User ▾
@@ -233,7 +221,6 @@
         <div class="container-fluid px-4 mb-5">
             <!-- ================= SECTION: BERANDA ================= -->
             <div id="section_beranda">
-                <!-- Dokumentasi: Bagian Teks Sapaan Selamat Datang -->
                 <div class="mb-4">
                     <h4 id="teks_selamat_datang" class="fw-bold text-dark mb-1">Hi, Selamat datang!</h4>
                     <p class="text-muted small">Berikut adalah ringkasan statistik persuratan hari ini.</p>
@@ -1247,7 +1234,7 @@
         </div>
     </div>
 
-    <!-- Modal Form Upload Surat -->
+    <!-- ================= MODAL FORM UPLOAD SURAT ================= -->
     <div class="modal fade" id="modalUploadSurat" tabindex="-1" aria-labelledby="modalUploadLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content border-0 shadow">
@@ -1263,12 +1250,12 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Pilih File Surat (PDF / Gambar)</label>
                                 <input type="file" class="form-control" id="file_dokumen" accept=".pdf,image/*" required>
-                                <div class="form-text">Format yang didukung: PDF atau Gambar (Maks. ukuran sesuai ketentuan).</div>
+                                <div class="form-text">Format yang didukung: PDF atau Gambar.</div>
                             </div>
-    
+
                             <hr>
                             <p class="text-muted small fw-bold mb-2">Detail Informasi Surat:</p>
-    
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Jenis Surat</label>
@@ -1279,7 +1266,7 @@
                                     <input type="text" class="form-control" id="upload_nomor_surat" readonly>
                                 </div>
                             </div>
-    
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Pengirim</label>
@@ -1290,13 +1277,13 @@
                                     <input type="text" class="form-control" id="upload_tujuan" readonly>
                                 </div>
                             </div>
-    
+
                             <div class="mb-3">
                                 <label class="form-label">Perihal</label>
                                 <textarea class="form-control" id="upload_perihal" rows="2"></textarea>
                             </div>
                         </div>
-    
+
                         <div class="text-end mt-3">
                             <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
                             <button type="submit" class="btn btn-primary fw-bold px-4">Simpan & Upload</button>
@@ -1307,6 +1294,7 @@
         </div>
     </div>
 
+    <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -1321,20 +1309,14 @@
         let satkerPenggunaAktif = '';
         let tomSelectInstances = {};
 
-        // Variabel global untuk menyimpan data jabatan
         let dataJabatanGlobal = [];
 
         const barisPerHalaman = 10;
         let halamanMasukAktif = 1;
         let halamanKeluarAktif = 1;
 
-        // ================= FUNGSI KEAMANAN =================
-        // Fungsi ini bertugas membersihkan teks dari karakter berbahaya (Mencegah XSS)
         function saringTeks(teks) {
-            // Jika teks kosong, langsung kembalikan apa adanya
             if (!teks) return teks;
-            
-            // Ubah input menjadi format string, lalu ganti karakter khusus dengan HTML Entities
             return String(teks)
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
@@ -1343,7 +1325,6 @@
                 .replace(/'/g, '&#039;');
         }
         
-        // Fungsi untuk mengambil data dari tabel jabatan_data di Supabase
         async function muatDataJabatanUntukDropdown() {
             const { data, error } = await supabaseClient.from('jabatan_data').select('*');
             if (error) {
@@ -1353,13 +1334,11 @@
             }
         }
 
-        // 1. Fungsi untuk mengatur pilihan Biro/Dir (otomatis huruf besar)
         function aturDropdownBiroDir(satkerTerpilih) {
             let tsBiro = tomSelectInstances['biro_dir_baru'];
             let tsBag = tomSelectInstances['bag_baru'];
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
-            // Gunakan clear(true) agar tidak memicu event 'change' secara beruntun
             if (tsBiro) { tsBiro.clear(true); tsBiro.clearOptions(); }
             if (tsBag) { tsBag.clear(true); tsBag.clearOptions(); }
             if (tsSubbag) { tsSubbag.clear(true); tsSubbag.clearOptions(); }
@@ -1371,19 +1350,17 @@
 
             biroUnik.forEach(biro => {
                 if (biro) {
-                    let biroBesar = biro.toUpperCase(); // Ubah ke huruf besar
+                    let biroBesar = biro.toUpperCase();
                     tsBiro.addOption({value: biroBesar, text: biroBesar});
                 }
             });
         }
 
-        // 2. Fungsi untuk mengatur pilihan Bag (otomatis huruf besar)
         function aturDropdownBag(biroTerpilih) {
             let satkerTerpilih = document.getElementById('satker_baru').value;
             let tsBag = tomSelectInstances['bag_baru'];
             let tsSubbag = tomSelectInstances['subbag_baru'];
 
-            // Gunakan clear(true) agar tidak memicu event beruntun
             if (tsBag) { tsBag.clear(true); tsBag.clearOptions(); }
             if (tsSubbag) { tsSubbag.clear(true); tsSubbag.clearOptions(); }
 
@@ -1394,13 +1371,12 @@
 
             bagUnik.forEach(bag => {
                 if (bag) {
-                    let bagBesar = bag.toUpperCase(); // Ubah ke huruf besar
+                    let bagBesar = bag.toUpperCase();
                     tsBag.addOption({value: bagBesar, text: bagBesar});
                 }
             });
         }
 
-        // 3. Fungsi untuk mengatur pilihan Subbag (otomatis huruf besar)
         function aturDropdownSubbag(bagTerpilih) {
             let satkerTerpilih = document.getElementById('satker_baru').value;
             let biroTerpilih = document.getElementById('biro_dir_baru').value;
@@ -1408,51 +1384,37 @@
 
             if (!tsSubbag) return;
 
-            // Bersihkan pilihan sebelumnya tanpa memicu event beruntun
             tsSubbag.clear(true); 
             tsSubbag.clearOptions();
 
             if (!satkerTerpilih) return;
 
-            // PERBAIKAN LOGIKA FILTER DI SINI
             let filterSubbag = dataJabatanGlobal.filter(item => {
                 let cocokSatker = item.satker === satkerTerpilih;
-                
-                // Jika biro belum dipilih (kosong), maka anggap true (tampilkan semua subbag di satker itu)
-                // Jika sudah dipilih, baru saring berdasarkan biro yang cocok
                 let cocokBiro = biroTerpilih ? (item.nama_biro === biroTerpilih) : true;
-                
-                // Jika bag belum dipilih (kosong), maka anggap true (tampilkan semua subbag di biro/satker itu)
-                // Jika sudah dipilih, baru saring berdasarkan bag yang cocok
                 let cocokBag = bagTerpilih ? (item.nama_bag === bagTerpilih) : true;
-
                 return cocokSatker && cocokBiro && cocokBag;
             });
     
-            // Mengambil nama-nama subbag agar tidak ada yang duplikat
             let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
 
-            // Memasukkan nama subbag ke dalam dropdown
             subbagUnik.forEach(subbag => {
                 if (subbag) {
-                    let subbagBesar = subbag.toUpperCase(); // Ubah ke huruf besar
+                    let subbagBesar = subbag.toUpperCase();
                     tsSubbag.addOption({value: subbagBesar, text: subbagBesar});
                 }
             });
         }
         
-        // Fungsi untuk mendeteksi setiap kali dropdown berubah pilihan secara fleksibel menggunakan Tom Select
         function pasangEventDropdownDinamis() {
-            // Memantau perubahan pada Satuan Kerja
             if (tomSelectInstances['satker_baru']) {
                 tomSelectInstances['satker_baru'].on('change', function(value) {
                     aturDropdownBiroDir(value);
-                    aturDropdownBag(''); // Kita tambahkan ini agar list Bag dibersihkan dengan sempurna
+                    aturDropdownBag('');
                     aturDropdownSubbag(''); 
                 });
             }
             
-            // Memantau perubahan pada Biro / Direktorat
             if (tomSelectInstances['biro_dir_baru']) {
                 tomSelectInstances['biro_dir_baru'].on('change', function(value) {
                     aturDropdownBag(value);
@@ -1460,7 +1422,6 @@
                });
             }
             
-            // Memantau perubahan pada Bag
             if (tomSelectInstances['bag_baru']) {
                 tomSelectInstances['bag_baru'].on('change', function(value) {
                     aturDropdownSubbag(value);
@@ -1480,9 +1441,7 @@
                 tomSelectInstances[el.id] = instance;
             });
 
-            // Hanya pasang event deteksi saja di awal, datanya kita ambil nanti setelah dipastikan login
             pasangEventDropdownDinamis();
-
             cekStatusHalamanAwal();
         });
 
@@ -1575,25 +1534,18 @@
                 document.getElementById('section_lupa_password').classList.add('d-none');
                 document.getElementById('section_ubah_password').classList.add('d-none');
                 
-                // Dokumentasi: Cek apakah user sudah berada di dalam aplikasi e-Pos sebelum refresh
                 const aplikasiAktif = localStorage.getItem('aplikasiAktif');
                 
                 if (aplikasiAktif === 'epos') {
-                    // Jika iya, sembunyikan portal
                     document.getElementById('section_pilih_aplikasi').classList.add('d-none');
-                    
-                    // Tampilkan aplikasi utama
                     let appUtama = document.getElementById('app_utama');
                     appUtama.classList.remove('d-none');
                     
-                    // Dokumentasi: Memaksa browser menghitung ukuran kanvas seketika tanpa jeda waktu
                     let pancingTampilan = appUtama.offsetHeight;
                     
-                    // Muat langsung menu terakhir
                     const menuTersimpan = localStorage.getItem('menuAktif');
                     gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
                 } else {
-                    // Jika tidak, tampilkan portal pilihan aplikasi
                     document.getElementById('app_utama').classList.add('d-none');
                     document.getElementById('section_pilih_aplikasi').classList.remove('d-none');
                 }
@@ -1619,7 +1571,6 @@
                     sumberTeks = profile.nama || session.user.email;
                     document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${namaPenggunaAktif}!`;
 
-                    // --- PASTIKAN KODE INI ADA DI CEK SESI PENGGUNA ---
                     const cardFormMasuk = document.getElementById('card_form_surat_masuk');
                     
                     const satkerUser = profile.satker ? profile.satker.trim().toUpperCase() : '';
@@ -1627,9 +1578,6 @@
 
                     const isSuperAdmin = (profile.role === 'super_admin');
                     const isTimKanpos = (satkerUser === 'SETUM POLRI' && subbagUser === 'KANPOS');
-
-                    // Pelacak untuk memastikan di F12 Console
-                    console.log("Satker:", satkerUser, "| Subbag:", subbagUser, "| Apakah Kanpos?", isTimKanpos);
 
                     if (isSuperAdmin || isTimKanpos) {
                         if(cardFormMasuk) cardFormMasuk.classList.remove('d-none');
@@ -1650,7 +1598,6 @@
                 tampilkanSurat('masuk');
                 tampilkanSurat('keluar');
                 
-                // AMBIL DATA JABATAN DI SINI (Karena user sudah dipastikan login)
                 muatDataJabatanUntukDropdown();
                 
             } else {
@@ -1685,8 +1632,7 @@
 
             if (error) {
                 pesanEl.className = "mt-3 text-center small fw-bold text-danger";
-                let pesanErrorID = error.message;
-                pesanEl.innerText = pesanErrorID;
+                pesanEl.innerText = error.message;
             } else {
                 pesanEl.className = "mt-3 text-center small fw-bold text-success";
                 pesanEl.innerText = "Berhasil mengubah password! Mengalihkan ke halaman masuk...";
@@ -1735,27 +1681,16 @@
             }
         }
 
-        // ================= FUNGSI MASUK APLIKASI DARI PORTAL =================
         function masukAplikasi(namaAplikasi) {
             if (namaAplikasi === 'epos') {
-                // Dokumentasi: Menyimpan ingatan bahwa user sedang membuka e-Pos
                 localStorage.setItem('aplikasiAktif', 'epos');
-                
-                // Sembunyikan halaman portal
                 document.getElementById('section_pilih_aplikasi').classList.add('d-none');
-                
-                // Buka aplikasi utama e-Pos
                 let appUtama = document.getElementById('app_utama');
                 appUtama.classList.remove('d-none');
-                
-                // Dokumentasi: Tanpa jeda waktu! Kita memaksa browser menghitung ukuran kanvas seketika
                 let pancingTampilan = appUtama.offsetHeight; 
-                
-                // Langsung muat menu secara instan
                 const menuTersimpan = localStorage.getItem('menuAktif');
                 gantiMenu(menuTersimpan ? menuTersimpan : 'beranda', false);
             } else if (namaAplikasi === 'etakkah') {
-                // Diamkan saja tanpa memberikan respons apapun
                 return;
             }
         }
@@ -1810,9 +1745,7 @@
         }
 
         async function eksekusiLogout() {
-            // Dokumentasi: Menghapus ingatan aplikasi saat logout
             localStorage.removeItem('aplikasiAktif');
-            
             await supabaseClient.auth.signOut();
             window.location.reload();
         }
@@ -1842,25 +1775,21 @@
             document.getElementById('section_surat_keluar').classList.add('d-none');
             document.getElementById('section_manajemen_user').classList.remove('d-none');
             
-            // Dokumentasi: Menghapus warna penanda (kelas 'active') dari semua menu utama
             ['btn_menu_beranda', 'btn_menu_masuk', 'btn_menu_keluar'].forEach(id => {
                 let btn = document.getElementById(id);
                 if(btn) btn.classList.remove('active');
             });
 
             localStorage.setItem('menuAktif', 'user');
-            // KODE BARU: Simpan ingatan sub-menu yang sedang dibuka ('user' atau 'jabatan')
             localStorage.setItem('subTabUserAktif', jenis);
 
             const formUser = document.getElementById('form_sub_user');
             const formJabatan = document.getElementById('form_sub_jabatan'); 
-            
             const cardTabelUser = document.getElementById('card_tabel_user');
             const cardTabelJabatan = document.getElementById('card_tabel_jabatan');
 
             formUser.classList.add('d-none');
             formJabatan.classList.add('d-none'); 
-
             if(cardTabelUser) cardTabelUser.classList.add('d-none');
             if(cardTabelJabatan) cardTabelJabatan.classList.add('d-none');
 
@@ -1888,21 +1817,11 @@
             const subbag = document.getElementById('subbag_baru').value;
             const pesanEl = document.getElementById('pesan_user');
 
-            let dataSimpan = { 
-                nama, 
-                pangkat, 
-                nrp_nip: nrpNip, 
-                role, 
-                satker, 
-                biro_dir: biroDir, 
-                bag,
-                subbag 
-            };
+            let dataSimpan = { nama, pangkat, nrp_nip: nrpNip, role, satker, biro_dir: biroDir, bag, subbag };
 
             if (editId) {
                 pesanEl.className = "mt-3 fw-bold text-primary";
                 pesanEl.innerText = "Memperbarui data user...";
-                
                 const { error } = await supabaseClient.from('profiles').update(dataSimpan).eq('id', editId);
                 
                 if (error) {
@@ -1923,15 +1842,11 @@
                 pesanEl.className = "mt-3 fw-bold text-primary";
                 pesanEl.innerText = "Membuat akun baru...";
 
-                // --- KODE BARU DIMULAI DI SINI ---
-                // 1. Buat koneksi Supabase sementara yang tidak menyimpan memori login
                 const supabaseKloningan = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
                     auth: { persistSession: false }
                 });
 
-                // 2. Gunakan koneksi kloningan ini khusus untuk mendaftarkan akun
                 const { data, error } = await supabaseKloningan.auth.signUp({ email, password });
-                // --- KODE BARU BERAKHIR DI SINI ---
 
                 if (error) {
                     pesanEl.className = "mt-3 fw-bold text-danger";
@@ -1962,22 +1877,20 @@
             const namaSubbag = saringTeks(document.getElementById('nama_subbag_jabatan').value);
             const pesanEl = document.getElementById('pesan_jabatan');
 
-            // Validasi: Cek berbagai kondisi jika ada input yang terlewat
             if (!satker && !namaSubbag) {
-                tampilkanModalPemberitahuan("Mohon maaf, untuk menambah data Jabatan ini minimal mengisi pada Satuan Kerja dan Subbag. Silakan lengkapi keduanya terlebih dahulu!");
-                return; // Hentikan proses simpan
+                tampilkanModalPemberitahuan("Mohon maaf, untuk menambah data Jabatan ini minimal mengisi pada Satuan Kerja dan Subbag.");
+                return;
             } else if (!satker) {
-                tampilkanModalPemberitahuan("Mohon maaf, Satuan Kerja belum diinput. Silakan pilih Satuan Kerja terlebih dahulu!");
-                return; // Hentikan proses simpan
+                tampilkanModalPemberitahuan("Mohon maaf, Satuan Kerja belum diinput.");
+                return;
             } else if (!namaSubbag) {
-                tampilkanModalPemberitahuan("Mohon maaf, Subbag belum diinput. Silakan isi nama Subbag terlebih dahulu!");
-                return; // Hentikan proses simpan
+                tampilkanModalPemberitahuan("Mohon maaf, Subbag belum diinput.");
+                return;
             }
 
             pesanEl.className = "mt-3 fw-bold text-primary";
             pesanEl.innerText = "Menyimpan data Jabatan...";
 
-            // Mengubah string kosong menjadi null agar aman dikirim ke database
             let dataPayload = { 
                 satker: satker, 
                 nama_biro: namaBiro ? namaBiro : null, 
@@ -2029,7 +1942,6 @@
             
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].setValue(role ? role.toLowerCase() : '');
             
-            // Set data Dropdown bertingkat secara otomatis saat di edit
             if(tomSelectInstances['satker_baru']) {
                 tomSelectInstances['satker_baru'].setValue(satker || '');
                 if(satker) {
@@ -2063,7 +1975,6 @@
             
             if(tomSelectInstances['role_baru']) tomSelectInstances['role_baru'].clear();
             if(tomSelectInstances['satker_baru']) tomSelectInstances['satker_baru'].clear();
-            // Tidak perlu clear biro/bag/subbag karena otomatis dibersihkan oleh onchange satker_baru
             
             document.getElementById('judul_form_user').innerText = "Formulir Tambah User Baru";
             document.getElementById('btn_simpan_user').innerText = "Buat Akun User Baru";
@@ -2076,13 +1987,10 @@
         }
 
         async function eksekusiHapusUser(id) {
-            // Memanggil pekerja khusus (RPC) bernama 'hapus_akun_user' yang kita buat di database
             const { error } = await supabaseClient.rpc('hapus_akun_user', { target_user_id: id });
-            
             if (error) {
                 alert("Gagal menghapus akun secara menyeluruh: " + error.message);
             } else {
-                // Beri tahu pengguna bahwa akun sudah bersih seutuhnya, lalu perbarui tabel
                 alert("Akun email dan profil berhasil dihapus sepenuhnya dari sistem!");
                 tampilkanDaftarUser();
             }
@@ -2195,8 +2103,6 @@
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'keluar');
             } else if (menu === 'user') {
                 if (simpanKeStorage) localStorage.setItem('menuAktif', 'user');
-                
-                // KODE BARU: Ambil ingatan sub-menu terakhir, jika tidak ada, gunakan default 'user'
                 let subTabTerakhir = localStorage.getItem('subTabUserAktif') || 'user';
                 gantiTabUser(subTabTerakhir);
             }
@@ -2345,22 +2251,19 @@
             }
 
             data.forEach((surat, index) => {
-                // Tentukan apakah user ini adalah Super Admin atau Tim Kanpos Setum Polri
                 const isSuperAdmin = (rolePenggunaAktif === 'super_admin');
-                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI'); // atau sesuaikan dengan variabel pengecekan subbag jika ada
+                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI');
 
                 let aksiHTML = '';
 
-                // Jika Super Admin atau Tim Kanpos, berikan tombol Edit & Hapus
                 if (isSuperAdmin || isTimKanpos) {
                     aksiHTML = `
                         <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
                     `;
                 } else {
-                    // Untuk role/satker lain, hilangkan edit & hapus, ganti dengan tombol Upload Surat
                     aksiHTML = `
-                        <button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">📤 Upload</button>
+                        <button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">Upload Surat</button>
                     `;
                 }
 
@@ -2412,10 +2315,7 @@
         }
 
         function tampilkanModalPemberitahuan(pesan) {
-            // Masukkan teks pesan ke dalam pop-up
             document.getElementById('teksPesanPemberitahuan').innerText = pesan;
-            
-            // Panggil dan tampilkan pop-up pemberitahuannya
             const modalEl = document.getElementById('modalPemberitahuan');
             const modalInstance = new bootstrap.Modal(modalEl);
             modalInstance.show();
@@ -2537,63 +2437,37 @@
             }));
         }
 
-        // ================= FITUR LOGOUT OTOMATIS (IDLE TIMEOUT) =================
         let penghitungWaktuMati;
-        
-        // Atur batas waktu tidak aktif di sini (dalam milidetik)
-        // Contoh: 10 menit = 10 * 60 * 1000 = 600000 milidetik
         const BATAS_WAKTU_IDLE = 10 * 60 * 1000; 
 
-        // Fungsi untuk melakukan logout otomatis
         async function eksekusiLogoutOtomatis() {
-            // Pastikan kita hanya memproses ini jika user memang sedang login
-            // (Kita cek apakah halaman login sedang disembunyikan)
             const halamanLoginDisembunyikan = document.getElementById('section_login').classList.contains('d-none');
             
             if (halamanLoginDisembunyikan) {
-                // Tampilkan pemberitahuan kepada pengguna
                 alert("Sesi Anda telah habis karena tidak ada aktivitas selama beberapa menit. Anda telah dikeluarkan secara otomatis demi keamanan.");
-                
-                // Hapus semua ingatan (memori) aplikasi
                 localStorage.removeItem('aplikasiAktif');
                 localStorage.removeItem('menuAktif');
                 localStorage.removeItem('subTabUserAktif');
-                
-                // Logout dari Supabase dan muat ulang (refresh) halaman ke tampilan awal
                 await supabaseClient.auth.signOut();
                 window.location.reload();
             }
         }
 
-        // Fungsi untuk mereset stopwatch setiap kali ada aktivitas
         function resetPenghitungWaktu() {
-            // Hentikan stopwatch yang sedang berjalan
             clearTimeout(penghitungWaktuMati);
-            
-            // Mulai ulang stopwatch dari 0
             penghitungWaktuMati = setTimeout(eksekusiLogoutOtomatis, BATAS_WAKTU_IDLE);
         }
 
-        // Pasang sensor pendeteksi aktivitas ke seluruh halaman web
         window.onload = function() {
-            // Mendeteksi gerakan mouse
             document.addEventListener('mousemove', resetPenghitungWaktu);
-            // Mendeteksi klik
             document.addEventListener('mousedown', resetPenghitungWaktu);
-            // Mendeteksi ketikan keyboard
             document.addEventListener('keypress', resetPenghitungWaktu);
-            // Mendeteksi sentuhan (untuk HP/Tablet)
             document.addEventListener('touchstart', resetPenghitungWaktu);
-            // Mendeteksi guliran (scroll) halaman
             document.addEventListener('scroll', resetPenghitungWaktu);
-            
-            // Nyalakan stopwatch untuk pertama kalinya
             resetPenghitungWaktu();
         };
 
-        // Fungsi untuk membuka modal upload dan mengisi data otomatis dari baris surat
         async function bukaModalUpload(tipe, id) {
-            // 1. Ambil data surat berdasarkan ID dari database (supaya form terisi otomatis mirip form masuk)
             const { data: surat, error } = await supabaseClient
                 .from(tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar')
                 .select('*')
@@ -2605,50 +2479,39 @@
                 return;
             }
 
-            // 2. Masukkan data ke dalam elemen input di modal
             document.getElementById('upload_surat_id').value = surat.id;
             document.getElementById('upload_jenis_surat').value = surat.jenis_surat || '-';
             document.getElementById('upload_nomor_surat').value = surat.nomor_surat || '';
             document.getElementById('upload_pengirim').value = surat.pengirim || '';
             document.getElementById('upload_tujuan').value = surat.tujuan || '';
             document.getElementById('upload_perihal').value = surat.perihal || '';
-            
-            // Kosongkan pilihan file sebelumnya
             document.getElementById('file_dokumen').value = '';
 
-            // 3. Tampilkan jendela modal menggunakan Bootstrap 5 Modal API
             const modalElement = document.getElementById('modalUploadSurat');
             const myModal = new bootstrap.Modal(modalElement);
             myModal.show();
         }
 
-        // Event listener saat form upload di dalam modal disubmit
         document.getElementById('formUploadSuratFisik').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const suratId = document.getElementById('upload_surat_id').value;
             const fileInput = document.getElementById('file_dokumen').files[0];
             const perihalBaru = document.getElementById('upload_perihal').value;
-            
-            // Tentukan apakah ini surat masuk atau surat keluar berdasarkan modal/tabel aktif
-            // (Kita asumsikan default mengecek ke tabel surat_masuk terlebih dahulu, atau sesuaikan kebutuhan)
-            const jenisTabel = 'surat_masuk'; // Atau dinamis sesuai tipe data yang sedang dibuka
+            const jenisTabel = 'surat_masuk';
 
             if (!fileInput) {
                 alert("Silakan pilih file dokumen terlebih dahulu!");
                 return;
             }
 
-            // Tampilkan pesan proses
             alert("Sedang mengunggah file ke sistem Supabase, mohon tunggu sebentar...");
 
             try {
-                // 1. Buat nama file yang unik agar tidak bentrok (menggunakan waktu milidetik + nama asli)
                 const fileExt = fileInput.name.split('.').pop();
-                const namaFileUnik = `${Date.now()}_${Math.random().toString(36.substring(2, 7))}.${fileExt}`;
+                const namaFileUnik = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
                 const filePath = `${namaFileUnik}`;
 
-                // 2. Upload file fisik ke Supabase Storage (Bucket: 'dokumen_surat')
                 const { data: uploadData, error: uploadError } = await supabaseClient.storage
                     .from('dokumen_surat')
                     .upload(filePath, fileInput);
@@ -2657,14 +2520,12 @@
                     throw new Error("Gagal mengunggah file: " + uploadError.message);
                 }
 
-                // 3. Dapatkan Public URL (alamat link) dari file yang baru saja di-upload
                 const { data: publicUrlData } = supabaseClient.storage
                     .from('dokumen_surat')
                     .getPublicUrl(filePath);
 
                 const fileUrlFinal = publicUrlData.publicUrl;
 
-                // 4. Perbarui data di tabel database (Simpan perihal baru dan file_url)
                 const { error: updateError } = await supabaseClient
                     .from(jenisTabel)
                     .update({
@@ -2679,18 +2540,17 @@
 
                 alert("Berhasil! Dokumen surat telah di-upload dan informasi berhasil diperbarui.");
 
-                // 5. Tutup modal dan muat ulang tabel surat
                 const modalElement = document.getElementById('modalUploadSurat');
                 const modalInstance = bootstrap.Modal.getInstance(modalElement);
                 modalInstance.hide();
 
-                tampilkanSurat('masuk'); // Refresh tabel surat masuk
+                tampilkanSurat('masuk');
 
             } catch (err) {
                 alert("Terjadi kesalahan: " + err.message);
                 console.error(err);
             }
         });
-    </script> 
+    </script>
 </body>
 </html>
