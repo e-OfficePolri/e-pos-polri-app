@@ -1247,6 +1247,66 @@
         </div>
     </div>
 
+    <!-- Modal Form Upload Surat -->
+    <div class="modal fade" id="modalUploadSurat" tabindex="-1" aria-labelledby="modalUploadLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="modalUploadLabel">Upload Dokumen Surat</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <form id="formUploadSuratFisik">
+                        <input type="hidden" id="upload_surat_id">
+                        
+                        <div class="card shadow-sm border-0 p-3">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Pilih File Surat (PDF / Gambar)</label>
+                                <input type="file" class="form-control" id="file_dokumen" accept=".pdf,image/*" required>
+                                <div class="form-text">Format yang didukung: PDF atau Gambar (Maks. ukuran sesuai ketentuan).</div>
+                            </div>
+    
+                            <hr>
+                            <p class="text-muted small fw-bold mb-2">Detail Informasi Surat:</p>
+    
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Jenis Surat</label>
+                                    <input type="text" class="form-control" id="upload_jenis_surat" readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nomor Surat</label>
+                                    <input type="text" class="form-control" id="upload_nomor_surat" readonly>
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Pengirim</label>
+                                    <input type="text" class="form-control" id="upload_pengirim" readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tujuan</label>
+                                    <input type="text" class="form-control" id="upload_tujuan" readonly>
+                                </div>
+                            </div>
+    
+                            <div class="mb-3">
+                                <label class="form-label">Perihal</label>
+                                <textarea class="form-control" id="upload_perihal" rows="2"></textarea>
+                            </div>
+                        </div>
+    
+                        <div class="text-end mt-3">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary fw-bold px-4">Simpan & Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -2631,67 +2691,6 @@
                 console.error(err);
             }
         });
-    </script>
-
-<!-- Modal Form Upload Surat -->
-<div class="modal fade" id="modalUploadSurat" tabindex="-1" aria-labelledby="modalUploadLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" id="modalUploadLabel">Upload Dokumen Surat</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body bg-light">
-                <form id="formUploadSuratFisik">
-                    <input type="hidden" id="upload_surat_id">
-                    
-                    <div class="card shadow-sm border-0 p-3">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Pilih File Surat (PDF / Gambar)</label>
-                            <input type="file" class="form-control" id="file_dokumen" accept=".pdf,image/*" required>
-                            <div class="form-text">Format yang didukung: PDF atau Gambar (Maks. ukuran sesuai ketentuan).</div>
-                        </div>
-
-                        <hr>
-                        <p class="text-muted small fw-bold mb-2">Detail Informasi Surat:</p>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Jenis Surat</label>
-                                <input type="text" class="form-control" id="upload_jenis_surat" readonly>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Nomor Surat</label>
-                                <input type="text" class="form-control" id="upload_nomor_surat" readonly>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Pengirim</label>
-                                <input type="text" class="form-control" id="upload_pengirim" readonly>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Tujuan</label>
-                                <input type="text" class="form-control" id="upload_tujuan" readonly>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Perihal</label>
-                            <textarea class="form-control" id="upload_perihal" rows="2"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="text-end mt-3">
-                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary fw-bold px-4">Simpan & Upload</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-    
+    </script> 
 </body>
 </html>
