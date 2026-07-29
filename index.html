@@ -264,7 +264,7 @@
 
             <!-- ================= SECTION: SURAT MASUK ================= -->
             <div id="section_surat_masuk" class="d-none">
-                <div class="card shadow-sm mb-4 border-0">
+                <div id="card_form_surat_masuk" class="card shadow-sm mb-4 border-0">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="mb-0 text-primary fw-bold">Formulir Penerimaan Surat Masuk</h5>
                     </div>
@@ -1552,11 +1552,27 @@
                 if (profile) {
                     rolePenggunaAktif = profile.role;
                     satkerPenggunaAktif = profile.satker;
+                    
                     const pangkatUser = profile.pangkat ? profile.pangkat.toUpperCase() + ' ' : '';
                     const namaUser = profile.nama ? profile.nama.toUpperCase() : session.user.email.toUpperCase();
                     namaPenggunaAktif = pangkatUser + namaUser; 
                     sumberTeks = profile.nama || session.user.email;
                     document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${namaPenggunaAktif}!`;
+
+                    // --- KODE BARU UNTUK MENYEMBUNYIKAN FORM SURAT MASUK ---
+                    const cardFormMasuk = document.getElementById('card_form_surat_masuk');
+                    
+                    // Cek apakah user adalah super_admin ATAU tim Kanpos Setum Polri
+                    const isSuperAdmin = (profile.role === 'super_admin');
+                    const isTimKanpos = (profile.satker === 'Setum Polri' && profile.subbag && profile.subbag.toUpperCase() === 'KANPOS');
+
+                    if (isSuperAdmin || isTimKanpos) {
+                        // Jika ya, tampilkan formulir
+                        if(cardFormMasuk) cardFormMasuk.classList.remove('d-none');
+                    } else {
+                        // Jika bukan, sembunyikan formulir penerimaan surat masuk
+                        if(cardFormMasuk) cardFormMasuk.classList.add('d-none');
+                    }
                 } else {
                     rolePenggunaAktif = 'bamin_banum'; 
                     namaPenggunaAktif = session.user.email.toUpperCase();
