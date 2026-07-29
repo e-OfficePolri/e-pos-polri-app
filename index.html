@@ -2256,15 +2256,29 @@
 
                 let aksiHTML = '';
 
+                // Jika Super Admin atau Tim Kanpos, berikan tombol Edit & Hapus
                 if (isSuperAdmin || isTimKanpos) {
+                    // Tambahan opsional: Tim Kanpos juga bisa melihat tombol Lihat Surat jika filenya sudah ada
+                    let tombolLihatAdmin = surat.file_url ? `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm me-1">Lihat</a>` : '';
+                    
                     aksiHTML = `
+                        ${tombolLihatAdmin}
                         <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
                     `;
                 } else {
-                    aksiHTML = `
-                        <button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">Upload Surat</button>
-                    `;
+                    // Cek apakah surat ini sudah memiliki file_url atau belum
+                    if (surat.file_url) {
+                        // Jika sudah di-upload, ubah tombol menjadi "Lihat Surat"
+                        aksiHTML = `
+                            <a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white">Lihat Surat</a>
+                        `;
+                    } else {
+                        // Jika belum ada file, tampilkan tombol "Upload Surat"
+                        aksiHTML = `
+                            <button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">Upload Surat</button>
+                        `;
+                    }
                 }
 
                 tbody.innerHTML += `
