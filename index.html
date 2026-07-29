@@ -2265,27 +2265,26 @@
             }
 
             data.forEach((surat, index) => {
+                const isSuperAdmin = (rolePenggunaAktif === 'super_admin');
+                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI');
+
                 let aksiHTML = '';
                 let petugasHTML = '';
 
                 if (isSuperAdmin || isTimKanpos) {
-                    // Jika Super Admin atau Tim Kanpos: Tampilkan tombol Edit, Hapus, dan kolom Petugas
-                    let tombolLihatAdmin = surat.file_url ? `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm me-1">Lihat</a>` : '';
-                    
+                    // Untuk Super Admin atau Tim Kanpos: HANYA tampilkan tombol Edit & Hapus (Tanpa tombol Lihat Surat)
                     aksiHTML = `
-                        ${tombolLihatAdmin}
                         <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
                     `;
                     petugasHTML = `<td class="text-center small">${surat.petugas || '-'}</td>`;
                 } else {
-                    // Untuk role/satker lain: Sembunyikan petugas, ganti aksi menjadi Lihat atau Upload Surat
+                    // Untuk role/satker lain: Sembunyikan petugas, tampilkan tombol Lihat Surat atau Upload Surat
                     if (surat.file_url) {
                         aksiHTML = `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white">Lihat Surat</a>`;
                     } else {
                         aksiHTML = `<button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">Upload Surat</button>`;
                     }
-                    // Kosongkan atau sembunyikan kolom petugas dengan kelas d-none
                     petugasHTML = `<td class="text-center small d-none">${surat.petugas || '-'}</td>`;
                 }
 
