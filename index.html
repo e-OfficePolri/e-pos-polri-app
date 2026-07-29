@@ -1566,12 +1566,10 @@
                     const subbagUser = profile.subbag ? profile.subbag.trim().toUpperCase() : '';
 
                     const isSuperAdmin = (profile.role === 'super_admin');
-                    
-                    // Pengecekan apakah Satker adalah SETUM POLRI dan Subbag adalah KANPOS
                     const isTimKanpos = (satkerUser === 'SETUM POLRI' && subbagUser === 'KANPOS');
 
-                    // Pelacak di Console untuk memastikan
-                    console.log("Status Cek - Satker:", satkerUser, "| Subbag:", subbagUser, "| Apakah Kanpos?", isTimKanpos);
+                    // Pelacak untuk memastikan di F12 Console
+                    console.log("Satker:", satkerUser, "| Subbag:", subbagUser, "| Apakah Kanpos?", isTimKanpos);
 
                     if (isSuperAdmin || isTimKanpos) {
                         if(cardFormMasuk) cardFormMasuk.classList.remove('d-none');
