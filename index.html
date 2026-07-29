@@ -1847,7 +1847,16 @@
                 pesanEl.className = "mt-3 fw-bold text-primary";
                 pesanEl.innerText = "Membuat akun baru...";
 
-                const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                // --- KODE BARU DIMULAI DI SINI ---
+                // 1. Buat koneksi Supabase sementara yang tidak menyimpan memori login
+                const supabaseKloningan = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+                    auth: { persistSession: false }
+                });
+
+                // 2. Gunakan koneksi kloningan ini khusus untuk mendaftarkan akun
+                const { data, error } = await supabaseKloningan.auth.signUp({ email, password });
+                // --- KODE BARU BERAKHIR DI SINI ---
+
                 if (error) {
                     pesanEl.className = "mt-3 fw-bold text-danger";
                     pesanEl.innerText = "Gagal membuat user: " + error.message;
