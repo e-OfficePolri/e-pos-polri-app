@@ -1559,23 +1559,25 @@
                     sumberTeks = profile.nama || session.user.email;
                     document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${namaPenggunaAktif}!`;
 
-                    // --- KODE PENGECEKAN YANG LEBIH AMAN DAN FLEKSIBEL ---
+                    // --- KODE PEMERIKSAAN DENGAN PELACAK ---
                     const cardFormMasuk = document.getElementById('card_form_surat_masuk');
                     
-                    // Ambil data satker & subbag user, bersihkan spasi ekstra, lalu ubah ke huruf besar semua
+                    // Cetak data profil ke konsol browser untuk kita periksa bersama
+                    console.log("Data Profil User Saat Ini:", profile);
+
                     const satkerUser = profile.satker ? profile.satker.trim().toUpperCase() : '';
                     const subbagUser = profile.subbag ? profile.subbag.trim().toUpperCase() : '';
 
                     const isSuperAdmin = (profile.role === 'super_admin');
-                    
-                    // Pengecekan tidak lagi peduli huruf besar/kecil atau kelebihan spasi
                     const isTimKanpos = (satkerUser === 'SETUM POLRI' && subbagUser === 'KANPOS');
+
+                    console.log("Apakah Tim Kanpos?", isTimKanpos, "(Satker:", satkerUser, "| Subbag:", subbagUser, ")");
 
                     if (isSuperAdmin || isTimKanpos) {
                         // Jika ya, tampilkan formulir
                         if(cardFormMasuk) cardFormMasuk.classList.remove('d-none');
                     } else {
-                        // Jika bukan, sembunyikan formulir penerimaan surat masuk
+                        // Jika bukan, sembunyikan formulir
                         if(cardFormMasuk) cardFormMasuk.classList.add('d-none');
                     }
                 }
