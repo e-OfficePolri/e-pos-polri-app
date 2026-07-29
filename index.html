@@ -1257,7 +1257,8 @@
         let dataMasukTerakhir = [];
         let dataKeluarTerakhir = [];
         let rolePenggunaAktif = '';
-        let namaPenggunaAktif = ''; 
+        let namaPenggunaAktif = '';
+        let satkerPenggunaAktif = '';
         let tomSelectInstances = {};
 
         // Variabel global untuk menyimpan data jabatan
@@ -1539,7 +1540,7 @@
                 
                 const { data: profile, error: profileError } = await supabaseClient
                     .from('profiles')
-                    .select('role, nama, pangkat')
+                    .select('role, nama, pangkat, satker') 
                     .eq('id', session.user.id)
                     .single();
 
@@ -1550,6 +1551,7 @@
                 let sumberTeks = '';
                 if (profile) {
                     rolePenggunaAktif = profile.role;
+                    satkerPenggunaAktif = profile.satker;
                     const pangkatUser = profile.pangkat ? profile.pangkat.toUpperCase() + ' ' : '';
                     const namaUser = profile.nama ? profile.nama.toUpperCase() : session.user.email.toUpperCase();
                     namaPenggunaAktif = pangkatUser + namaUser; 
@@ -2206,7 +2208,16 @@
             pesanEl.className = "mt-3 fw-bold text-primary";
             pesanEl.innerText = "Sedang menyimpan data...";
 
-            let dataSimpan = { jenis_surat: jenisSurat, nomor_surat: nomorSurat, tanggal_diterima: tanggalFinal, pengirim: pengirimFinal, tujuan: tujuanSurat, perihal: perihalSurat, petugas: namaPenggunaAktif };
+            let dataSimpan = { 
+                jenis_surat: jenisSurat, 
+                nomor_surat: nomorSurat, 
+                tanggal_diterima: tanggalFinal, 
+                pengirim: pengirimFinal, 
+                tujuan: tujuanSurat, 
+                perihal: perihalSurat, 
+                petugas: namaPenggunaAktif,
+                satker: satkerPenggunaAktif
+            };
             let dbError = editId ? (await supabaseClient.from(namaTabel).update(dataSimpan).eq('id', editId)).error : (await supabaseClient.from(namaTabel).insert([dataSimpan])).error;
 
             if (dbError) {
