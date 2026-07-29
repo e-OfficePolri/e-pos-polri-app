@@ -1540,7 +1540,7 @@
                 
                 const { data: profile, error: profileError } = await supabaseClient
                     .from('profiles')
-                    .select('role, nama, pangkat, satker') 
+                    .select('role, nama, pangkat, satker, subbag')
                     .eq('id', session.user.id)
                     .single();
 
