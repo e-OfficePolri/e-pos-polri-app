@@ -2285,6 +2285,25 @@
             }
 
             data.forEach((surat, index) => {
+                // Tentukan apakah user ini adalah Super Admin atau Tim Kanpos Setum Polri
+                const isSuperAdmin = (rolePenggunaAktif === 'super_admin');
+                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI'); // atau sesuaikan dengan variabel pengecekan subbag jika ada
+
+                let aksiHTML = '';
+
+                // Jika Super Admin atau Tim Kanpos, berikan tombol Edit & Hapus
+                if (isSuperAdmin || isTimKanpos) {
+                    aksiHTML = `
+                        <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
+                    `;
+                } else {
+                    // Untuk role/satker lain, hilangkan edit & hapus, ganti dengan tombol Upload Surat
+                    aksiHTML = `
+                        <button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">📤 Upload</button>
+                    `;
+                }
+
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${dariIndex + index + 1}</td>
@@ -2296,8 +2315,7 @@
                         <td>${surat.perihal}</td>
                         <td class="text-center small">${surat.petugas || '-'}</td>
                         <td class="text-center">
-                            <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
+                            ${aksiHTML}
                         </td>
                     </tr>
                 `;
