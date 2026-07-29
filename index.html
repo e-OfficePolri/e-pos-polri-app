@@ -1559,12 +1559,17 @@
                     sumberTeks = profile.nama || session.user.email;
                     document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${namaPenggunaAktif}!`;
 
-                    // --- KODE BARU UNTUK MENYEMBUNYIKAN FORM SURAT MASUK ---
+                    // --- KODE PENGECEKAN YANG LEBIH AMAN DAN FLEKSIBEL ---
                     const cardFormMasuk = document.getElementById('card_form_surat_masuk');
                     
-                    // Cek apakah user adalah super_admin ATAU tim Kanpos Setum Polri
+                    // Ambil data satker & subbag user, bersihkan spasi ekstra, lalu ubah ke huruf besar semua
+                    const satkerUser = profile.satker ? profile.satker.trim().toUpperCase() : '';
+                    const subbagUser = profile.subbag ? profile.subbag.trim().toUpperCase() : '';
+
                     const isSuperAdmin = (profile.role === 'super_admin');
-                    const isTimKanpos = (profile.satker === 'Setum Polri' && profile.subbag && profile.subbag.toUpperCase() === 'KANPOS');
+                    
+                    // Pengecekan tidak lagi peduli huruf besar/kecil atau kelebihan spasi
+                    const isTimKanpos = (satkerUser === 'SETUM POLRI' && subbagUser === 'KANPOS');
 
                     if (isSuperAdmin || isTimKanpos) {
                         // Jika ya, tampilkan formulir
