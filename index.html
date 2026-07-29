@@ -1267,6 +1267,21 @@
         let halamanMasukAktif = 1;
         let halamanKeluarAktif = 1;
 
+        // ================= FUNGSI KEAMANAN =================
+        // Fungsi ini bertugas membersihkan teks dari karakter berbahaya (Mencegah XSS)
+        function saringTeks(teks) {
+            // Jika teks kosong, langsung kembalikan apa adanya
+            if (!teks) return teks;
+            
+            // Ubah input menjadi format string, lalu ganti karakter khusus dengan HTML Entities
+            return String(teks)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+        
         // Fungsi untuk mengambil data dari tabel jabatan_data di Supabase
         async function muatDataJabatanUntukDropdown() {
             const { data, error } = await supabaseClient.from('jabatan_data').select('*');
@@ -1786,10 +1801,10 @@
 
         async function simpanUser() {
             const editId = document.getElementById('edit_user_id').value;
-            const nama = document.getElementById('nama_baru').value; 
+            const nama = saringTeks(document.getElementById('nama_baru').value); 
             const pangkat = document.getElementById('pangkat_baru').value; 
-            const nrpNip = document.getElementById('nrp_nip_baru').value;
-            const email = document.getElementById('email_baru').value.toLowerCase();
+            const nrpNip = saringTeks(document.getElementById('nrp_nip_baru').value);
+            const email = saringTeks(document.getElementById('email_baru').value).toLowerCase();
             const role = document.getElementById('role_baru').value.toLowerCase();
             const satker = document.getElementById('satker_baru').value;
             const biroDir = document.getElementById('biro_dir_baru').value;
@@ -1857,9 +1872,9 @@
         async function simpanJabatan() {
             const editId = document.getElementById('edit_jabatan_id').value;
             const satker = document.getElementById('satker_jabatan').value;
-            const namaBiro = document.getElementById('nama_biro_jabatan').value;
-            const namaBag = document.getElementById('nama_bag_jabatan').value;
-            const namaSubbag = document.getElementById('nama_subbag_jabatan').value;
+            const namaBiro = saringTeks(document.getElementById('nama_biro_jabatan').value);
+            const namaBag = saringTeks(document.getElementById('nama_bag_jabatan').value);
+            const namaSubbag = saringTeks(document.getElementById('nama_subbag_jabatan').value);
             const pesanEl = document.getElementById('pesan_jabatan');
 
             // Validasi: Cek berbagai kondisi jika ada input yang terlewat
@@ -2154,12 +2169,12 @@
         async function simpanSurat(tipe) {
             const editId = document.getElementById(`edit_id_${tipe}`).value;
             const jenisSurat = document.getElementById(`jenis_surat_${tipe}`).value;
-            const nomorSurat = document.getElementById(`nomor_surat_${tipe}`).value;
+            const nomorSurat = saringTeks(document.getElementById(`nomor_surat_${tipe}`).value);
             const tanggalInput = document.getElementById(`tanggal_${tipe}`).value;
             const pilihanPengirim = document.getElementById(`pengirim_${tipe}`).value;
-            const inputPengirimLain = document.getElementById(`pengirim_lain_${tipe}`) ? document.getElementById(`pengirim_lain_${tipe}`).value : '';
+            const inputPengirimLain = document.getElementById(`pengirim_lain_${tipe}`) ? saringTeks(document.getElementById(`pengirim_lain_${tipe}`).value) : '';
             const tujuanSurat = document.getElementById(`tujuan_${tipe}`).value;
-            const perihalSurat = document.getElementById(`perihal_${tipe}`).value;
+            const perihalSurat = saringTeks(document.getElementById(`perihal_${tipe}`).value);
 
             let pengirimFinal = pilihanPengirim === "Instansi Luar" ? inputPengirimLain : pilihanPengirim;
             const sekarang = new Date();
