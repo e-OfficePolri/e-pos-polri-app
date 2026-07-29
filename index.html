@@ -527,7 +527,7 @@
                                         <th style="width: 12%;">Pengirim</th>
                                         <th style="width: 13%;">Tujuan</th>
                                         <th style="width: 13%;">Perihal</th>
-                                        <th style="width: 10%;">Petugas</th>
+                                        <th id="th_petugas_masuk" style="width: 10%;">Petugas</th>
                                         <th style="width: 10%;">Aksi</th>
                                     </tr>
                                 </thead>
@@ -820,7 +820,7 @@
                                         <th style="width: 12%;">Pengirim</th>
                                         <th style="width: 13%;">Tujuan</th>
                                         <th style="width: 13%;">Perihal</th>
-                                        <th style="width: 10%;">Petugas</th>
+                                        <th id="th_petugas_keluar" style="width: 10%;">Petugas</th>
                                         <th style="width: 10%;">Aksi</th>
                                     </tr>
                                 </thead>
@@ -2250,15 +2250,26 @@
                 return;
             }
 
-            data.forEach((surat, index) => {
-                const isSuperAdmin = (rolePenggunaAktif === 'super_admin');
-                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI');
+            // Tentukan apakah user ini memiliki hak akses penuh (Super Admin atau Tim Kanpos)
+            const isSuperAdmin = (rolePenggunaAktif === 'super_admin');
+            const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI');
 
-                let aksiHTML = '';
-
-                // Jika Super Admin atau Tim Kanpos, berikan tombol Edit & Hapus
+            // Sembunyikan atau tampilkan judul kolom "Petugas" di kepala tabel secara otomatis
+            const thPetugas = document.getElementById(`th_petugas_${tipe}`);
+            if (thPetugas) {
                 if (isSuperAdmin || isTimKanpos) {
-                    // Tambahan opsional: Tim Kanpos juga bisa melihat tombol Lihat Surat jika filenya sudah ada
+                    thPetugas.classList.remove('d-none');
+                } else {
+                    thPetugas.classList.add('d-none');
+                }
+            }
+
+            data.forEach((surat, index) => {
+                let aksiHTML = '';
+                let petugasHTML = '';
+
+                if (isSuperAdmin || isTimKanpos) {
+                    // Jika Super Admin atau Tim Kanpos: Tampilkan tombol Edit, Hapus, dan kolom Petugas
                     let tombolLihatAdmin = surat.file_url ? `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm me-1">Lihat</a>` : '';
                     
                     aksiHTML = `
@@ -2266,19 +2277,16 @@
                         <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
                     `;
+                    petugasHTML = `<td class="text-center small">${surat.petugas || '-'}</td>`;
                 } else {
-                    // Cek apakah surat ini sudah memiliki file_url atau belum
+                    // Untuk role/satker lain: Sembunyikan petugas, ganti aksi menjadi Lihat atau Upload Surat
                     if (surat.file_url) {
-                        // Jika sudah di-upload, ubah tombol menjadi "Lihat Surat"
-                        aksiHTML = `
-                            <a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white">Lihat Surat</a>
-                        `;
+                        aksiHTML = `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white">Lihat Surat</a>`;
                     } else {
-                        // Jika belum ada file, tampilkan tombol "Upload Surat"
-                        aksiHTML = `
-                            <button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">Upload Surat</button>
-                        `;
+                        aksiHTML = `<button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">Upload Surat</button>`;
                     }
+                    // Kosongkan atau sembunyikan kolom petugas dengan kelas d-none
+                    petugasHTML = `<td class="text-center small d-none">${surat.petugas || '-'}</td>`;
                 }
 
                 tbody.innerHTML += `
@@ -2290,7 +2298,7 @@
                         <td>${surat.pengirim}</td>
                         <td>${surat.tujuan || '-'}</td>
                         <td>${surat.perihal}</td>
-                        <td class="text-center small">${surat.petugas || '-'}</td>
+                        ${petugasHTML}
                         <td class="text-center">
                             ${aksiHTML}
                         </td>
