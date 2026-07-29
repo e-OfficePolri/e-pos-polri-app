@@ -2000,9 +2000,16 @@
         }
 
         async function eksekusiHapusUser(id) {
-            const { error } = await supabaseClient.from('profiles').delete().eq('id', id);
-            if (error) alert("Gagal menghapus profil: " + error.message);
-            else tampilkanDaftarUser();
+            // Memanggil pekerja khusus (RPC) bernama 'hapus_akun_user' yang kita buat di database
+            const { error } = await supabaseClient.rpc('hapus_akun_user', { target_user_id: id });
+            
+            if (error) {
+                alert("Gagal menghapus akun secara menyeluruh: " + error.message);
+            } else {
+                // Beri tahu pengguna bahwa akun sudah bersih seutuhnya, lalu perbarui tabel
+                alert("Akun email dan profil berhasil dihapus sepenuhnya dari sistem!");
+                tampilkanDaftarUser();
+            }
         }
 
         async function tampilkanDaftarUser() {
