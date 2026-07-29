@@ -1573,11 +1573,6 @@
                         // Jika bukan, sembunyikan formulir penerimaan surat masuk
                         if(cardFormMasuk) cardFormMasuk.classList.add('d-none');
                     }
-                } else {
-                    rolePenggunaAktif = 'bamin_banum'; 
-                    namaPenggunaAktif = session.user.email.toUpperCase();
-                    sumberTeks = session.user.email;
-                    document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${session.user.email.toUpperCase()}!`;
                 }
 
                 document.getElementById('avatar_inisial_nav').innerText = sumberTeks.charAt(0).toUpperCase();
