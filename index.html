@@ -1559,25 +1559,23 @@
                     sumberTeks = profile.nama || session.user.email;
                     document.getElementById('teks_selamat_datang').innerText = `Hi, Selamat datang ${namaPenggunaAktif}!`;
 
-                    // --- KODE PEMERIKSAAN DENGAN PELACAK ---
+                    // --- PASTIKAN KODE INI ADA DI CEK SESI PENGGUNA ---
                     const cardFormMasuk = document.getElementById('card_form_surat_masuk');
                     
-                    // Cetak data profil ke konsol browser untuk kita periksa bersama
-                    console.log("Data Profil User Saat Ini:", profile);
-
                     const satkerUser = profile.satker ? profile.satker.trim().toUpperCase() : '';
                     const subbagUser = profile.subbag ? profile.subbag.trim().toUpperCase() : '';
 
                     const isSuperAdmin = (profile.role === 'super_admin');
+                    
+                    // Pengecekan apakah Satker adalah SETUM POLRI dan Subbag adalah KANPOS
                     const isTimKanpos = (satkerUser === 'SETUM POLRI' && subbagUser === 'KANPOS');
 
-                    console.log("Apakah Tim Kanpos?", isTimKanpos, "(Satker:", satkerUser, "| Subbag:", subbagUser, ")");
+                    // Pelacak di Console untuk memastikan
+                    console.log("Status Cek - Satker:", satkerUser, "| Subbag:", subbagUser, "| Apakah Kanpos?", isTimKanpos);
 
                     if (isSuperAdmin || isTimKanpos) {
-                        // Jika ya, tampilkan formulir
                         if(cardFormMasuk) cardFormMasuk.classList.remove('d-none');
                     } else {
-                        // Jika bukan, sembunyikan formulir
                         if(cardFormMasuk) cardFormMasuk.classList.add('d-none');
                     }
                 }
