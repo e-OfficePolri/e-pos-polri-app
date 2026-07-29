@@ -2530,6 +2530,118 @@
             // Nyalakan stopwatch untuk pertama kalinya
             resetPenghitungWaktu();
         };
+
+        // Fungsi untuk membuka modal upload dan mengisi data otomatis dari baris surat
+        async function bukaModalUpload(tipe, id) {
+            // 1. Ambil data surat berdasarkan ID dari database (supaya form terisi otomatis mirip form masuk)
+            const { data: surat, error } = await supabaseClient
+                .from(tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            if (error) {
+                alert("Gagal memuat data surat: " + error.message);
+                return;
+            }
+
+            // 2. Masukkan data ke dalam elemen input di modal
+            document.getElementById('upload_surat_id').value = surat.id;
+            document.getElementById('upload_jenis_surat').value = surat.jenis_surat || '-';
+            document.getElementById('upload_nomor_surat').value = surat.nomor_surat || '';
+            document.getElementById('upload_pengirim').value = surat.pengirim || '';
+            document.getElementById('upload_tujuan').value = surat.tujuan || '';
+            document.getElementById('upload_perihal').value = surat.perihal || '';
+            
+            // Kosongkan pilihan file sebelumnya
+            document.getElementById('file_dokumen').value = '';
+
+            // 3. Tampilkan jendela modal menggunakan Bootstrap 5 Modal API
+            const modalElement = document.getElementById('modalUploadSurat');
+            const myModal = new bootstrap.Modal(modalElement);
+            myModal.show();
+        }
+
+        // Event listener saat form upload di dalam modal disubmit
+        document.getElementById('formUploadSuratFisik').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const suratId = document.getElementById('upload_surat_id').value;
+            const fileInput = document.getElementById('file_dokumen').files[0];
+
+            if (!fileInput) {
+                alert("Silakan pilih file dokumen terlebih dahulu!");
+                return;
+            }
+
+            alert("Fitur penyimpanan file fisik ke server sedang disiapkan. ID Surat yang dipilih: " + suratId);
+            
+            // Tutup modal setelah selesai
+            const modalElement = document.getElementById('modalUploadSurat');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+        });
     </script>
+
+<!-- Modal Form Upload Surat -->
+<div class="modal fade" id="modalUploadSurat" tabindex="-1" aria-labelledby="modalUploadLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="modalUploadLabel">Upload Dokumen Surat</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-light">
+                <form id="formUploadSuratFisik">
+                    <input type="hidden" id="upload_surat_id">
+                    
+                    <div class="card shadow-sm border-0 p-3">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Pilih File Surat (PDF / Gambar)</label>
+                            <input type="file" class="form-control" id="file_dokumen" accept=".pdf,image/*" required>
+                            <div class="form-text">Format yang didukung: PDF atau Gambar (Maks. ukuran sesuai ketentuan).</div>
+                        </div>
+
+                        <hr>
+                        <p class="text-muted small fw-bold mb-2">Detail Informasi Surat:</p>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Jenis Surat</label>
+                                <input type="text" class="form-control" id="upload_jenis_surat" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nomor Surat</label>
+                                <input type="text" class="form-control" id="upload_nomor_surat" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Pengirim</label>
+                                <input type="text" class="form-control" id="upload_pengirim" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tujuan</label>
+                                <input type="text" class="form-control" id="upload_tujuan" readonly>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Perihal</label>
+                            <textarea class="form-control" id="upload_perihal" rows="2" readonly></textarea>
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary fw-bold px-4">Simpan & Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
 </body>
 </html>
