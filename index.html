@@ -2568,18 +2568,68 @@
             
             const suratId = document.getElementById('upload_surat_id').value;
             const fileInput = document.getElementById('file_dokumen').files[0];
+            const perihalBaru = document.getElementById('upload_perihal').value;
+            
+            // Tentukan apakah ini surat masuk atau surat keluar berdasarkan modal/tabel aktif
+            // (Kita asumsikan default mengecek ke tabel surat_masuk terlebih dahulu, atau sesuaikan kebutuhan)
+            const jenisTabel = 'surat_masuk'; // Atau dinamis sesuai tipe data yang sedang dibuka
 
             if (!fileInput) {
                 alert("Silakan pilih file dokumen terlebih dahulu!");
                 return;
             }
 
-            alert("Fitur penyimpanan file fisik ke server sedang disiapkan. ID Surat yang dipilih: " + suratId);
-            
-            // Tutup modal setelah selesai
-            const modalElement = document.getElementById('modalUploadSurat');
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance.hide();
+            // Tampilkan pesan proses
+            alert("Sedang mengunggah file ke sistem Supabase, mohon tunggu sebentar...");
+
+            try {
+                // 1. Buat nama file yang unik agar tidak bentrok (menggunakan waktu milidetik + nama asli)
+                const fileExt = fileInput.name.split('.').pop();
+                const namaFileUnik = `${Date.now()}_${Math.random().toString(36.substring(2, 7))}.${fileExt}`;
+                const filePath = `${namaFileUnik}`;
+
+                // 2. Upload file fisik ke Supabase Storage (Bucket: 'dokumen_surat')
+                const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                    .from('dokumen_surat')
+                    .upload(filePath, fileInput);
+
+                if (uploadError) {
+                    throw new Error("Gagal mengunggah file: " + uploadError.message);
+                }
+
+                // 3. Dapatkan Public URL (alamat link) dari file yang baru saja di-upload
+                const { data: publicUrlData } = supabaseClient.storage
+                    .from('dokumen_surat')
+                    .getPublicUrl(filePath);
+
+                const fileUrlFinal = publicUrlData.publicUrl;
+
+                // 4. Perbarui data di tabel database (Simpan perihal baru dan file_url)
+                const { error: updateError } = await supabaseClient
+                    .from(jenisTabel)
+                    .update({
+                        perihal: perihalBaru,
+                        file_url: fileUrlFinal
+                    })
+                    .eq('id', suratId);
+
+                if (updateError) {
+                    throw new Error("Gagal memperbarui data surat di database: " + updateError.message);
+                }
+
+                alert("Berhasil! Dokumen surat telah di-upload dan informasi berhasil diperbarui.");
+
+                // 5. Tutup modal dan muat ulang tabel surat
+                const modalElement = document.getElementById('modalUploadSurat');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
+
+                tampilkanSurat('masuk'); // Refresh tabel surat masuk
+
+            } catch (err) {
+                alert("Terjadi kesalahan: " + err.message);
+                console.error(err);
+            }
         });
     </script>
 
