@@ -1134,6 +1134,10 @@
                                 <label for="nama_subbag_jabatan" class="form-label fw-bold">Subbag:</label>
                                 <input type="text" id="nama_subbag_jabatan" class="form-control" placeholder="Masukkan Subbag..." required>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nama_jabatan" class="form-label fw-bold">Nama Jabatan:</label>
+                                <input type="text" id="nama_jabatan" class="form-control" placeholder="Masukkan Nama Jabatan..." required>
+                            </div>
                         </div>
                         
                         <div class="d-flex gap-2">
@@ -1175,16 +1179,25 @@
                         <h5 class="mb-0 text-dark fw-bold">Daftar Struktur Jabatan Terdaftar</h5>
                     </div>
                     <div class="card-body">
+                        
+                        <!-- Tambahan Fitur Pencarian -->
+                        <div class="row g-2 mb-3 align-items-center">
+                            <div class="col-md-4">
+                                <input type="text" id="cari_jabatan" class="form-control" placeholder="Cari Satker, Biro, Bag, atau Jabatan..." onkeyup="tampilkanDaftarJabatan()">
+                            </div>
+                        </div>
+                
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped align-middle">
                                 <thead class="table-dark text-center">
                                     <tr>
                                         <th style="width: 5%;">No</th>
-                                        <th style="width: 25%;">Satuan Kerja</th>
-                                        <th style="width: 25%;">Biro / Direktorat</th>
-                                        <th style="width: 20%;">Bag</th>
+                                        <th style="width: 20%;">Satuan Kerja</th>
+                                        <th style="width: 15%;">Biro / Direktorat</th>
+                                        <th style="width: 15%;">Bag</th>
                                         <th style="width: 15%;">Subbag</th>
-                                        <th style="width: 10%;">Aksi</th>
+                                        <th style="width: 15%;">Nama Jabatan</th>
+                                        <th style="width: 15%;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabel_jabatan_data"></tbody>
@@ -1192,7 +1205,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1875,8 +1887,9 @@
             const namaBiro = saringTeks(document.getElementById('nama_biro_jabatan').value);
             const namaBag = saringTeks(document.getElementById('nama_bag_jabatan').value);
             const namaSubbag = saringTeks(document.getElementById('nama_subbag_jabatan').value);
+            const namaJabatan = saringTeks(document.getElementById('nama_jabatan').value); // Mengambil nilai Nama Jabatan
             const pesanEl = document.getElementById('pesan_jabatan');
-
+        
             if (!satker && !namaSubbag) {
                 tampilkanModalPemberitahuan("Mohon maaf, untuk menambah data Jabatan ini minimal mengisi pada Satuan Kerja dan Subbag.");
                 return;
@@ -1887,17 +1900,19 @@
                 tampilkanModalPemberitahuan("Mohon maaf, Subbag belum diinput.");
                 return;
             }
-
+        
             pesanEl.className = "mt-3 fw-bold text-primary";
             pesanEl.innerText = "Menyimpan data Jabatan...";
-
+        
+            // Menambahkan nama_jabatan ke data payload yang dikirim ke Supabase
             let dataPayload = { 
                 satker: satker, 
                 nama_biro: namaBiro ? namaBiro : null, 
                 nama_bag: namaBag ? namaBag : null,
-                nama_subbag: namaSubbag 
+                nama_subbag: namaSubbag,
+                nama_jabatan: namaJabatan ? namaJabatan : null
             };
-
+        
             let dbError = null;
             if (editId) {
                 const res = await supabaseClient.from('jabatan_data').update(dataPayload).eq('id', editId);
@@ -1906,7 +1921,7 @@
                 const res = await supabaseClient.from('jabatan_data').insert([dataPayload]);
                 dbError = res.error;
             }
-
+        
             if (dbError) {
                 pesanEl.className = "mt-3 fw-bold text-danger";
                 pesanEl.innerText = "Gagal menyimpan data Jabatan: " + dbError.message;
@@ -1924,10 +1939,30 @@
             document.getElementById('nama_biro_jabatan').value = '';
             document.getElementById('nama_bag_jabatan').value = '';
             document.getElementById('nama_subbag_jabatan').value = '';
+            document.getElementById('nama_jabatan').value = ''; // Mengosongkan field Nama Jabatan
+            
             document.getElementById('judul_form_jabatan').innerText = "Formulir Tambah Data Jabatan";
             document.getElementById('btn_simpan_jabatan').innerText = "Simpan Data Jabatan";
             document.getElementById('btn_batal_jabatan').classList.add('d-none');
             document.getElementById('pesan_jabatan').innerText = "";
+        }
+
+        function editJabatan(id, satker, biro, bag, subbag, namaJabatan) {
+            document.getElementById('edit_jabatan_id').value = id;
+            
+            if(tomSelectInstances['satker_jabatan']) tomSelectInstances['satker_jabatan'].setValue(satker || '');
+            
+            document.getElementById('nama_biro_jabatan').value = biro !== 'null' ? biro : '';
+            document.getElementById('nama_bag_jabatan').value = bag !== 'null' ? bag : '';
+            document.getElementById('nama_subbag_jabatan').value = subbag !== 'null' ? subbag : '';
+            document.getElementById('nama_jabatan').value = namaJabatan !== 'null' ? namaJabatan : '';
+            
+            document.getElementById('judul_form_jabatan').innerText = "Edit Data Jabatan";
+            document.getElementById('btn_simpan_jabatan').innerText = "Perbarui Data";
+            document.getElementById('btn_batal_jabatan').classList.remove('d-none');
+            
+            // Auto-scroll ke form saat tombol edit ditekan
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function editUser(id, nama, pangkat, nrpNip, email, role, satker, biroDir, bag, subbag) {
@@ -2042,24 +2077,43 @@
         }
 
         async function tampilkanDaftarJabatan() {
-            const { data, error } = await supabaseClient.from('jabatan_data').select('*').order('satker', { ascending: true });
+            // Membaca kata kunci pencarian
+            const keyword = document.getElementById('cari_jabatan') ? document.getElementById('cari_jabatan').value : '';
+            
+            let query = supabaseClient.from('jabatan_data').select('*').order('satker', { ascending: true });
+            
+            // Jika ada teks di kotak pencarian, terapkan filter pada query
+            if (keyword) {
+                query = query.or(`satker.ilike.%${keyword}%,nama_biro.ilike.%${keyword}%,nama_bag.ilike.%${keyword}%,nama_subbag.ilike.%${keyword}%,nama_jabatan.ilike.%${keyword}%`);
+            }
+        
+            const { data, error } = await query;
             const tbody = document.getElementById('tabel_jabatan_data');
             tbody.innerHTML = '';
-
+        
             if (error || !data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Belum ada data Jabatan.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Belum ada data Jabatan atau tidak ditemukan.</td></tr>`;
                 return;
             }
-
+        
             data.forEach((item, idx) => {
+                // Mencegah error karakter petik tunggal (') pada fungsi onclick
+                const amanBiro = item.nama_biro ? item.nama_biro.replace(/'/g, "\\'") : '';
+                const amanBag = item.nama_bag ? item.nama_bag.replace(/'/g, "\\'") : '';
+                const amanSubbag = item.nama_subbag ? item.nama_subbag.replace(/'/g, "\\'") : '';
+                const amanJabatan = item.nama_jabatan ? item.nama_jabatan.replace(/'/g, "\\'") : '';
+        
+                // Menambahkan tombol edit dan baris nama jabatan
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${idx + 1}</td>
-                        <td class="text-uppercase">${item.satker}</td>
-                        <td class="text-uppercase">${item.nama_biro}</td>
-                        <td class="text-uppercase">${item.nama_bag}</td>
-                        <td class="text-uppercase">${item.nama_subbag}</td>
+                        <td class="text-uppercase">${item.satker || '-'}</td>
+                        <td class="text-uppercase">${item.nama_biro || '-'}</td>
+                        <td class="text-uppercase">${item.nama_bag || '-'}</td>
+                        <td class="text-uppercase">${item.nama_subbag || '-'}</td>
+                        <td class="text-uppercase fw-bold text-primary">${item.nama_jabatan || '-'}</td>
                         <td class="text-center">
+                            <button class="btn btn-warning btn-sm me-1" onclick="editJabatan('${item.id}', '${item.satker}', '${amanBiro}', '${amanBag}', '${amanSubbag}', '${amanJabatan}')">Edit</button>
                             <button class="btn btn-danger btn-sm" onclick="hapusJabatan('${item.id}')">Hapus</button>
                         </td>
                     </tr>
