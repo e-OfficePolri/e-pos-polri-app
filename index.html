@@ -1375,12 +1375,21 @@
 
             if (tsBag) { tsBag.clear(true); tsBag.clearOptions(); }
             if (tsSubbag) { tsSubbag.clear(true); tsSubbag.clearOptions(); }
-
+        
             if (!biroTerpilih) return;
 
-            let filterBag = dataJabatanGlobal.filter(item => item.satker === satkerTerpilih && item.nama_biro === biroTerpilih);
+            let filterBag = dataJabatanGlobal.filter(item => {
+                let cocokSatker = item.satker === satkerTerpilih;
+                // Pastikan nama_biro tidak kosong, lalu ubah jadi huruf besar untuk dicocokkan
+                let cocokBiro = item.nama_biro && item.nama_biro.toUpperCase() === biroTerpilih.toUpperCase();
+                
+                return cocokSatker && cocokBiro;
+            });
+        
+            // Mengambil nama Bag yang unik (tidak ganda)
             let bagUnik = [...new Set(filterBag.map(item => item.nama_bag))];
-
+        
+            // Memasukkan nama Bag ke dalam dropdown
             bagUnik.forEach(bag => {
                 if (bag) {
                     let bagBesar = bag.toUpperCase();
@@ -1393,23 +1402,32 @@
             let satkerTerpilih = document.getElementById('satker_baru').value;
             let biroTerpilih = document.getElementById('biro_dir_baru').value;
             let tsSubbag = tomSelectInstances['subbag_baru'];
-
+        
             if (!tsSubbag) return;
-
+        
+            // Kosongkan pilihan lama
             tsSubbag.clear(true); 
             tsSubbag.clearOptions();
-
+        
             if (!satkerTerpilih) return;
-
+        
+            // PERBAIKAN: Menyamakan semua variabel ke huruf besar saat mencocokkan data
             let filterSubbag = dataJabatanGlobal.filter(item => {
                 let cocokSatker = item.satker === satkerTerpilih;
-                let cocokBiro = biroTerpilih ? (item.nama_biro === biroTerpilih) : true;
-                let cocokBag = bagTerpilih ? (item.nama_bag === bagTerpilih) : true;
+                
+                // Pencocokan Biro (jika Biro dipilih)
+                let cocokBiro = biroTerpilih ? (item.nama_biro && item.nama_biro.toUpperCase() === biroTerpilih.toUpperCase()) : true;
+                
+                // Pencocokan Bag (jika Bag dipilih)
+                let cocokBag = bagTerpilih ? (item.nama_bag && item.nama_bag.toUpperCase() === bagTerpilih.toUpperCase()) : true;
+                
                 return cocokSatker && cocokBiro && cocokBag;
             });
-    
+        
+            // Mengambil nama Subbag yang unik
             let subbagUnik = [...new Set(filterSubbag.map(item => item.nama_subbag))];
-
+        
+            // Memasukkan nama Subbag ke dalam dropdown
             subbagUnik.forEach(subbag => {
                 if (subbag) {
                     let subbagBesar = subbag.toUpperCase();
