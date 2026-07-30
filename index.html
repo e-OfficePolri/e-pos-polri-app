@@ -2083,7 +2083,7 @@
             let query = supabaseClient
                 .from('jabatan_data')
                 .select('*')
-                .order('created_at', { ascending: false });
+                .order('id', { ascending: false });
             
             // Jika ada teks di kotak pencarian, terapkan filter pada query
             if (keyword) {
@@ -2096,17 +2096,16 @@
         
             if (error || !data || data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Belum ada data Jabatan atau tidak ditemukan.</td></tr>`;
-                return; // Menghentikan fungsi karena tidak ada data yang perlu digambar
+                if (error) console.error("Error dari Supabase:", error.message); // Tambahan untuk mengecek error
+                return; 
             }
         
             data.forEach((item, idx) => {
-                // Membersihkan teks dari tanda kutip tunggal (') agar tombol Edit tidak error saat ditekan
                 const amanBiro = item.nama_biro ? item.nama_biro.replace(/'/g, "\\'") : '';
                 const amanBag = item.nama_bag ? item.nama_bag.replace(/'/g, "\\'") : '';
                 const amanSubbag = item.nama_subbag ? item.nama_subbag.replace(/'/g, "\\'") : '';
                 const amanJabatan = item.nama_jabatan ? item.nama_jabatan.replace(/'/g, "\\'") : '';
         
-                // Menggambar baris tabel (HTML) untuk setiap data jabatan
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${idx + 1}</td>
