@@ -2077,26 +2077,25 @@
         }
 
         async function tampilkanDaftarJabatan() {
-            // Membaca kata kunci pencarian
             const keyword = document.getElementById('cari_jabatan') ? document.getElementById('cari_jabatan').value : '';
             
+            // PERBAIKAN: Menggunakan 'dibuat_pada' agar urutan sesuai waktu data ditambahkan
             let query = supabaseClient
                 .from('jabatan_data')
                 .select('*')
-                .order('id', { ascending: false });
+                .order('dibuat_pada', { ascending: false }); 
             
-            // Jika ada teks di kotak pencarian, terapkan filter pada query
             if (keyword) {
                 query = query.or(`satker.ilike.%${keyword}%,nama_biro.ilike.%${keyword}%,nama_bag.ilike.%${keyword}%,nama_subbag.ilike.%${keyword}%,nama_jabatan.ilike.%${keyword}%`);
             }
         
             const { data, error } = await query;
             const tbody = document.getElementById('tabel_jabatan_data');
-            tbody.innerHTML = '';
+            tbody.innerHTML = ''; 
         
             if (error || !data || data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Belum ada data Jabatan atau tidak ditemukan.</td></tr>`;
-                if (error) console.error("Error dari Supabase:", error.message); // Tambahan untuk mengecek error
+                if (error) console.error("Error dari Supabase:", error.message);
                 return; 
             }
         
@@ -2122,7 +2121,6 @@
                 `;
             });
         }
-
         async function hapusJabatan(id) {
             if (confirm("Yakin ingin menghapus data Jabatan ini?")) {
                 const { error } = await supabaseClient.from('jabatan_data').delete().eq('id', id);
