@@ -2080,7 +2080,10 @@
             // Membaca kata kunci pencarian
             const keyword = document.getElementById('cari_jabatan') ? document.getElementById('cari_jabatan').value : '';
             
-            let query = supabaseClient.from('jabatan_data').select('*').order('satker', { ascending: true });
+            let query = supabaseClient
+                .from('jabatan_data')
+                .select('*')
+                .order('created_at', { ascending: false });
             
             // Jika ada teks di kotak pencarian, terapkan filter pada query
             if (keyword) {
@@ -2093,17 +2096,17 @@
         
             if (error || !data || data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Belum ada data Jabatan atau tidak ditemukan.</td></tr>`;
-                return;
+                return; // Menghentikan fungsi karena tidak ada data yang perlu digambar
             }
         
             data.forEach((item, idx) => {
-                // Mencegah error karakter petik tunggal (') pada fungsi onclick
+                // Membersihkan teks dari tanda kutip tunggal (') agar tombol Edit tidak error saat ditekan
                 const amanBiro = item.nama_biro ? item.nama_biro.replace(/'/g, "\\'") : '';
                 const amanBag = item.nama_bag ? item.nama_bag.replace(/'/g, "\\'") : '';
                 const amanSubbag = item.nama_subbag ? item.nama_subbag.replace(/'/g, "\\'") : '';
                 const amanJabatan = item.nama_jabatan ? item.nama_jabatan.replace(/'/g, "\\'") : '';
         
-                // Menambahkan tombol edit dan baris nama jabatan
+                // Menggambar baris tabel (HTML) untuk setiap data jabatan
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${idx + 1}</td>
