@@ -2521,11 +2521,47 @@
             if (error) alert("Gagal menghapus data surat!"); else tampilkanSurat(tipe);
         }
 
-        function unduhExcel(tipe) {
-            const dataSumber = tipe === 'masuk' ? dataMasukTerakhir : dataKeluarTerakhir;
-            if (dataSumber.length === 0) { alert("Tidak ada data untuk diunduh!"); return; }
-            const worksheet = XLSX.utils.json_to_sheet(dataSumber.map((s, i) => ({ 
-                "No": i + 1, "Jenis Surat": s.jenis_surat, "Nomor Surat": s.nomor_surat, "Tanggal & Jam": formatTanggalWaktu(s.tanggal_diterima), "Pengirim": s.pengirim, "Tujuan": s.tujuan, "Perihal": s.perihal, "Petugas": s.petugas || '-'
+        async function unduhExcel(tipe) {
+            const namaTabel = tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar';
+            const keyword = document.getElementById(`cari_${tipe}`).value;
+            const tanggalMulai = document.getElementById(`mulai_${tipe}`).value;
+            const tanggalSampai = document.getElementById(`sampai_${tipe}`).value;
+
+            // 1. Membangun kueri (permintaan) data ke Supabase
+            let query = supabaseClient.from(namaTabel).select('*').order('dibuat_pada', { ascending: false });
+
+            // 2. Menerapkan filter pencarian dan tanggal jika diisi
+            if (keyword) query = query.or(`nomor_surat.ilike.%${keyword}%,pengirim.ilike.%${keyword}%,tujuan.ilike.%${keyword}%,jenis_surat.ilike.%${keyword}%,petugas.ilike.%${keyword}%`);
+            if (tanggalMulai) query = query.gte('tanggal_diterima', tanggalMulai);
+            if (tanggalSampai) query = query.lte('tanggal_diterima', tanggalSampai + 'T23:59:59');
+
+            // 3. Menjaga privasi: selain Admin/Kanpos hanya mencetak yang sudah dikirim
+            const satkerAman = satkerPenggunaAktif ? satkerPenggunaAktif.trim().toUpperCase() : '';
+            const subbagAman = subbagPenggunaAktif ? subbagPenggunaAktif.trim().toUpperCase() : '';
+            const isTimKanpos = (satkerAman === 'SETUM POLRI' && subbagAman === 'KANPOS');
+            if (rolePenggunaAktif !== 'super_admin' && !isTimKanpos) {
+                query = query.eq('status', 'Surat Sudah Dikirim');
+            }
+
+            // 4. Mengambil data dari Supabase
+            const { data } = await query;
+
+            if (!data || data.length === 0) { 
+                alert("Tidak ada data untuk diunduh pada rentang waktu/filter ini!"); 
+                return; 
+            }
+
+            // 5. Membuat file Excel
+            const worksheet = XLSX.utils.json_to_sheet(data.map((s, i) => ({ 
+                "No": i + 1, 
+                "Jenis Surat": s.jenis_surat, 
+                "Nomor Surat": s.nomor_surat, 
+                "Tanggal & Jam": formatTanggalWaktu(s.tanggal_diterima), 
+                "Pengirim": s.pengirim, 
+                "Tujuan": s.tujuan, 
+                "Perihal": s.perihal,
+                "Status": s.status || 'Belum Dikirim',
+                "Petugas": s.petugas || '-'
             })));
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan");
@@ -2534,17 +2570,61 @@
 
         async function unduhPDF(tipe) {
             const namaTabel = tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar';
-            const { data } = await supabaseClient.from(namaTabel).select('*').order('dibuat_pada', { ascending: false });
-            if (!data || data.length === 0) { alert("Tidak ada data untuk diunduh!"); return; }
+            const keyword = document.getElementById(`cari_${tipe}`).value;
+            const tanggalMulai = document.getElementById(`mulai_${tipe}`).value;
+            const tanggalSampai = document.getElementById(`sampai_${tipe}`).value;
+
+            // 1. Membangun kueri (permintaan) data ke Supabase
+            let query = supabaseClient.from(namaTabel).select('*').order('dibuat_pada', { ascending: false });
+
+            // 2. Menerapkan filter pencarian dan tanggal jika diisi
+            if (keyword) query = query.or(`nomor_surat.ilike.%${keyword}%,pengirim.ilike.%${keyword}%,tujuan.ilike.%${keyword}%,jenis_surat.ilike.%${keyword}%,petugas.ilike.%${keyword}%`);
+            if (tanggalMulai) query = query.gte('tanggal_diterima', tanggalMulai);
+            if (tanggalSampai) query = query.lte('tanggal_diterima', tanggalSampai + 'T23:59:59');
+
+            // 3. Menjaga privasi: selain Admin/Kanpos hanya mencetak yang sudah dikirim
+            const satkerAman = satkerPenggunaAktif ? satkerPenggunaAktif.trim().toUpperCase() : '';
+            const subbagAman = subbagPenggunaAktif ? subbagPenggunaAktif.trim().toUpperCase() : '';
+            const isTimKanpos = (satkerAman === 'SETUM POLRI' && subbagAman === 'KANPOS');
+            if (rolePenggunaAktif !== 'super_admin' && !isTimKanpos) {
+                query = query.eq('status', 'Surat Sudah Dikirim');
+            }
+
+            // 4. Mengambil data dari Supabase
+            const { data } = await query;
+
+            if (!data || data.length === 0) { 
+                alert("Tidak ada data untuk diunduh pada rentang waktu/filter ini!"); 
+                return; 
+            }
             
+            // 5. Membuat file PDF
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('l', 'mm', 'a4');
             doc.setFontSize(16);
-            doc.text(`Laporan Surat ${tipe === 'masuk' ? 'Masuk' : 'Keluar'} - Setum Polri`, 14, 20);
+            
+            // Membuat judul laporan dinamis berdasarkan filter tanggal
+            let judulLaporan = `Laporan Surat ${tipe === 'masuk' ? 'Masuk' : 'Keluar'} - Setum Polri`;
+            if (tanggalMulai && tanggalSampai) {
+                judulLaporan += ` (${tanggalMulai} s/d ${tanggalSampai})`;
+            }
+
+            doc.text(judulLaporan, 14, 20);
+            
             doc.autoTable({ 
                 startY: 30, 
-                head: [['No', 'Jenis Surat', 'Nomor Surat', 'Tanggal & Jam', 'Pengirim', 'Tujuan', 'Perihal', 'Petugas']], 
-                body: data.map((s, i) => [i + 1, s.jenis_surat || '-', s.nomor_surat, formatTanggalWaktu(s.tanggal_diterima), s.pengirim, s.tujuan || '-', s.perihal, s.petugas || '-']), 
+                head: [['No', 'Jenis', 'Nomor Surat', 'Tanggal', 'Pengirim', 'Tujuan', 'Perihal', 'Status', 'Petugas']], 
+                body: data.map((s, i) => [
+                    i + 1, 
+                    s.jenis_surat || '-', 
+                    s.nomor_surat, 
+                    formatTanggalWaktu(s.tanggal_diterima), 
+                    s.pengirim, 
+                    s.tujuan || '-', 
+                    s.perihal, 
+                    s.status || 'Belum Dikirim',
+                    s.petugas || '-'
+                ]), 
                 theme: 'grid', 
                 headStyles: { fillColor: tipe === 'masuk' ? [0, 77, 153] : [40, 167, 69] } 
             });
