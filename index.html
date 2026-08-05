@@ -2348,28 +2348,36 @@
             }
 
             data.forEach((surat, index) => {
+                // 1. Cek apakah user adalah Super Admin
                 const isSuperAdmin = (rolePenggunaAktif === 'super_admin');
-                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI' && subbagPenggunaAktif && subbagPenggunaAktif.trim().toUpperCase() === 'KANPOS');
+                
+                // 2. Pastikan variabel Satker dan Subbag tidak kosong
+                const satkerAman = satkerPenggunaAktif ? satkerPenggunaAktif.trim().toUpperCase() : '';
+                const subbagAman = subbagPenggunaAktif ? subbagPenggunaAktif.trim().toUpperCase() : '';
+                
+                // 3. Cek apakah user adalah Tim Kanpos
+                const isTimKanpos = (satkerAman === 'SETUM POLRI' && subbagAman === 'KANPOS');
             
                 let aksiHTML = '';
                 let petugasHTML = '';
                 
-                // Logika Status
+                // 4. Logika pembentukan Status
                 let statusSurat = surat.status || 'Belum Dikirim';
                 let badgeWarna = statusSurat === 'Surat Sudah Dikirim' ? 'bg-success' : 'bg-warning text-dark';
                 let statusHTML = `<td class="text-center fw-bold"><span class="badge ${badgeWarna}">${statusSurat}</span></td>`;
             
-                // Logika Tombol Kirim Khusus Kanpos
+                // 5. Logika Tombol Kirim: Tampil jika user adalah Tim Kanpos ATAU Super Admin
                 let tombolKirim = '';
-                if (isTimKanpos && statusSurat !== 'Surat Sudah Dikirim') {
-                    tombolKirim = `<button class="btn btn-primary btn-sm me-1" onclick="konfirmasiKirimSurat('${tipe}', '${surat.id}')">Kirim Surat</button>`;
+                if ((isTimKanpos || isSuperAdmin) && statusSurat !== 'Surat Sudah Dikirim') {
+                    tombolKirim = `<button class="btn btn-primary btn-sm me-1 mb-1" onclick="konfirmasiKirimSurat('${tipe}', '${surat.id}')">Kirim Surat</button>`;
                 }
             
+                // 6. Menyusun tombol-tombol aksi berdasarkan hak akses
                 if (isSuperAdmin || isTimKanpos) {
                     aksiHTML = `
                         ${tombolKirim}
-                        <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
-                        <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
+                        <button class="btn btn-warning btn-sm me-1 mb-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
+                        <button class="btn btn-danger btn-sm mb-1" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
                     `;
                     petugasHTML = `<td class="text-center small">${surat.petugas || '-'}</td>`;
                 } else {
@@ -2381,6 +2389,7 @@
                     petugasHTML = `<td class="text-center small d-none">${surat.petugas || '-'}</td>`;
                 }
             
+                // 7. Menggabungkan baris tabel
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${dariIndex + index + 1}</td>
@@ -2390,7 +2399,7 @@
                         <td>${surat.pengirim}</td>
                         <td>${surat.tujuan || '-'}</td>
                         <td>${surat.perihal}</td>
-                        ${statusHTML} <!-- Memasukkan HTML Status ke dalam tabel -->
+                        ${statusHTML}
                         ${petugasHTML}
                         <td class="text-center">
                             ${aksiHTML}
