@@ -2073,11 +2073,10 @@
                 if (rolePenggunaAktif === 'super_admin') {
                     aksiHTML = `
                         <td class="text-center">
-                            <!-- Tombol Edit: Ikon Pensil -->
-                            <button class="btn btn-warning btn-sm me-1 text-white" onclick="editUser('${usr.id}', '${usr.nama || ''}', '${usr.pangkat || ''}', '${usr.nrp_nip || ''}', '${usr.email}', '${usr.role}', '${usr.satker || ''}', '${usr.biro_dir || ''}', '${usr.bag || ''}', '${usr.subbag || ''}')" title="Edit Akun"><i class="bi bi-pencil-square"></i></button>
-                            
-                            <!-- Tombol Hapus: Ikon Tempat Sampah -->
-                            <button class="btn btn-danger btn-sm" onclick="konfirmasiHapusUser('${usr.id}')" title="Hapus Akun"><i class="bi bi-trash-fill"></i></button>
+                            <div class="d-flex gap-1 justify-content-center">
+                                <button class="btn btn-warning btn-sm text-white" onclick="editUser('${usr.id}', '${usr.nama || ''}', '${usr.pangkat || ''}', '${usr.nrp_nip || ''}', '${usr.email}', '${usr.role}', '${usr.satker || ''}', '${usr.biro_dir || ''}', '${usr.bag || ''}', '${usr.subbag || ''}')" title="Edit Akun"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-danger btn-sm" onclick="konfirmasiHapusUser('${usr.id}')" title="Hapus Akun"><i class="bi bi-trash-fill"></i></button>
+                            </div>
                         </td>
                     `;
                 }
@@ -2140,11 +2139,10 @@
                         <td class="text-uppercase">${item.nama_subbag || '-'}</td>
                         <td class="text-uppercase fw-bold text-primary">${item.nama_jabatan || '-'}</td>
                         <td class="text-center">
-                            <!-- Tombol Edit: Ikon Pensil -->
-                            <button class="btn btn-warning btn-sm me-1 text-white" onclick="editJabatan('${item.id}', '${item.satker}', '${amanBiro}', '${amanBag}', '${amanSubbag}', '${amanJabatan}')" title="Edit Data Jabatan"><i class="bi bi-pencil-square"></i></button>
-                            
-                            <!-- Tombol Hapus: Ikon Tempat Sampah -->
-                            <button class="btn btn-danger btn-sm" onclick="hapusJabatan('${item.id}')" title="Hapus Data Jabatan"><i class="bi bi-trash-fill"></i></button>
+                            <div class="d-flex gap-1 justify-content-center">
+                                <button class="btn btn-warning btn-sm text-white" onclick="editJabatan('${item.id}', '${item.satker}', '${amanBiro}', '${amanBag}', '${amanSubbag}', '${amanJabatan}')" title="Edit Data Jabatan"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-danger btn-sm" onclick="hapusJabatan('${item.id}')" title="Hapus Data Jabatan"><i class="bi bi-trash-fill"></i></button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -2377,28 +2375,24 @@
                 // 5. Logika Tombol Kirim: Tampil jika user adalah Tim Kanpos ATAU Super Admin
                 let tombolKirim = '';
                 if ((isTimKanpos || isSuperAdmin) && statusSurat !== 'Surat Sudah Dikirim') {
-                    // title="Kirim Surat" akan memunculkan teks bantuan saat mouse diarahkan ke tombol
-                    tombolKirim = `<button class="btn btn-primary btn-sm me-1 mb-1" onclick="konfirmasiKirimSurat('${tipe}', '${surat.id}')" title="Kirim Surat"><i class="bi bi-send-fill"></i></button>`;
+                    tombolKirim = `<button class="btn btn-primary btn-sm" onclick="konfirmasiKirimSurat('${tipe}', '${surat.id}')" title="Kirim Surat"><i class="bi bi-send-fill"></i></button>`;
                 }
             
-                // 6. Menyusun tombol-tombol aksi berdasarkan hak akses menggunakan ikon
                 if (isSuperAdmin || isTimKanpos) {
+                    // Menggunakan d-flex dan gap-1 agar tombol berjajar rapi ke samping
                     aksiHTML = `
-                        ${tombolKirim}
-                        <!-- Tombol Edit: Ikon Pensil -->
-                        <button class="btn btn-warning btn-sm me-1 mb-1 text-white" onclick="konfirmasiEdit('${tipe}', '${surat.id}')" title="Edit Data"><i class="bi bi-pencil-square"></i></button>
-                        
-                        <!-- Tombol Hapus: Ikon Tempat Sampah -->
-                        <button class="btn btn-danger btn-sm mb-1" onclick="konfirmasiHapus('${tipe}', '${surat.id}')" title="Hapus Data"><i class="bi bi-trash-fill"></i></button>
+                        <div class="d-flex gap-1 justify-content-center">
+                            ${tombolKirim}
+                            <button class="btn btn-warning btn-sm text-white" onclick="konfirmasiEdit('${tipe}', '${surat.id}')" title="Edit Data"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')" title="Hapus Data"><i class="bi bi-trash-fill"></i></button>
+                        </div>
                     `;
                     petugasHTML = `<td class="text-center small">${surat.petugas || '-'}</td>`;
                 } else {
                     if (surat.file_url) {
-                        // Tombol Lihat Surat: Ikon Mata
-                        aksiHTML = `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white" title="Lihat Dokumen Surat"><i class="bi bi-eye-fill"></i></a>`;
+                        aksiHTML = `<div class="d-flex gap-1 justify-content-center"><a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white" title="Lihat Dokumen Surat"><i class="bi bi-eye-fill"></i></a></div>`;
                     } else {
-                        // Tombol Upload Surat: Ikon Upload (Awan/Panah Atas)
-                        aksiHTML = `<button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')" title="Upload Dokumen"><i class="bi bi-cloud-arrow-up-fill"></i></button>`;
+                        aksiHTML = `<div class="d-flex gap-1 justify-content-center"><button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')" title="Upload Dokumen"><i class="bi bi-cloud-arrow-up-fill"></i></button></div>`;
                     }
                     petugasHTML = `<td class="text-center small d-none">${surat.petugas || '-'}</td>`;
                 }
