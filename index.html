@@ -2072,8 +2072,11 @@
                 if (rolePenggunaAktif === 'super_admin') {
                     aksiHTML = `
                         <td class="text-center">
-                            <button class="btn btn-warning btn-sm me-1" onclick="editUser('${usr.id}', '${usr.nama || ''}', '${usr.pangkat || ''}', '${usr.nrp_nip || ''}', '${usr.email}', '${usr.role}', '${usr.satker || ''}', '${usr.biro_dir || ''}', '${usr.bag || ''}', '${usr.subbag || ''}')">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="konfirmasiHapusUser('${usr.id}')">Hapus</button>
+                            <!-- Tombol Edit: Ikon Pensil -->
+                            <button class="btn btn-warning btn-sm me-1 text-white" onclick="editUser('${usr.id}', '${usr.nama || ''}', '${usr.pangkat || ''}', '${usr.nrp_nip || ''}', '${usr.email}', '${usr.role}', '${usr.satker || ''}', '${usr.biro_dir || ''}', '${usr.bag || ''}', '${usr.subbag || ''}')" title="Edit Akun"><i class="bi bi-pencil-square"></i></button>
+                            
+                            <!-- Tombol Hapus: Ikon Tempat Sampah -->
+                            <button class="btn btn-danger btn-sm" onclick="konfirmasiHapusUser('${usr.id}')" title="Hapus Akun"><i class="bi bi-trash-fill"></i></button>
                         </td>
                     `;
                 }
@@ -2136,8 +2139,11 @@
                         <td class="text-uppercase">${item.nama_subbag || '-'}</td>
                         <td class="text-uppercase fw-bold text-primary">${item.nama_jabatan || '-'}</td>
                         <td class="text-center">
-                            <button class="btn btn-warning btn-sm me-1" onclick="editJabatan('${item.id}', '${item.satker}', '${amanBiro}', '${amanBag}', '${amanSubbag}', '${amanJabatan}')">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="hapusJabatan('${item.id}')">Hapus</button>
+                            <!-- Tombol Edit: Ikon Pensil -->
+                            <button class="btn btn-warning btn-sm me-1 text-white" onclick="editJabatan('${item.id}', '${item.satker}', '${amanBiro}', '${amanBag}', '${amanSubbag}', '${amanJabatan}')" title="Edit Data Jabatan"><i class="bi bi-pencil-square"></i></button>
+                            
+                            <!-- Tombol Hapus: Ikon Tempat Sampah -->
+                            <button class="btn btn-danger btn-sm" onclick="hapusJabatan('${item.id}')" title="Hapus Data Jabatan"><i class="bi bi-trash-fill"></i></button>
                         </td>
                     </tr>
                 `;
