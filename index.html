@@ -6,6 +6,7 @@
     <title>e-Office Polri</title>
     
     <link rel="icon" type="image/png" href="Setum_Polri.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
     
@@ -2369,22 +2370,28 @@
                 // 5. Logika Tombol Kirim: Tampil jika user adalah Tim Kanpos ATAU Super Admin
                 let tombolKirim = '';
                 if ((isTimKanpos || isSuperAdmin) && statusSurat !== 'Surat Sudah Dikirim') {
-                    tombolKirim = `<button class="btn btn-primary btn-sm me-1 mb-1" onclick="konfirmasiKirimSurat('${tipe}', '${surat.id}')">Kirim Surat</button>`;
+                    // title="Kirim Surat" akan memunculkan teks bantuan saat mouse diarahkan ke tombol
+                    tombolKirim = `<button class="btn btn-primary btn-sm me-1 mb-1" onclick="konfirmasiKirimSurat('${tipe}', '${surat.id}')" title="Kirim Surat"><i class="bi bi-send-fill"></i></button>`;
                 }
             
-                // 6. Menyusun tombol-tombol aksi berdasarkan hak akses
+                // 6. Menyusun tombol-tombol aksi berdasarkan hak akses menggunakan ikon
                 if (isSuperAdmin || isTimKanpos) {
                     aksiHTML = `
                         ${tombolKirim}
-                        <button class="btn btn-warning btn-sm me-1 mb-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
-                        <button class="btn btn-danger btn-sm mb-1" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
+                        <!-- Tombol Edit: Ikon Pensil -->
+                        <button class="btn btn-warning btn-sm me-1 mb-1 text-white" onclick="konfirmasiEdit('${tipe}', '${surat.id}')" title="Edit Data"><i class="bi bi-pencil-square"></i></button>
+                        
+                        <!-- Tombol Hapus: Ikon Tempat Sampah -->
+                        <button class="btn btn-danger btn-sm mb-1" onclick="konfirmasiHapus('${tipe}', '${surat.id}')" title="Hapus Data"><i class="bi bi-trash-fill"></i></button>
                     `;
                     petugasHTML = `<td class="text-center small">${surat.petugas || '-'}</td>`;
                 } else {
                     if (surat.file_url) {
-                        aksiHTML = `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white">Lihat Surat</a>`;
+                        // Tombol Lihat Surat: Ikon Mata
+                        aksiHTML = `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white" title="Lihat Dokumen Surat"><i class="bi bi-eye-fill"></i></a>`;
                     } else {
-                        aksiHTML = `<button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')">Upload Surat</button>`;
+                        // Tombol Upload Surat: Ikon Upload (Awan/Panah Atas)
+                        aksiHTML = `<button class="btn btn-info btn-sm text-white" onclick="bukaModalUpload('${tipe}', '${surat.id}')" title="Upload Dokumen"><i class="bi bi-cloud-arrow-up-fill"></i></button>`;
                     }
                     petugasHTML = `<td class="text-center small d-none">${surat.petugas || '-'}</td>`;
                 }
