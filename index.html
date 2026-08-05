@@ -528,6 +528,7 @@
                                         <th style="width: 13%;">Tujuan</th>
                                         <th style="width: 13%;">Perihal</th>
                                         <th id="th_petugas_masuk" style="width: 10%;">Petugas</th>
+                                        <th style="width: 10%;">Status</th>
                                         <th style="width: 10%;">Aksi</th>
                                     </tr>
                                 </thead>
@@ -1319,6 +1320,7 @@
         let rolePenggunaAktif = '';
         let namaPenggunaAktif = '';
         let satkerPenggunaAktif = '';
+        let subbagPenggunaAktif = '';
         let tomSelectInstances = {};
 
         let dataJabatanGlobal = [];
@@ -1594,6 +1596,7 @@
                 if (profile) {
                     rolePenggunaAktif = profile.role;
                     satkerPenggunaAktif = profile.satker;
+                    subbagPenggunaAktif = profile.subbag;
                     
                     const pangkatUser = profile.pangkat ? profile.pangkat.toUpperCase() + ' ' : '';
                     const namaUser = profile.nama ? profile.nama.toUpperCase() : session.user.email.toUpperCase();
@@ -2309,6 +2312,14 @@
             if (tanggalMulai) query = query.gte('tanggal_diterima', tanggalMulai);
             if (tanggalSampai) query = query.lte('tanggal_diterima', tanggalSampai + 'T23:59:59');
 
+            // TAMBAHKAN BLOK INI: Pembatasan akses melihat surat
+            const isTimKanposCek = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI' && subbagPenggunaAktif && subbagPenggunaAktif.trim().toUpperCase() === 'KANPOS');
+            
+            if (rolePenggunaAktif !== 'super_admin' && !isTimKanposCek) {
+                // Akun biasa/tujuan hanya bisa melihat surat yang sudah dikirim
+                query = query.eq('status', 'Surat Sudah Dikirim');
+            }
+
             const { data } = await query;
             if (tipe === 'masuk') dataMasukTerakhir = data || []; else dataKeluarTerakhir = data || [];
 
@@ -2338,20 +2349,30 @@
 
             data.forEach((surat, index) => {
                 const isSuperAdmin = (rolePenggunaAktif === 'super_admin');
-                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI');
-
+                const isTimKanpos = (satkerPenggunaAktif && satkerPenggunaAktif.trim().toUpperCase() === 'SETUM POLRI' && subbagPenggunaAktif && subbagPenggunaAktif.trim().toUpperCase() === 'KANPOS');
+            
                 let aksiHTML = '';
                 let petugasHTML = '';
-
+                
+                // Logika Status
+                let statusSurat = surat.status || 'Belum Dikirim';
+                let badgeWarna = statusSurat === 'Surat Sudah Dikirim' ? 'bg-success' : 'bg-warning text-dark';
+                let statusHTML = `<td class="text-center fw-bold"><span class="badge ${badgeWarna}">${statusSurat}</span></td>`;
+            
+                // Logika Tombol Kirim Khusus Kanpos
+                let tombolKirim = '';
+                if (isTimKanpos && statusSurat !== 'Surat Sudah Dikirim') {
+                    tombolKirim = `<button class="btn btn-primary btn-sm me-1" onclick="konfirmasiKirimSurat('${tipe}', '${surat.id}')">Kirim Surat</button>`;
+                }
+            
                 if (isSuperAdmin || isTimKanpos) {
-                    // Untuk Super Admin atau Tim Kanpos: HANYA tampilkan tombol Edit & Hapus (Tanpa tombol Lihat Surat)
                     aksiHTML = `
+                        ${tombolKirim}
                         <button class="btn btn-warning btn-sm me-1" onclick="konfirmasiEdit('${tipe}', '${surat.id}')">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="konfirmasiHapus('${tipe}', '${surat.id}')">Hapus</button>
                     `;
                     petugasHTML = `<td class="text-center small">${surat.petugas || '-'}</td>`;
                 } else {
-                    // Untuk role/satker lain: Sembunyikan petugas, tampilkan tombol Lihat Surat atau Upload Surat
                     if (surat.file_url) {
                         aksiHTML = `<a href="${surat.file_url}" target="_blank" class="btn btn-success btn-sm text-white">Lihat Surat</a>`;
                     } else {
@@ -2359,7 +2380,7 @@
                     }
                     petugasHTML = `<td class="text-center small d-none">${surat.petugas || '-'}</td>`;
                 }
-
+            
                 tbody.innerHTML += `
                     <tr>
                         <td class="text-center">${dariIndex + index + 1}</td>
@@ -2369,6 +2390,7 @@
                         <td>${surat.pengirim}</td>
                         <td>${surat.tujuan || '-'}</td>
                         <td>${surat.perihal}</td>
+                        ${statusHTML} <!-- Memasukkan HTML Status ke dalam tabel -->
                         ${petugasHTML}
                         <td class="text-center">
                             ${aksiHTML}
@@ -2644,6 +2666,27 @@
                 console.error(err);
             }
         });
+
+        function konfirmasiKirimSurat(tipe, idSurat) {
+            tampilkanModalKonfirmasi("Apakah Anda yakin ingin mengirim surat ini ke akun tujuan? Surat yang sudah dikirim tidak bisa dibatalkan.", () => eksekusiKirimSurat(tipe, idSurat));
+        }
+        
+        async function eksekusiKirimSurat(tipe, idSurat) {
+            const namaTabel = tipe === 'masuk' ? 'surat_masuk' : 'surat_keluar';
+            
+            // Update data status ke database Supabase
+            const { error } = await supabaseClient
+                .from(namaTabel)
+                .update({ status: 'Surat Sudah Dikirim' })
+                .eq('id', idSurat);
+        
+            if (error) {
+                alert("Gagal mengirim surat: " + error.message);
+            } else {
+                tampilkanModalPemberitahuan("Berhasil! Surat telah dikirim dan sekarang dapat dilihat oleh akun tujuan.");
+                tampilkanSurat(tipe); // Memuat ulang (refresh) tabel
+            }
+        }
     </script>
 </body>
 </html>
